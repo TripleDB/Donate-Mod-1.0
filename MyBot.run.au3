@@ -1102,15 +1102,15 @@ Func __RunFunction($action)
 	Switch $action
 		Case "Collect"
 			Collect()
-			_Sleep($DELAYRUNBOT1)
+			;_Sleep($DELAYRUNBOT1)
 		Case "CheckTombs"
 			CheckTombs()
-			_Sleep($DELAYRUNBOT3)
+			;_Sleep($DELAYRUNBOT3)
 		Case "CleanYard"
 			CleanYard()
 		Case "ReplayShare"
 			ReplayShare($g_bShareAttackEnableNow)
-			_Sleep($DELAYRUNBOT3)
+			;_Sleep($DELAYRUNBOT3)
 		Case "NotifyReport"
 			NotifyReport()
 			_Sleep($DELAYRUNBOT3)
@@ -1156,28 +1156,28 @@ Func __RunFunction($action)
 			
 		Case "BoostBarracks"
 			BoostBarracks()
-			_Sleep($DELAYRESPOND)
+			;_Sleep($DELAYRESPOND)
 		Case "BoostSpellFactory"
 			BoostSpellFactory()
-			_Sleep($DELAYRESPOND)
+			;_Sleep($DELAYRESPOND)
 		Case "BoostWorkshop"
 			BoostWorkshop()
-			_Sleep($DELAYRESPOND)
+			;_Sleep($DELAYRESPOND)
 		Case "BoostKing"
 			BoostKing()
-			_Sleep($DELAYRESPOND)
+			;_Sleep($DELAYRESPOND)
 		Case "BoostQueen"
 			BoostQueen()
-			_Sleep($DELAYRESPOND)
+			;_Sleep($DELAYRESPOND)
 		Case "BoostWarden"
 			BoostWarden()
-			_Sleep($DELAYRESPOND)
+			;_Sleep($DELAYRESPOND)
 		Case "BoostChampion"
 			BoostChampion()
-			_Sleep($DELAYRESPOND)
+			;_Sleep($DELAYRESPOND)
 		Case "BoostEverything"
 			BoostEverything()
-			_Sleep($DELAYRESPOND)
+			;_Sleep($DELAYRESPOND)
 		Case "DailyChallenge"
 			DailyChallenges()
 			_Sleep($DELAYRUNBOT3)
@@ -1195,10 +1195,10 @@ Func __RunFunction($action)
 			ForgeClanCapitalGold()
 		Case "BoostSuperTroop"
 			BoostSuperTroop()
-			_Sleep($DELAYRUNBOT3)
+			;_Sleep($DELAYRUNBOT3)
 		Case "UpgradeHeroes"
 			UpgradeHeroes()
-			_Sleep($DELAYRUNBOT3)
+			;_Sleep($DELAYRUNBOT3)
 		Case "UpgradeBuilding"
 			UpgradeBuilding()
 			If _Sleep($DELAYRUNBOT3) Then Return
@@ -1222,19 +1222,19 @@ Func __RunFunction($action)
 			_Sleep($DELAYRUNBOT3)
 		Case "CollectAchievements"
 			CollectAchievements()
-			_Sleep($DELAYRUNBOT3)
+			;_Sleep($DELAYRUNBOT3)
 		Case "CollectFreeMagicItems"
 			CollectFreeMagicItems()
-			_Sleep($DELAYRUNBOT3)
+			;_Sleep($DELAYRUNBOT3)
 		Case "SaleMagicItem"
 			SaleMagicItem()
-			_Sleep($DELAYRUNBOT3)
+			;_Sleep($DELAYRUNBOT3)
 		Case "AutoUpgradeCC"
 			AutoUpgradeCC()
-			_Sleep($DELAYRUNBOT3)
+			;_Sleep($DELAYRUNBOT3)
 		Case "CollectCCGold"
 			CollectCCGold()
-			_Sleep($DELAYRUNBOT3)
+			;_Sleep($DELAYRUNBOT3)
 		Case ""
 			SetDebugLog("Function call doesn't support empty string, please review array size", $COLOR_ERROR)
 		Case Else
@@ -1584,14 +1584,18 @@ Func CommonRoutine($RoutineType = Default)
 				If Not $g_bRunState Then Return
 				_RunFunction($Index)
 				If _Sleep(500) Then Return
+				ClickAway()
 				If $g_bRestart Then Return
+				If Not $g_bRunState Then Return
 			Next
 			Local $aRndFuncList = ['PetHouse', 'ForgeClanCapitalGold', 'CollectCCGold', 'AutoUpgradeCC']
 			For $Index In $aRndFuncList
 				If Not $g_bRunState Then Return
 				_RunFunction($Index)
 				If _Sleep(500) Then Return
+				ClickAway()
 				If $g_bRestart Then Return
+				If Not $g_bRunState Then Return
 			Next
 
 		Case "NoClanGamesEvent"
@@ -1600,7 +1604,9 @@ Func CommonRoutine($RoutineType = Default)
 				If Not $g_bRunState Then Return
 				_RunFunction($Index)
 				If _Sleep(50) Then Return
+				ClickAway()
 				If $g_bRestart Then Return
+				If Not $g_bRunState Then Return
 			Next
 
 		Case "Switch"
@@ -1614,7 +1620,9 @@ Func CommonRoutine($RoutineType = Default)
 				If Not $g_bRunState Then Return
 				_RunFunction($Index)
 				If _Sleep(50) Then Return
+				ClickAway()
 				If $g_bRestart Then Return
+				If Not $g_bRunState Then Return
 			Next
 	EndSwitch
 EndFunc
