@@ -2393,7 +2393,7 @@ Func ApplyConfig_600_54($TypeReadSave)
 			Next
 	EndSwitch
 EndFunc   ;==>ApplyConfig_600_54
-
+#Region - Custom SmartZap - Endzy
 Func ApplyConfig_600_56($TypeReadSave)
 	; <><><><> Attack Plan / Search & Attack / Options / SmartZap <><><><>
 	Switch $TypeReadSave
@@ -2404,9 +2404,13 @@ Func ApplyConfig_600_56($TypeReadSave)
 			GUICtrlSetState($g_hChkSmartZapDB, $g_bSmartZapDB = True ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkSmartZapSaveHeroes, $g_bSmartZapSaveHeroes = True ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkSmartZapFTW, $g_bSmartZapFTW = True ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetData($g_hRemainTimeToZap, $g_iRemainTimeToZap)
+			GUICtrlSetState($g_hChkSmartZapDestroyCollectors, $g_bChkSmartZapDestroyCollectors = True ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetState($g_hChkSmartZapDestroyMines, $g_bChkSmartZapDestroyMines = True ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetData($g_hTxtSmartZapMinDE, $g_iSmartZapMinDE)
 			GUICtrlSetData($g_hTxtSmartExpectedDE, $g_iSmartZapExpectedDE)
 			GUICtrlSetState($g_hEarlyZap, $g_bEarlyZap = True ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetData($g_hInpSmartZapTimes, $g_iInpSmartZapTimes)
 			chkSmartLightSpell()
 			#CS
 				GUICtrlSetState($g_hChkSmartZapDB, $g_bSmartZapEnable = True ? $GUI_ENABLE : $GUI_DISABLE)
@@ -2422,12 +2426,16 @@ Func ApplyConfig_600_56($TypeReadSave)
 			$g_bSmartZapDB = (GUICtrlRead($g_hChkSmartZapDB) = $GUI_CHECKED)
 			$g_bSmartZapSaveHeroes = (GUICtrlRead($g_hChkSmartZapSaveHeroes) = $GUI_CHECKED)
 			$g_bSmartZapFTW = (GUICtrlRead($g_hChkSmartZapFTW) = $GUI_CHECKED)
+			$g_iRemainTimeToZap = Int(GUICtrlRead($g_hRemainTimeToZap))
+			$g_bChkSmartZapDestroyCollectors = (GUICtrlRead($g_hChkSmartZapDestroyCollectors) = $GUI_CHECKED)
+			$g_bChkSmartZapDestroyMines = (GUICtrlRead($g_hChkSmartZapDestroyMines) = $GUI_CHECKED)
 			$g_iSmartZapMinDE = Int(GUICtrlRead($g_hTxtSmartZapMinDE))
 			$g_iSmartZapExpectedDE = Int(GUICtrlRead($g_hTxtSmartExpectedDE))
 			$g_bEarlyZap = (GUICtrlRead($g_hEarlyZap) = $GUI_CHECKED)
+			$g_iInpSmartZapTimes = Int(GUICtrlRead($g_hInpSmartZapTimes))
 	EndSwitch
 EndFunc   ;==>ApplyConfig_600_56
-
+#EndRegion - Custom SmartZap - Endzy
 Func ApplyConfig_641_1($TypeReadSave)
 	; <><><> Attack Plan / Train Army / Options <><><>
 	Switch $TypeReadSave

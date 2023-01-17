@@ -1626,7 +1626,7 @@ Func ReadConfig_600_54()
 		IniReadS($g_aiCmbCustomBrewOrder[$z], $g_sProfileConfigPath, "Spells", "cmbSpellOrder" & $z, -1)
 	Next
 EndFunc   ;==>ReadConfig_600_54
-
+#Region - Custom SmartZap - Endzy
 Func ReadConfig_600_56()
 	; <><><><> Attack Plan / Search & Attack / Options / SmartZap <><><><>
 	$g_bSmartZapEnable = (IniRead($g_sProfileConfigPath, "SmartZap", "UseSmartZap", "0") = "1")
@@ -1635,11 +1635,15 @@ Func ReadConfig_600_56()
 	$g_bSmartZapDB = (IniRead($g_sProfileConfigPath, "SmartZap", "ZapDBOnly", "1") = "1")
 	$g_bSmartZapSaveHeroes = (IniRead($g_sProfileConfigPath, "SmartZap", "THSnipeSaveHeroes", "1") = "1")
 	$g_bSmartZapFTW = (IniRead($g_sProfileConfigPath, "SmartZap", "FTW", "0") = "1")
+	$g_iRemainTimeToZap = Int(IniRead($g_sProfileConfigPath, "SmartZap", "RemainTimeToZap", 0))
+	$g_bChkSmartZapDestroyCollectors = (IniRead($g_sProfileConfigPath, "SmartZap", "DestroyCollectors", "0") = "1")
+	$g_bChkSmartZapDestroyMines = (IniRead($g_sProfileConfigPath, "SmartZap", "DestroyMines", "0") = "1")
 	$g_iSmartZapMinDE = Int(IniRead($g_sProfileConfigPath, "SmartZap", "MinDE", 350))
 	$g_iSmartZapExpectedDE = Int(IniRead($g_sProfileConfigPath, "SmartZap", "ExpectedDE", 320))
 	$g_bEarlyZap = (IniRead($g_sProfileConfigPath, "SmartZap", "EarlyZap", "0") = "1")
+	$g_iInpSmartZapTimes = Int(IniRead($g_sProfileConfigPath, "SmartZap", "InpSmartZapTimes", $g_iInpSmartZapTimes))
 EndFunc   ;==>ReadConfig_600_56
-
+#EndRegion - Custom SmartZap - Endzy
 Func ReadConfig_641_1()
 	; <><><><> Attack Plan / Train Army / Options <><><><>
 	IniReadS($g_bCloseWhileTrainingEnable, $g_sProfileConfigPath, "other", "chkCloseWaitEnable", True, "Bool")
