@@ -473,7 +473,7 @@ Func ApplyConfig_600_6($TypeReadSave)
 			GUICtrlSetState($g_hChkForceSwitchifNoCGEvent, $g_bChkForceSwitchifNoCGEvent ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkEnableCCSleep, $g_bEnableCCSleep ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkSkipDT, $g_bSkipDT ? $GUI_CHECKED : $GUI_UNCHECKED)
-
+			GUICtrlSetState($g_hChkSmartFarmAndRandomQuant, $g_bUseSmartFarmAndRandomQuant ? $GUI_CHECKED : $GUI_UNCHECKED) ;EndzyMod
 		Case "Save"
 			$g_bChkBotStop = (GUICtrlRead($g_hChkBotStop) = $GUI_CHECKED)
 			$g_iCmbBotCommand = _GUICtrlComboBox_GetCurSel($g_hCmbBotCommand)
@@ -638,7 +638,7 @@ Func ApplyConfig_600_6($TypeReadSave)
 			$g_bChkForceSwitchifNoCGEvent = (GUICtrlRead($g_hChkForceSwitchifNoCGEvent) = $GUI_CHECKED)
 			$g_bEnableCCSleep = (GUICtrlRead($g_hChkEnableCCSleep) = $GUI_CHECKED)
 			$g_bSkipDT = (GUICtrlRead($g_hChkSkipDT) = $GUI_CHECKED)
-
+			$g_bUseSmartFarmAndRandomQuant = (GUICtrlRead($g_hChkSmartFarmAndRandomQuant) = $GUI_CHECKED)
 	EndSwitch
 	ApplyBuilderBaseMod($TypeReadSave)
 EndFunc   ;==>ApplyConfig_600_6
@@ -941,7 +941,7 @@ Func ApplyConfig_600_14($TypeReadSave)
 			GUICtrlSetData($g_hUseBOSTime, $g_iUseBOSTime)
 			GUICtrlSetState($g_hUseBOE, $g_bUseBOE ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetData($g_hUseBOETime, $g_iUseBOETime)
-			
+
 			For $i = 0 To UBound($g_aCmbLabUpgradeOrder) - 1
 				_GUICtrlComboBox_SetCurSel($g_ahCmbLabUpgradeOrder[$i], $g_aCmbLabUpgradeOrder[$i])
 			Next
@@ -973,7 +973,7 @@ Func ApplyConfig_600_14($TypeReadSave)
 			$g_iUseBOSTime =  GUICtrlRead($g_hUseBOSTime)
 			$g_bUseBOE = (GUICtrlRead($g_hUseBOE) = $GUI_CHECKED)
 			$g_iUseBOETime =  GUICtrlRead($g_hUseBOETime)
-			
+
 			For $i = 0 To UBound($g_ahCmbLabUpgradeOrder) - 1
 				$g_aCmbLabUpgradeOrder[$i] = _GUICtrlComboBox_GetCurSel($g_ahCmbLabUpgradeOrder[$i])
 			Next

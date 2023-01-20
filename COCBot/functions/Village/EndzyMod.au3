@@ -13,45 +13,7 @@
 ; Example .......: No
 ; ===============================================================================================================================
 
-#cs
-#Region - Search NoLeague for DeadBase - Endzy
-Func TestCheckDeadBase()
-	Local $dbBase
-	;_CaptureRegion2()
-	If QuickMIS("BC1", $g_sImgChkLeague, 10, 15, 44, 47, True, $g_bDebugImageSave) Then
-		If $g_bChkNoLeague[$DB] Then
-			If SearchNoLeague() Then
-				SetLog("Dead Base is in No League, match found !", $COLOR_SUCCESS)
-				$dbBase = True
-			ElseIf $g_iSearchCount > 50 Then
-				$dbBase = checkDeadBase()
-			Else
-				SetLog("Dead Base is in a League, skipping search !", $COLOR_INFO)
-				$dbBase = False
-			EndIf
-		Else
-			$dbBase = checkDeadBase()
-		EndIf
-	EndIf
 
-	Return $dbBase
-EndFunc   ;==>TestCheckDeadBase
-
-Func SearchNoLeague($bCheckOneTime = False)
-	If _Sleep($DELAYSPECIALCLICK1) Then Return False
-
-	Local $bReturn = False
-
-	$bReturn = _WaitForCheckImg($g_sImgNoLeague, "3,4,47,53", Default, ($bCheckOneTime = False) ? (500) : (0))
-
-	If $g_bDebugSetlog Then
-		SetDebugLog("SearchNoLeague: Is no league? " & $bReturn, $COLOR_DEBUG)
-	EndIf
-
-	Return $bReturn
-EndFunc   ;==>SearchNoLeague
-#EndRegion - Search NoLeague for DeadBase - Endzy
-#ce
 Func TestAttack() ;Endzy
 	If _Sleep(300) Then Return
 	PureClick(20,350)
@@ -103,7 +65,7 @@ Func TestAttack() ;Endzy
 	EndIf
 	$g_bAttackActive = False
 EndFunc ;==>TestAttack
-#cs
+
 #Region - For MainLoop - Endzy
 Func EU0() ; Early Upgrades
 	RequestCC() ; only type CC text req here]
@@ -289,6 +251,7 @@ EndFunc  ;===> DMA0
 
 #EndRegion - For MainLoop - Endzy
 
+#cs
 Func CheckLeague() ;little humanization
 ; No gui, hardcoded humanization
 	If IsMainPage() Then
@@ -317,9 +280,9 @@ Func CheckLeague() ;little humanization
 			SetLog("Not in a new league, skipping", $COLOR_INFO)
 		EndIf
 	EndIf
-
 EndFunc  ;==>CheckLeague
 #ce
+
 ; Endzy - randomSleep function
 Func randomSleep($iSleepTime, $iRange = Default)
 	If Not $g_bRunState Or $g_bRestart Then Return
@@ -334,6 +297,7 @@ Func _GUICtrlCreateInput($sText, $iLeft, $iTop, $iWidth, $iHeight, $vStyle = -1,
 	GUICtrlSetBkColor($hReturn, 0xD1DFE7)
 	Return $hReturn
 EndFunc   ;==>_GUICtrlCreateInput
+
 #cs
 Func BBRTN0() ; BB routine for cg - do upgrades - lab - ClockTower boost etc. before switch acc
 
@@ -379,6 +343,49 @@ Func BBRTN0() ; BB routine for cg - do upgrades - lab - ClockTower boost etc. be
 	If Not $g_bStayOnBuilderBase And IsOnBuilderBase() Then SwitchBetweenBases("Main")
 EndFunc ;===> BBRTN0()
 
+#Region - Search NoLeague for DeadBase - Endzy
+Func TestCheckDeadBase()
+	Local $dbBase
+	;_CaptureRegion2()
+	If QuickMIS("BC1", $g_sImgChkLeague, 10, 15, 44, 47, True, $g_bDebugImageSave) Then
+		If $g_bChkNoLeague[$DB] Then
+			If SearchNoLeague() Then
+				SetLog("Dead Base is in No League, match found !", $COLOR_SUCCESS)
+				$dbBase = True
+			ElseIf $g_iSearchCount > 50 Then
+				$dbBase = checkDeadBase()
+			Else
+				SetLog("Dead Base is in a League, skipping search !", $COLOR_INFO)
+				$dbBase = False
+			EndIf
+		Else
+			$dbBase = checkDeadBase()
+		EndIf
+	EndIf
+
+	Return $dbBase
+EndFunc   ;==>TestCheckDeadBase
+
+Func SearchNoLeague($bCheckOneTime = False)
+	If _Sleep($DELAYSPECIALCLICK1) Then Return False
+
+	Local $bReturn = False
+
+	$bReturn = _WaitForCheckImg($g_sImgNoLeague, "3,4,47,53", Default, ($bCheckOneTime = False) ? (500) : (0))
+
+	If $g_bDebugSetlog Then
+		SetDebugLog("SearchNoLeague: Is no league? " & $bReturn, $COLOR_DEBUG)
+	EndIf
+
+	Return $bReturn
+EndFunc   ;==>SearchNoLeague
+
+Func chkDBNoLeague()
+	$g_bChkNoLeague[$DB] = GUICtrlRead($g_hChkDBNoLeague) = $GUI_CHECKED
+EndFunc   ;==>chkDBNoLeague
+#EndRegion - Search NoLeague for DeadBase - Endzy
+#ce
+
 #Region - GUI Control
 
 Func chkUseSmartFarmAndRandomQuant()
@@ -391,39 +398,10 @@ Func chkUseSmartFarmAndRandomQuant()
 	EndIf
 EndFunc   ;==>chkUseSmartFarmAndRandomQuant
 
-
-Func chkDBNoLeague()
-	$g_bChkNoLeague[$DB] = GUICtrlRead($g_hChkDBNoLeague) = $GUI_CHECKED
-EndFunc   ;==>chkDBNoLeague
 #EndRegion - GUI Control
-#ce
-#cs
-Func OpenArmyOverview($bCheckMain = True, $sWhereFrom = "Undefined")
 
-	If $bCheckMain Then
-		If Not IsMainPage() Then ; check for main page, avoid random troop drop
-			If Not $g_bRunState Then Return
-			SetLog("Cannot open Army Overview window", $COLOR_ERROR)
-			Return False
-		EndIf
-	EndIf
-	If Not $g_bRunState Then Return
-	If _Sleep(Random(2500,3500,1)) Then Return
-	Click(Random(24,52,1),Random(510,545,1)) ; Cllick(38,529)
-	If _Sleep(Random(2500,3500,1)) Then Return
-	;For $i = 0 To 2 ;try 3 time to OpenArmyOverview 
-	;	If WaitforPixel(23, 520, 53, 525, Hex(0xFFFFE4, 6), 5, 5) Then
-	;		If $g_bDebugSetlogTrain Then SetLog("Click $aArmyTrainButton" & " (Called from " & $sWhereFrom & ")", $COLOR_SUCCESS)
-	;		;ClickP($aArmyTrainButton, 1, 0, "#0293") ; Button Army Overview
-	;		Click(Random(24,52,1),Random(510,545,1)) ; Cllick(38,529)
-	;	EndIf
-	;	For $z = 0 To 3
-	;		If _Sleep(500) Then Return
-	;		If _ColorCheck(_GetPixelColor(40, 580, True), Hex(0xE8E8E0, 6), 1) Then Return True
-	;	Next
-	;Next
-	Return True
-EndFunc   ;==>OpenArmyOverview
+
+; ------------------- OTHER MODS -------------------
 
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: RandomArmyComp
@@ -440,6 +418,7 @@ EndFunc   ;==>OpenArmyOverview
 ; Example .......: No
 ; ===============================================================================================================================
 
+#cs
 Func RandomArmyComp()
 	If Not $g_bRandomArmyComp Then Return False
     If Not OpenQuickTrainTab(False, "RandomArmyComp()") Then Return
@@ -474,4 +453,30 @@ Func RandomArmyComp()
 	Return True
 EndFunc ;==>RandomArmyComp
 
+Func OpenArmyOverview($bCheckMain = True, $sWhereFrom = "Undefined")
+
+	If $bCheckMain Then
+		If Not IsMainPage() Then ; check for main page, avoid random troop drop
+			If Not $g_bRunState Then Return
+			SetLog("Cannot open Army Overview window", $COLOR_ERROR)
+			Return False
+		EndIf
+	EndIf
+	If Not $g_bRunState Then Return
+	If _Sleep(Random(2500,3500,1)) Then Return
+	Click(Random(24,52,1),Random(510,545,1)) ; Cllick(38,529)
+	If _Sleep(Random(2500,3500,1)) Then Return
+	;For $i = 0 To 2 ;try 3 time to OpenArmyOverview 
+	;	If WaitforPixel(23, 520, 53, 525, Hex(0xFFFFE4, 6), 5, 5) Then
+	;		If $g_bDebugSetlogTrain Then SetLog("Click $aArmyTrainButton" & " (Called from " & $sWhereFrom & ")", $COLOR_SUCCESS)
+	;		;ClickP($aArmyTrainButton, 1, 0, "#0293") ; Button Army Overview
+	;		Click(Random(24,52,1),Random(510,545,1)) ; Cllick(38,529)
+	;	EndIf
+	;	For $z = 0 To 3
+	;		If _Sleep(500) Then Return
+	;		If _ColorCheck(_GetPixelColor(40, 580, True), Hex(0xE8E8E0, 6), 1) Then Return True
+	;	Next
+	;Next
+	Return True
+EndFunc   ;==>OpenArmyOverview
 #ce

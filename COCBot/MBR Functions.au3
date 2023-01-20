@@ -277,7 +277,7 @@
 #include "functions\Village\PetHouse.au3"
 #include "functions\Village\ClanCapital.au3"
 
-
+#include "functions\Village\EndzyMod.au3"
 #include "functions\Village\BuilderBase\Collect.au3"
 #include "functions\Village\BuilderBase\StartClockTowerBoost.au3"
 #include "functions\Village\BuilderBase\BuilderBaseReport.au3"

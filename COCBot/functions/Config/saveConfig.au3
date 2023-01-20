@@ -141,7 +141,7 @@ Func SaveBuildingConfig()
 	_Ini_Add("upgrade", "usebookspellMinTime", $g_iUseBOSTime)
 	_Ini_Add("upgrade", "usebookeverything", $g_bUseBOE ? 1 : 0)
 	_Ini_Add("upgrade", "usebookeverythingMinTime", $g_iUseBOETime)
-	
+
 	Local $string = ""
 	For $i = 0 To UBound($g_aCmbLabUpgradeOrder) - 1
 		$string &= $g_aCmbLabUpgradeOrder[$i] & "|"
@@ -554,7 +554,7 @@ Func SaveConfig_600_6()
 	_Ini_Add("other", "ForceSwitchifNoCGEvent", $g_bChkForceSwitchifNoCGEvent)
 	_Ini_Add("other", "EnableCCSleep", $g_bEnableCCSleep)
 	_Ini_Add("other", "SkipDT", $g_bSkipDT)
-
+	_Ini_Add("SmartFarm", "UseSmartFarmAndRandomQuant", $g_bUseSmartFarmAndRandomQuant)
 	SaveBuilderBaseMod()
 EndFunc   ;==>SaveConfig_600_6
 
