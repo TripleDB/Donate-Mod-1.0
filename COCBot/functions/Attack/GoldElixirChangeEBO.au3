@@ -75,7 +75,27 @@ Func GoldElixirChangeEBO()
 		SetLog("Overall Damage above " & Number($g_aiStopAtkPctHigherAmt[$g_iMatchMode]), $COLOR_SUCCESS)
 		$g_iPercentageDamage = Number(getOcrOverAllDamage(780, 529))
 		$z = 0
-	EndIf
+	 EndIf
+
+   Local $DEZ = False ; DoneEarlyZap
+   Local $i = 0
+
+   If $DEZ = False And Not $i = 3 Then
+	   SetLog("$DEZ = False", $COLOR_INFO)
+	   $i += 1
+	   SetLog("Loop:" & $i, $COLOR_INFO)
+	  If IsAttackPage() Then
+		 SetLog(" --- On GoldElixirChangeEBO --- ", $COLOR_INFO)
+		 SetLog("| -------------------------------- |", $COLOR_INFO)
+		 smartZap(-1, True) ; Check to see if we should zap the DE Drills ; Custom SmartZap - Endzy
+		 $DEZ = True
+		 If $DEZ = True Then
+			SetLog("$DEZ = True", $COLOR_INFO)
+		 EndIf
+	  EndIf
+   EndIf
+
+   $DEZ = True
 
 	Local $NoResourceOCR = False
 	Local $ExitNoLootChange = ($g_abStopAtkNoLoot1Enable[$g_iMatchMode] Or $g_abStopAtkNoLoot2Enable[$g_iMatchMode] Or $g_abStopAtkNoResources[$g_iMatchMode])
@@ -91,13 +111,12 @@ Func GoldElixirChangeEBO()
 		$bOneLoop = False
 		;HEALTH HEROES
 		CheckHeroesHealth()
-		If IsAttackPage() Then SmartZap(-1, True) ; Check to see if we should zap the DE Drills ; Custom SmartZap - Endzy
 		If $g_bRestart Then Return
 		;Early Zap - xbebenkmod
-		If $g_bEarlyZap And Not $g_Zapped And $CurDamage > 50 Then
-			SetLog("Trying to Zap Early")
-			If IsAttackPage() Then smartZap()
-		EndIf
+		;If $g_bEarlyZap And Not $g_Zapped And $CurDamage > 50 Then
+		;	SetLog("Trying to Zap Early")
+		;	If IsAttackPage() Then smartZap()
+		;EndIf
 
 		;DE SPECIAL END EARLY
 		If $g_iMatchMode = $LB And $g_aiAttackStdDropSides[$LB] = 4 And $g_bDESideEndEnable Then

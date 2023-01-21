@@ -101,20 +101,37 @@ Func getSpellOffset()
 	Return $result
 EndFunc   ;==>getSpellOffset
 
-Func smartZap($minDE = -1)
+
+Func smartZap($minDE = -1, $bLastChance = False)
 	$g_Zapped = True
-	Local $strikeOffsets = [0, 14] ; Adjust according to drill locate pictures in "imgxml\Storages\Drills"
+	#Region - Custom SmartZap - Team AIO Mod++
+	Local $performedZap = False
+
+	If $g_bSmartZapEnable = False Then Return $performedZap
+	If $g_bDoneSmartZap = True Then Return $performedZap
+
+	Local $iTime = Int(AttackRemainingTime() / 1000)
+	SetDebugLog("Remain time in seconds is " & $iTime & "s", $COLOR_INFO)
+	If $g_iRemainTimeToZap > $iTime And $g_iRemainTimeToZap <> 0 Or $bLastChance = True Then
+		SetLog("Let's ZAP, even with troops on the ground.", $COLOR_ACTION)
+		$g_bDoneSmartZap = True
+	Else
+		$g_bDoneSmartZap = False
+		Return $performedZap
+	EndIf
+	#EndRegion - Custom SmartZap - Team AIO Mod++
+
+	Local $strikeOffsets = [0, 14]
 	Local $drillLvlOffset, $spellAdjust, $numDrills, $testX, $testY, $tempTestX, $tempTestY, $strikeGain, $expectedDE
-	Local $error = 5 ; 5 pixel error margin for DE drill search
 	Local $g_iSearchDark, $oldSearchDark = 0, $performedZap = False, $dropPoint
+	Local $error = 5 ; 5 pixel error margin for DE drill search
 	Local $aSpells[3][5] = [["Own", $eLSpell, -1, -1, 0] _		 ; Own/Donated, SpellType, AttackbarPosition, Level, Count
 			, ["Donated", $eLSpell, -1, -1, 0] _
 			, ["Donated", $eESpell, -1, -1, 0]]
 	Local $bZapDrills = True
-
-	; If smartZap is not checked, exit.
 	If $g_bDebugSmartZap = True Then SetLog("$g_bSmartZapEnable = " & $g_bSmartZapEnable & " | $g_bNoobZap = " & $g_bNoobZap, $COLOR_DEBUG)
 	If $g_bSmartZapEnable = False Then Return $performedZap
+
 	If $bZapDrills Then
 		If $g_bSmartZapEnable And Not $g_bNoobZap Then
 			SetLog("====== You have activated SmartZap Mode ======", $COLOR_ERROR)
@@ -156,7 +173,7 @@ Func smartZap($minDE = -1)
 			$bZapDrills = False
 		EndIf
 	EndIf
-	
+
 	If $g_iMatchMode = $DT Then $bZapDrills = True
 
 	If $bZapDrills Then
@@ -174,7 +191,7 @@ Func smartZap($minDE = -1)
 	If $iTroops > 0 Then
 		For $i = 0 To UBound($g_avAttackTroops) - 1
 			If $g_avAttackTroops[$i][0] = $eLSpell Then
-				If Number($g_iLSpellLevel) > 9 Then 
+				If Number($g_iLSpellLevel) > 9 Then
 					$g_iLSpellLevel = 9
 					SetLog("Set Detected LSpell to Max Level, because detected lvl higher than max lvl", $COLOR_DEBUG)
 				EndIf ;Max lightningSpell was 9, sometime bot detected lvl 11 LSpell and broke
@@ -258,6 +275,7 @@ Func smartZap($minDE = -1)
 
 	; Loop while you still have spells and the first drill in the array has Dark Elixir, if you are town hall 7 or higher
 	While IsAttackPage() And $bZapDrills And $aSpells[0][4] + $aSpells[1][4] + $aSpells[2][4] > 0 And UBound($aDarkDrills) > 0 And $spellAdjust <> -1
+		If Not $g_bRunState Then ExitLoop
 		Local $Spellused = $eLSpell
 		Local $skippedZap = True
 		; Store the DE value before any Zaps are done.
@@ -315,7 +333,7 @@ Func smartZap($minDE = -1)
 			If $aCluster[2] < $aDarkDrills[0][3] Then $aCluster = -1
 		EndIf
 		If $aCluster = -1 And $aDarkDrills[0][4] <> 0 Then
-			;If _Sleep(_Max($DELAYSMARTZAP10 - __TimerDiff($aDarkDrills[0][4]), 0)) Then Return ; 10 seconds since zap to disappear dust and bars
+			If _Sleep(_Max($DELAYSMARTZAP10 - __TimerDiff($aDarkDrills[0][4]), 0)) Then Return ; 10 seconds since zap to disappear dust and bars
 			If _Sleep(1000) Then Return
 			If ReCheckDrillExist($aDarkDrills[0][0], $aDarkDrills[0][1]) Then
 				$aDarkDrills[0][4] = 0
@@ -362,7 +380,7 @@ Func smartZap($minDE = -1)
 
 				$performedZap = True
 				$skippedZap = False
-				If _Sleep(2000) Then Return
+				If _Sleep($DELAYSMARTZAP4) Then Return
 
 				; If you have one less then max, drop it on drills with level (4 - drill offset) and higher
 			ElseIf $aSpells[0][4] + $aSpells[1][4] + $aSpells[2][4] > (3 - $spellAdjust) And $aDarkDrills[0][2] > (3 - $drillLvlOffset) Then
@@ -379,7 +397,7 @@ Func smartZap($minDE = -1)
 
 				$performedZap = True
 				$skippedZap = False
-				If _Sleep($DELAYSMARTZAP2) Then Return
+				If _Sleep($DELAYSMARTZAP4) Then Return
 
 				; If the collector or cluster has more content left than a lvl (5 - drill offset) drill would give to a single zap
 			ElseIf $aDarkDrills[0][2] > (4 - $drillLvlOffset) And ($aDarkDrills[0][3] / ($g_aDrillLevelTotal[$aDarkDrills[0][2] - 1] * $g_fDarkStealFactor)) > 0.3 Then
@@ -396,7 +414,7 @@ Func smartZap($minDE = -1)
 
 				$performedZap = True
 				$skippedZap = False
-				If _Sleep($DELAYSMARTZAP2) Then Return
+				If _Sleep($DELAYSMARTZAP4) Then Return
 
 			ElseIf $aCluster <> -1 Then
 				If $aCluster[2] >= ($g_aDrillLevelTotal[5 - $drillLvlOffset] / $g_aDrillLevelHP[5 - $drillLvlOffset] * $g_fDarkStealFactor * $g_aLSpellDmg[$aSpells[0][3] - 1] * $g_fDarkFillLevel) Then
@@ -409,7 +427,7 @@ Func smartZap($minDE = -1)
 
 				$performedZap = True
 				$skippedZap = False
-				If _Sleep($DELAYSMARTZAP2) Then Return
+				If _Sleep($DELAYSMARTZAP4) Then Return
 
 			Else
 				$skippedZap = True
@@ -427,7 +445,7 @@ Func smartZap($minDE = -1)
 			SetDebugLog("$g_iSearchDark = " & Number($g_iSearchDark))
 			; Update statistics, if we zapped
 			If $skippedZap = False Then
-				If $Spellused = $eESpell  Then
+				If $Spellused = $eESpell Then
 					$g_iNumEQSpellsUsed += 1
 				Else
 					$g_iNumLSpellsUsed += 1
@@ -439,7 +457,6 @@ Func smartZap($minDE = -1)
 		Else
 			If $g_bDebugSmartZap Then SetLog("$g_iSearchDark = " & Number($g_iSearchDark), $COLOR_DEBUG)
 		EndIf
-
 		; Check to make sure we actually zapped
 		If Not $skippedZap Then
 			If $g_bDebugSmartZap Then SetLog("$oldSearchDark = [" & Number($oldSearchDark) & "] - $g_iSearchDark = [" & Number($g_iSearchDark) & "]", $COLOR_DEBUG)
@@ -567,7 +584,7 @@ Func smartZap($minDE = -1)
 	EndIf
 
 	Local $iPercentageNeeded = 50 - getOcrOverAllDamage(780, 529)
-	If $iPercentageNeeded < 1 Then 
+	If $iPercentageNeeded < 1 Then
 		SetLog("Percentage needed is less than 1, cancelling!", $COLOR_ERROR)
 		Return $performedZap
 	ElseIf $iPercentageNeeded > 10 Then
@@ -594,7 +611,7 @@ Func smartZap($minDE = -1)
 		SetLog("Count of easy targets: " & $iTargetCount, $COLOR_INFO)
 		; Get the number of zappable targets
 		$iTargetCount = 0
-		For $iTargets = 0 To _Min(Number(UBound($aEasyPrey) - 1),Number($aSpells[0][4] + $aSpells[1][4]) - 1)
+		For $iTargets = 0 To _Min(Number(UBound($aEasyPrey) - 1), Number($aSpells[0][4] + $aSpells[1][4]) - 1)
 			$iTargetCount += $aEasyPrey[$iTargets][2]
 		Next
 		SetLog("Easy targets, we can zap: " & $iTargetCount, $COLOR_INFO)
@@ -607,6 +624,7 @@ Func smartZap($minDE = -1)
 
 	Local $Spellused = $eLSpell
 	While IsAttackPage() And $aSpells[0][4] + $aSpells[1][4] > 0 And UBound($aEasyPrey) > 0 And Not _CheckPixel($aWonOneStar, True)
+		If Not $g_bRunState Then ExitLoop
 		$Spellused = zapBuilding($aSpells, $aEasyPrey[0][0] + 5, $aEasyPrey[0][1] + 5)
 		_ArrayDelete($aEasyPrey, 0)
 		If _Sleep(1000) Then Return
