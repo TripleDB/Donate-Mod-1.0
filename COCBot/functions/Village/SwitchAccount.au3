@@ -98,7 +98,7 @@ Func CheckSwitchAcc()
 	SetLog("Start Switch Account!", $COLOR_INFO)
 	; Force switch if no clangames event active
 	If $g_bForceSwitchifNoCGEvent Then $bForceSwitch = True
-	
+
 	; Force Switch when PBT detected
 	If $g_abPBActive[$g_iCurAccount] Then $bForceSwitch = True
 
@@ -137,16 +137,16 @@ Func CheckSwitchAcc()
 		EndIf
 	EndIf
 
-	Local $sLogSkip = ""
-	If Not $g_abDonateOnly[$g_iCurAccount] And $iWaitTime <= $g_iTrainTimeToSkip And Not $bForceSwitch Then
-		If Not $g_bRunState Then Return
-		If $iWaitTime > 0 Then $sLogSkip = " in " & Round($iWaitTime, 1) & " mins"
-		SetLog("Army is ready" & $sLogSkip & ", skip switching account", $COLOR_INFO)
-		SetSwitchAccLog(" - Army is ready" & $sLogSkip)
-		SetSwitchAccLog("Stay at [" & $g_iCurAccount + 1 & "]", $COLOR_SUCCESS)
-		If _Sleep(500) Then Return
+	;Local $sLogSkip = ""
+	;If Not $g_abDonateOnly[$g_iCurAccount] And $iWaitTime <= $g_iTrainTimeToSkip And Not $bForceSwitch Then
+	;	If Not $g_bRunState Then Return
+	;	If $iWaitTime > 0 Then $sLogSkip = " in " & Round($iWaitTime, 1) & " mins"
+	;	SetLog("Army is ready" & $sLogSkip & ", skip switching account", $COLOR_INFO)
+	;	SetSwitchAccLog(" - Army is ready" & $sLogSkip)
+	;	SetSwitchAccLog("Stay at [" & $g_iCurAccount + 1 & "]", $COLOR_SUCCESS)
+	;	If _Sleep(500) Then Return
 
-	Else
+	;Else
 
 		If $g_bChkSmartSwitch = True Then ; Smart switch
 			SetDebugLog("-Smart Switch-")
@@ -226,7 +226,7 @@ Func CheckSwitchAcc()
 			SetLog("Staying in this account")
 			SetSwitchAccLog("Stay at [" & $g_iCurAccount + 1 & "]", $COLOR_SUCCESS)
 		EndIf
-	EndIf
+	;EndIf
 	If Not $g_bRunState Then Return
 
 	$g_bForceSwitch = false ; reset the need to switch
