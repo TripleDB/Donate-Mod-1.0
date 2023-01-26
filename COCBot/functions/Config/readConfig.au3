@@ -613,6 +613,7 @@ Func ReadConfig_600_6()
 	IniReadS($g_bChkForceSwitchifNoCGEvent, $g_sProfileConfigPath, "other", "ForceSwitchifNoCGEvent", True, "Bool")
 	IniReadS($g_bEnableCCSleep, $g_sProfileConfigPath, "other", "EnableCCSleep", False, "Bool")
 	IniReadS($g_bSkipDT, $g_sProfileConfigPath, "other", "SkipDT", False, "Bool")
+	IniReadS($g_bUseSmartFarmAndRandomQuant, $g_sProfileConfigPath, "SmartFarm", "UseSmartFarmAndRandomQuant", True, "Bool") ;Endzy
 
 	ReadConfigBuilderBaseMod()
 EndFunc   ;==>ReadConfig_600_6
@@ -1645,6 +1646,9 @@ Func ReadConfig_600_56()
 	$g_bSmartZapDB = (IniRead($g_sProfileConfigPath, "SmartZap", "ZapDBOnly", "1") = "1")
 	$g_bSmartZapSaveHeroes = (IniRead($g_sProfileConfigPath, "SmartZap", "THSnipeSaveHeroes", "1") = "1")
 	$g_bSmartZapFTW = (IniRead($g_sProfileConfigPath, "SmartZap", "FTW", "0") = "1")
+	$g_iRemainTimeToZap = Int(IniRead($g_sProfileConfigPath, "SmartZap", "RemainTimeToZap", 0))
+	$g_bChkSmartZapDestroyCollectors = (IniRead($g_sProfileConfigPath, "SmartZap", "DestroyCollectors", "0") = "1")
+	$g_bChkSmartZapDestroyMines = (IniRead($g_sProfileConfigPath, "SmartZap", "DestroyMines", "0") = "1")
 	$g_iSmartZapMinDE = Int(IniRead($g_sProfileConfigPath, "SmartZap", "MinDE", 350))
 	$g_iSmartZapExpectedDE = Int(IniRead($g_sProfileConfigPath, "SmartZap", "ExpectedDE", 320))
 	$g_bEarlyZap = (IniRead($g_sProfileConfigPath, "SmartZap", "EarlyZap", "0") = "1")

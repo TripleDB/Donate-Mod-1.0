@@ -1236,8 +1236,10 @@ Global $g_bPlannedDropCCHoursEnable = False, $g_bUseCCBalanced = False, $g_iCCDo
 Global $g_abPlannedDropCCHours[24] = [True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True]
 
 ; <><><><> Attack Plan / Search & Attack / Options / SmartZap <><><><>
-Global $g_bSmartZapEnable = False, $g_bEarthQuakeZap = False, $g_bNoobZap = False, $g_bSmartZapDB = True, $g_bSmartZapSaveHeroes = True, _
-		$g_bSmartZapFTW = False, $g_iSmartZapMinDE = 350, $g_iSmartZapExpectedDE = 320, $g_bDebugSmartZap = False, $g_bEarlyZap = False
+;Global $g_bSmartZapEnable = False, $g_bEarthQuakeZap = False, $g_bNoobZap = False, $g_bSmartZapDB = True, $g_bSmartZapSaveHeroes = True, _
+;		$g_bSmartZapFTW = False, $g_iSmartZapMinDE = 350, $g_iSmartZapExpectedDE = 320, $g_bDebugSmartZap = False, $g_bEarlyZap = False
+Global $g_bSmartZapFTW = False, $g_iSmartZapMinDE = 350, $g_iSmartZapExpectedDE = 320, $g_bDebugSmartZap = False, $g_iRemainTimeToZap = 0, $g_bEarlyZap = False
+Global $g_bChkSmartZapDestroyCollectors = False, $g_bChkSmartZapDestroyMines = False, $g_bDebugSmartZap = False, $g_iInpSmartZapTimes = 1
 ; EarlyZap - xbebenkmod
 Global $g_Zapped = False
 
@@ -1679,6 +1681,9 @@ Global $__TEST_ERROR_SLOW_ADB_SCREENCAP_DELAY = 0
 Global $__TEST_ERROR_SLOW_ADB_CLICK_DELAY = 0
 
 ; SmartZap
+Global $g_bDoneSmartZap = False
+Global $g_iRSpellLevel = 1 ; Endzy
+Global $g_iHSpellLevel = 1 ; Endzy
 Global $g_iLSpellLevel = 1
 Global $g_iESpellLevel = 1
 Global Const $g_fDarkStealFactor = 0.75
@@ -1983,3 +1988,4 @@ Global $g_aVillageRefSize[24][7] = [["DS", "Default", 571.62, 82, 770, 58, 577],
 									["W2", "Scenery2", 619.29, 61, 796, 64, 607], _ ;ok
 									["JL", "Jolly", 543.76, 86, 762, 93, 602]] ;ok
 Global $g_sCurrentScenery = "", $g_sSceneryCode = "DS"
+Global $g_hChkSmartFarmAndRandomQuant, $g_bUseSmartFarmAndRandomQuant = False
