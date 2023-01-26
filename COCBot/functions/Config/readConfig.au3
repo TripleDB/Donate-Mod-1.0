@@ -765,6 +765,9 @@ Func ReadConfig_600_12()
 	$g_asTxtDonateTroop[$eTroopMiner] = StringReplace(IniRead($g_sProfileConfigPath, "donate", "txtDonateMiners", "miner|mine"), "|", @CRLF)
 	$g_asTxtBlacklistTroop[$eTroopMiner] = StringReplace(IniRead($g_sProfileConfigPath, "donate", "txtBlacklistMiners", "no miner|miner no|no mine|mine no"), "|", @CRLF)
 
+	$g_asTxtDonateTroop[$eTroopSuperMiner] = StringReplace(IniRead($g_sProfileConfigPath, "donate", "txtDonateSuperMiners", "sminer|smine"), "|", @CRLF)
+	$g_asTxtBlacklistTroop[$eTroopSuperMiner] = StringReplace(IniRead($g_sProfileConfigPath, "donate", "txtBlacklistSuperMiners", "no sminer|sminer no|no smine|smine no"), "|", @CRLF)
+
 	$g_asTxtDonateTroop[$eTroopElectroDragon] = StringReplace(IniRead($g_sProfileConfigPath, "donate", "txtDonateElectroDragons", "electro dragon|electrodrag|edrag"), "|", @CRLF)
 	$g_asTxtBlacklistTroop[$eTroopElectroDragon] = StringReplace(IniRead($g_sProfileConfigPath, "donate", "txtBlacklistElectroDragons", "no electro dragon|electrodrag no|edrag no"), "|", @CRLF)
 
@@ -1004,6 +1007,11 @@ Func ReadConfig_600_15()
 	IniReadS($g_bUpgradePetsEnable[$ePetElectroOwl], $g_sProfileConfigPath, "upgrade", "UpgradePetElectroOwl", False, "Bool")
 	IniReadS($g_bUpgradePetsEnable[$ePetMightyYak], $g_sProfileConfigPath, "upgrade", "UpgradePetMightyYak", False, "Bool")
 	IniReadS($g_bUpgradePetsEnable[$ePetUnicorn], $g_sProfileConfigPath, "upgrade", "UpgradePetUnicorn", False, "Bool")
+	
+	IniReadS($g_bUpgradePetsEnable[$ePetFrosty], $g_sProfileConfigPath, "upgrade", "UpgradePetFrosty", False, "Bool")
+	IniReadS($g_bUpgradePetsEnable[$ePetDiggy], $g_sProfileConfigPath, "upgrade", "UpgradePetDiggy", False, "Bool")
+	IniReadS($g_bUpgradePetsEnable[$ePetPoisonLizard], $g_sProfileConfigPath, "upgrade", "UpgradePetPoisonLizard", False, "Bool")
+	IniReadS($g_bUpgradePetsEnable[$ePetPhoenix], $g_sProfileConfigPath, "upgrade", "UpgradePetPhoenix", False, "Bool")
 EndFunc   ;==>ReadConfig_600_15
 
 Func ReadConfig_600_16()
@@ -1077,6 +1085,7 @@ Func ReadConfig_600_18()
 	;Remote Control
 	IniReadS($g_bNotifyRemoteEnable, $g_sProfileConfigPath, "notify", "PBRemote", False, "Bool")
 	IniReadS($g_sNotifyOrigin, $g_sProfileConfigPath, "notify", "Origin", $g_sProfileCurrentName)
+	$g_sNotifyOrigin = $g_sProfileCurrentName ;Force origin to profile name
 	IniReadS($g_iNotifyDeletePushesOlderThanHours, $g_sProfileConfigPath, "notify", "HoursPushBullet", 4, "int")
 	;Alerts
 	IniReadS($g_bNotifyAlertMatchFound, $g_sProfileConfigPath, "notify", "AlertPBVMFound", False, "Bool")
