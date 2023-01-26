@@ -613,7 +613,7 @@ Func ReadConfig_600_6()
 	IniReadS($g_bChkForceSwitchifNoCGEvent, $g_sProfileConfigPath, "other", "ForceSwitchifNoCGEvent", True, "Bool")
 	IniReadS($g_bEnableCCSleep, $g_sProfileConfigPath, "other", "EnableCCSleep", False, "Bool")
 	IniReadS($g_bSkipDT, $g_sProfileConfigPath, "other", "SkipDT", False, "Bool")
-    IniReadS($g_bUseSmartFarmAndRandomQuant, $g_sProfileConfigPath, "SmartFarm", "UseSmartFarmAndRandomQuant", True, "Bool") ;Endzy
+
 	ReadConfigBuilderBaseMod()
 EndFunc   ;==>ReadConfig_600_6
 
@@ -773,7 +773,7 @@ Func ReadConfig_600_12()
 
 	$g_asTxtDonateTroop[$eTroopDragonRider] = StringReplace(IniRead($g_sProfileConfigPath, "donate", "txtDonateDragonRiders", "Dragon Rider|Dragon Riders"), "|", @CRLF)
 	$g_asTxtBlacklistTroop[$eTroopDragonRider] = StringReplace(IniRead($g_sProfileConfigPath, "donate", "txtBlacklistDragonRiders", "No Dragon Rider|No Dragon Riders"), "|", @CRLF)
-
+	
 	$g_asTxtDonateTroop[$eTroopElectroTitan] = StringReplace(IniRead($g_sProfileConfigPath, "donate", "txtDonateElectroTitans", "ETitan|Titan"), "|", @CRLF)
 	$g_asTxtBlacklistTroop[$eTroopElectroTitan] = StringReplace(IniRead($g_sProfileConfigPath, "donate", "txtBlacklistElectroTitans", "No Titan|No ETitan"), "|", @CRLF)
 
@@ -854,10 +854,10 @@ Func ReadConfig_600_12()
 
 	$g_asTxtDonateSpell[$eSpellInvisibility] = StringReplace(IniRead($g_sProfileConfigPath, "donate", "txtDonateInvisibilitySpells", "Invisibility"), "|", @CRLF)
 	$g_asTxtBlacklistSpell[$eSpellInvisibility] = StringReplace(IniRead($g_sProfileConfigPath, "donate", "txtBlacklistInvisibilitySpells", "No Invisibility|Invisibility No"), "|", @CRLF)
-
+	
 	$g_asTxtDonateSpell[$eSpellRecall] = StringReplace(IniRead($g_sProfileConfigPath, "donate", "txtDonateRecallSpells", "Recall"), "|", @CRLF)
 	$g_asTxtBlacklistSpell[$eSpellRecall] = StringReplace(IniRead($g_sProfileConfigPath, "donate", "txtBlacklistRecallSpells", "No Recall|Recall No"), "|", @CRLF)
-
+	
 	$g_asTxtDonateSpell[$eSpellClone] = StringReplace(IniRead($g_sProfileConfigPath, "donate", "txtDonateCloneSpells", "Clone"), "|", @CRLF)
 	$g_asTxtBlacklistSpell[$eSpellClone] = StringReplace(IniRead($g_sProfileConfigPath, "donate", "txtBlacklistCloneSpells", "No Clone|Clone No"), "|", @CRLF)
 
@@ -903,7 +903,7 @@ Func ReadConfig_600_12()
 
 	$g_asTxtDonateTroop[$eTroopCount + $g_iCustomDonateConfigs + $eSiegeBattleDrill] = StringReplace(IniRead($g_sProfileConfigPath, "donate", "txtDonateBattleD", "Battle Drill"), "|", @CRLF)
 	$g_asTxtBlacklistTroop[$eTroopCount + $g_iCustomDonateConfigs + $eSiegeBattleDrill] = StringReplace(IniRead($g_sProfileConfigPath, "donate", "txtBlacklistBattleD", "Battle Drill No"), "|", @CRLF)
-
+	
 	$g_aiDonateCustomTrpNumA[0][0] = Int(IniRead($g_sProfileConfigPath, "donate", "cmbDonateCustomA1", 6))
 	$g_aiDonateCustomTrpNumA[1][0] = Int(IniRead($g_sProfileConfigPath, "donate", "cmbDonateCustomA2", 1))
 	$g_aiDonateCustomTrpNumA[2][0] = Int(IniRead($g_sProfileConfigPath, "donate", "cmbDonateCustomA3", 0))
@@ -975,7 +975,7 @@ Func ReadConfig_600_14()
 	IniReadS($g_iUseBOSTime, $g_sProfileBuildingPath, "upgrade", "usebookspellMinTime", 7, "int")
 	IniReadS($g_bUseBOE, $g_sProfileBuildingPath, "upgrade", "usebookeverything", False, "Bool")
 	IniReadS($g_iUseBOETime, $g_sProfileBuildingPath, "upgrade", "usebookeverythingMinTime", 14, "int")
-
+	
 	Local $str = StringSplit(IniRead($g_sProfileBuildingPath, "upgrade", "upgradeorderlist", "-1| -1| -1| -1| -1| -1| -1| -1| -1| -1"), "|", $STR_NOCOUNT)
 	For $i = 0 To UBound($g_aCmbLabUpgradeOrder) - 1
 		$g_aCmbLabUpgradeOrder[$i] = $str[$i]
@@ -1596,10 +1596,10 @@ Func ReadConfig_600_52_2()
 	For $S = 0 To $eSpellCount - 1
 		IniReadS($g_aiArmyCustomSpells[$S], $g_sProfileConfigPath, "Spells", $g_asSpellShortNames[$S], 0, "int")
 	Next
-
+	
 	$g_aiArmyCompTroops = $g_aiArmyCustomTroops
 	$g_aiArmyCompSpells = $g_aiArmyCustomSpells
-
+	
 	For $S = 0 To $eSiegeMachineCount - 1
 		IniReadS($g_aiArmyCompSiegeMachines[$S], $g_sProfileConfigPath, "Siege", $g_asSiegeMachineShortNames[$S], 0, "int")
 	Next
@@ -1627,7 +1627,7 @@ Func ReadConfig_600_54()
 		IniReadS($g_aiCmbCustomBrewOrder[$z], $g_sProfileConfigPath, "Spells", "cmbSpellOrder" & $z, -1)
 	Next
 EndFunc   ;==>ReadConfig_600_54
-#Region - Custom SmartZap - Endzy
+
 Func ReadConfig_600_56()
 	; <><><><> Attack Plan / Search & Attack / Options / SmartZap <><><><>
 	$g_bSmartZapEnable = (IniRead($g_sProfileConfigPath, "SmartZap", "UseSmartZap", "0") = "1")
@@ -1636,15 +1636,11 @@ Func ReadConfig_600_56()
 	$g_bSmartZapDB = (IniRead($g_sProfileConfigPath, "SmartZap", "ZapDBOnly", "1") = "1")
 	$g_bSmartZapSaveHeroes = (IniRead($g_sProfileConfigPath, "SmartZap", "THSnipeSaveHeroes", "1") = "1")
 	$g_bSmartZapFTW = (IniRead($g_sProfileConfigPath, "SmartZap", "FTW", "0") = "1")
-	$g_iRemainTimeToZap = Int(IniRead($g_sProfileConfigPath, "SmartZap", "RemainTimeToZap", 0))
-	$g_bChkSmartZapDestroyCollectors = (IniRead($g_sProfileConfigPath, "SmartZap", "DestroyCollectors", "0") = "1")
-	$g_bChkSmartZapDestroyMines = (IniRead($g_sProfileConfigPath, "SmartZap", "DestroyMines", "0") = "1")
 	$g_iSmartZapMinDE = Int(IniRead($g_sProfileConfigPath, "SmartZap", "MinDE", 350))
 	$g_iSmartZapExpectedDE = Int(IniRead($g_sProfileConfigPath, "SmartZap", "ExpectedDE", 320))
 	$g_bEarlyZap = (IniRead($g_sProfileConfigPath, "SmartZap", "EarlyZap", "0") = "1")
-	$g_iInpSmartZapTimes = Int(IniRead($g_sProfileConfigPath, "SmartZap", "InpSmartZapTimes", $g_iInpSmartZapTimes))
 EndFunc   ;==>ReadConfig_600_56
-#EndRegion - Custom SmartZap - Endzy
+
 Func ReadConfig_641_1()
 	; <><><><> Attack Plan / Train Army / Options <><><><>
 	IniReadS($g_bCloseWhileTrainingEnable, $g_sProfileConfigPath, "other", "chkCloseWaitEnable", True, "Bool")

@@ -141,7 +141,7 @@ Func SaveBuildingConfig()
 	_Ini_Add("upgrade", "usebookspellMinTime", $g_iUseBOSTime)
 	_Ini_Add("upgrade", "usebookeverything", $g_bUseBOE ? 1 : 0)
 	_Ini_Add("upgrade", "usebookeverythingMinTime", $g_iUseBOETime)
-
+	
 	Local $string = ""
 	For $i = 0 To UBound($g_aCmbLabUpgradeOrder) - 1
 		$string &= $g_aCmbLabUpgradeOrder[$i] & "|"
@@ -555,7 +555,7 @@ Func SaveConfig_600_6()
 	_Ini_Add("other", "ForceSwitchifNoCGEvent", $g_bChkForceSwitchifNoCGEvent)
 	_Ini_Add("other", "EnableCCSleep", $g_bEnableCCSleep)
 	_Ini_Add("other", "SkipDT", $g_bSkipDT)
-	_Ini_Add("SmartFarm", "UseSmartFarmAndRandomQuant", $g_bUseSmartFarmAndRandomQuant)
+
 	SaveBuilderBaseMod()
 EndFunc   ;==>SaveConfig_600_6
 
@@ -1337,7 +1337,7 @@ Func SaveConfig_600_54()
 		_Ini_Add("Spells", "cmbSpellOrder" & $z, $g_aiCmbCustomBrewOrder[$z])
 	Next
 EndFunc   ;==>SaveConfig_600_54
-#Region - Custom SmartZap - Endzy
+
 Func SaveConfig_600_56()
 	; <><><><> Attack Plan / Search & Attack / Options / SmartZap <><><><>
 	ApplyConfig_600_56(GetApplyConfigSaveAction())
@@ -1347,15 +1347,11 @@ Func SaveConfig_600_56()
 	_Ini_Add("SmartZap", "ZapDBOnly", $g_bSmartZapDB ? 1 : 0)
 	_Ini_Add("SmartZap", "THSnipeSaveHeroes", $g_bSmartZapSaveHeroes ? 1 : 0)
 	_Ini_Add("SmartZap", "FTW", $g_bSmartZapFTW ? 1 : 0)
-	_Ini_Add("SmartZap", "RemainTimeToZap", $g_iRemainTimeToZap)
-	_Ini_Add("SmartZap", "DestroyCollectors", $g_bChkSmartZapDestroyCollectors ? 1 : 0)
-	_Ini_Add("SmartZap", "DestroyMines", $g_bChkSmartZapDestroyMines ? 1 : 0)
 	_Ini_Add("SmartZap", "MinDE", $g_iSmartZapMinDE)
 	_Ini_Add("SmartZap", "ExpectedDE", $g_iSmartZapExpectedDE)
 	_Ini_Add("SmartZap", "EarlyZap", $g_bEarlyZap ? 1 : 0)
-	_Ini_Add("SmartZap", "InpSmartZapTimes", $g_iInpSmartZapTimes)
 EndFunc   ;==>SaveConfig_600_56
-#EndRegion - Custom SmartZap - Endzy
+
 Func SaveConfig_641_1()
 	; <><><> Attack Plan / Train Army / Options <><><>
 	ApplyConfig_641_1(GetApplyConfigSaveAction())

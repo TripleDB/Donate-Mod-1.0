@@ -474,7 +474,7 @@ Func ApplyConfig_600_6($TypeReadSave)
 			GUICtrlSetState($g_hChkForceSwitchifNoCGEvent, $g_bChkForceSwitchifNoCGEvent ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkEnableCCSleep, $g_bEnableCCSleep ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkSkipDT, $g_bSkipDT ? $GUI_CHECKED : $GUI_UNCHECKED)
-			GUICtrlSetState($g_hChkSmartFarmAndRandomQuant, $g_bUseSmartFarmAndRandomQuant ? $GUI_CHECKED : $GUI_UNCHECKED) ;EndzyMod
+
 		Case "Save"
 			$g_bChkBotStop = (GUICtrlRead($g_hChkBotStop) = $GUI_CHECKED)
 			$g_iCmbBotCommand = _GUICtrlComboBox_GetCurSel($g_hCmbBotCommand)
@@ -640,7 +640,7 @@ Func ApplyConfig_600_6($TypeReadSave)
 			$g_bChkForceSwitchifNoCGEvent = (GUICtrlRead($g_hChkForceSwitchifNoCGEvent) = $GUI_CHECKED)
 			$g_bEnableCCSleep = (GUICtrlRead($g_hChkEnableCCSleep) = $GUI_CHECKED)
 			$g_bSkipDT = (GUICtrlRead($g_hChkSkipDT) = $GUI_CHECKED)
-			$g_bUseSmartFarmAndRandomQuant = (GUICtrlRead($g_hChkSmartFarmAndRandomQuant) = $GUI_CHECKED)
+
 	EndSwitch
 	ApplyBuilderBaseMod($TypeReadSave)
 EndFunc   ;==>ApplyConfig_600_6
@@ -943,7 +943,7 @@ Func ApplyConfig_600_14($TypeReadSave)
 			GUICtrlSetData($g_hUseBOSTime, $g_iUseBOSTime)
 			GUICtrlSetState($g_hUseBOE, $g_bUseBOE ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetData($g_hUseBOETime, $g_iUseBOETime)
-
+			
 			For $i = 0 To UBound($g_aCmbLabUpgradeOrder) - 1
 				_GUICtrlComboBox_SetCurSel($g_ahCmbLabUpgradeOrder[$i], $g_aCmbLabUpgradeOrder[$i])
 			Next
@@ -975,7 +975,7 @@ Func ApplyConfig_600_14($TypeReadSave)
 			$g_iUseBOSTime =  GUICtrlRead($g_hUseBOSTime)
 			$g_bUseBOE = (GUICtrlRead($g_hUseBOE) = $GUI_CHECKED)
 			$g_iUseBOETime =  GUICtrlRead($g_hUseBOETime)
-
+			
 			For $i = 0 To UBound($g_ahCmbLabUpgradeOrder) - 1
 				$g_aCmbLabUpgradeOrder[$i] = _GUICtrlComboBox_GetCurSel($g_ahCmbLabUpgradeOrder[$i])
 			Next
@@ -2395,7 +2395,7 @@ Func ApplyConfig_600_54($TypeReadSave)
 			Next
 	EndSwitch
 EndFunc   ;==>ApplyConfig_600_54
-#Region - Custom SmartZap - Endzy
+
 Func ApplyConfig_600_56($TypeReadSave)
 	; <><><><> Attack Plan / Search & Attack / Options / SmartZap <><><><>
 	Switch $TypeReadSave
@@ -2406,13 +2406,9 @@ Func ApplyConfig_600_56($TypeReadSave)
 			GUICtrlSetState($g_hChkSmartZapDB, $g_bSmartZapDB = True ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkSmartZapSaveHeroes, $g_bSmartZapSaveHeroes = True ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkSmartZapFTW, $g_bSmartZapFTW = True ? $GUI_CHECKED : $GUI_UNCHECKED)
-			GUICtrlSetData($g_hRemainTimeToZap, $g_iRemainTimeToZap)
-			GUICtrlSetState($g_hChkSmartZapDestroyCollectors, $g_bChkSmartZapDestroyCollectors = True ? $GUI_CHECKED : $GUI_UNCHECKED)
-			GUICtrlSetState($g_hChkSmartZapDestroyMines, $g_bChkSmartZapDestroyMines = True ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetData($g_hTxtSmartZapMinDE, $g_iSmartZapMinDE)
 			GUICtrlSetData($g_hTxtSmartExpectedDE, $g_iSmartZapExpectedDE)
 			GUICtrlSetState($g_hEarlyZap, $g_bEarlyZap = True ? $GUI_CHECKED : $GUI_UNCHECKED)
-			GUICtrlSetData($g_hInpSmartZapTimes, $g_iInpSmartZapTimes)
 			chkSmartLightSpell()
 			#CS
 				GUICtrlSetState($g_hChkSmartZapDB, $g_bSmartZapEnable = True ? $GUI_ENABLE : $GUI_DISABLE)
@@ -2428,16 +2424,12 @@ Func ApplyConfig_600_56($TypeReadSave)
 			$g_bSmartZapDB = (GUICtrlRead($g_hChkSmartZapDB) = $GUI_CHECKED)
 			$g_bSmartZapSaveHeroes = (GUICtrlRead($g_hChkSmartZapSaveHeroes) = $GUI_CHECKED)
 			$g_bSmartZapFTW = (GUICtrlRead($g_hChkSmartZapFTW) = $GUI_CHECKED)
-			$g_iRemainTimeToZap = Int(GUICtrlRead($g_hRemainTimeToZap))
-			$g_bChkSmartZapDestroyCollectors = (GUICtrlRead($g_hChkSmartZapDestroyCollectors) = $GUI_CHECKED)
-			$g_bChkSmartZapDestroyMines = (GUICtrlRead($g_hChkSmartZapDestroyMines) = $GUI_CHECKED)
 			$g_iSmartZapMinDE = Int(GUICtrlRead($g_hTxtSmartZapMinDE))
 			$g_iSmartZapExpectedDE = Int(GUICtrlRead($g_hTxtSmartExpectedDE))
 			$g_bEarlyZap = (GUICtrlRead($g_hEarlyZap) = $GUI_CHECKED)
-			$g_iInpSmartZapTimes = Int(GUICtrlRead($g_hInpSmartZapTimes))
 	EndSwitch
 EndFunc   ;==>ApplyConfig_600_56
-#EndRegion - Custom SmartZap - Endzy
+
 Func ApplyConfig_641_1($TypeReadSave)
 	; <><><> Attack Plan / Train Army / Options <><><>
 	Switch $TypeReadSave
@@ -2502,4 +2494,3 @@ Func ApplyConfig_641_1($TypeReadSave)
 			$g_iTrainAddRandomDelayMax = Int(GUICtrlRead($g_hTxtAddRandomDelayMax))
 	EndSwitch
 EndFunc   ;==>ApplyConfig_641_1
-
