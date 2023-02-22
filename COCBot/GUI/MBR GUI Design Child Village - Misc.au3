@@ -547,7 +547,7 @@ EndFunc   ;==>CreateMiscClanGamesV3SubTab
 Global $g_hChkMMSkipFirstCheckRoutine = 0, $g_hChkMMSkipBB = 0, $g_hChkMMSkipTrain = 0, $g_hChkMMIgnoreIncorrectTroopCombo = 0, $g_hLblFillIncorrectTroopCombo = 0
 Global $g_hCmbFillIncorrectTroopCombo = 0, $g_hChkMMIgnoreIncorrectSpellCombo = 0, $g_hLblFillIncorrectSpellCombo = 0, $g_hCmbFillIncorrectSpellCombo = 0, $g_hUseQueuedTroopSpell = 0
 Global $g_hChkMMTrainPreviousArmy = 0, $g_hChkMMSkipWallPlacingOnBB = 0, $g_hChkMMCheckCGEarly = 0, $g_hUpgradeWallEarly = 0
-Global $g_hAutoUpgradeEarly = 0, $g_hChkForceSwitchifNoCGEvent = 0, $g_hDonateEarly = 0, $g_hChkSkipSnowDetection = 0, $g_hChkEnableCCSleep = 0, $g_hChkSkipDT = 0
+Global $g_hAutoUpgradeEarly = 0, $g_hChkForceSwitchifNoCGEvent = 0, $g_hDonateEarly = 0, $g_hChkSkipSnowDetection = 0, $g_hChkEnableCCSleep = 0, $g_hChkSkipDT = 0, $g_hChkSkipBBRoutineOn6thBuilder = 0
 
 Global $g_sCmbFICTroops[7][3] = [ _
 								["Barb",	"Barbarians",		1], _
@@ -629,7 +629,7 @@ Func CreateMiscModSubTab()
 
 	$x = 180 + 55
 	$y = 40
-	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Group_MiscMod", "On FirstCheck"), $x - 10, $y - 15, 210, 195)
+	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Group_MiscMod", "On FirstCheck"), $x - 10, $y - 15, 210, 215)
 	$g_hDonateEarly = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "CheckDonateEarly", "Check Donate Early"), $x, $y, -1, -1)
 		_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "OnFirstCheckDonateEarly", "Enable Check Donate on First Start"))
 		GUICtrlSetOnEvent(-1, "chkCheckDonateEarly")
@@ -667,6 +667,10 @@ Func CreateMiscModSubTab()
 	$y += 22
 		$g_hChkSkipDT = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "SkipDT", "Skip Drop Trophy on FirstStart"), $x, $y, -1, -1)
 		GUICtrlSetOnEvent(-1, "chkSkipDropTrophyOnFirstStart")
+		
+	$y += 22
+		$g_hChkSkipBBRoutineOn6thBuilder = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "SkipBBRoutineOn6thBuilder", "Skip BB Routine on 6th Builder"), $x, $y, -1, -1)
+		GUICtrlSetOnEvent(-1, "ChkSkipBBRoutineOn6thBuilder")
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 EndFunc ;==>CreateMiscModSubTab
 
@@ -797,10 +801,10 @@ Func CreateClanGamesSettings()
 		GuiCtrlSetState(-1, $GUI_UNCHECKED)
 	$g_hBtnCGSettingsClose = GUICtrlCreateButton(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "BtnCGSettings", "Close"), $_GUI_MAIN_WIDTH - 100, $_GUI_MAIN_HEIGHT - 160, 85, 25)
 		GUICtrlSetOnEvent(-1, "CloseCGSettings")
-
 EndFunc
+
 Global $g_lblCapitalGold = 0, $g_lblCapitalMedal = 0, $g_hCmbForgeBuilder = 0, $g_hChkEnableAutoUpgradeCC = 0, $g_hChkAutoUpgradeCCIgnore = 0, $g_hChkAutoUpgradeCCWallIgnore = 0
-Global $g_hChkEnableCollectCCGold = 0, $g_hChkStartWeekendRaid = 0
+Global $g_hChkEnableCollectCCGold = 0, $g_hChkStartWeekendRaid = 0, $g_hChkEnableMinGoldAUCC = 0, $g_hTxtMinCCGoldToUpgrade = 0
 Global $g_hChkEnableForgeGold = 0, $g_hChkEnableForgeElix = 0, $g_hChkEnableForgeDE = 0, $g_hChkEnableForgeBBGold = 0, $g_hChkEnableForgeBBElix = 0
 Global $g_hTxtAutoUpgradeCCLog = 0
 
@@ -847,6 +851,11 @@ Func CreateClanCapitalTab()
 	$x += 100	
 		$g_hChkAutoUpgradeCCWallIgnore = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkAutoUpgradeCCWallIgnore", "Ignore Wall Upgrade"), $x, $y, -1, -1)
 		_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Info_ChkAutoUpgradeCCWallIgnore", "Enable Ignore Upgrade for Wall"))
+	$x += 125	
+	$g_hChkEnableMinGoldAUCC = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkEnableMinGoldAUCC", "Only Upgrade If Gold > "), $x, $y)
+			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkBBDropTrophy_Info_01", "Do 1 Attack and immediately surrender"))
+	$g_hTxtMinCCGoldToUpgrade = GUICtrlCreateInput($g_iMinCCGoldToUpgrade, $x + 135, $y + 3, 45, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "MinCCGoldToUpgrade", "Set Minimum CC Gold to do AutoUpgrade"))
 	$x = 15
 	$y += 20
 		$g_hChkAutoUpgradeCCIgnore = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkAutoUpgradeCCIgnore", "Ignore Decoration Building"), $x, $y, -1, -1)
