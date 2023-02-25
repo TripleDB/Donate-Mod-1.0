@@ -1069,6 +1069,9 @@ Func AttackMain($bFirstStart = False) ;Main control for attack functions
 		EndIf
 	Else
 		SetLog("Attacking Not Planned, Skipped..", $COLOR_WARNING)
+		SetDebugLog("AttackMain: Clearing booleans", $COLOR_DEBUG)
+		$g_bIsClientSyncError = False
+		$g_bRestart = False
 	EndIf
 	Return True
 EndFunc   ;==>AttackMain
