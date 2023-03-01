@@ -1352,6 +1352,7 @@ Func FirstCheckRoutine()
 	SetLog("======== FirstCheckRoutine ========", $COLOR_ACTION)
 	If Not $g_bRunState Then Return
 	checkMainScreen(True, $g_bStayOnBuilderBase, "FirstCheckRoutine")
+	SetLog("test 69420", $COLOR_INFO)
 	If $g_bChkCGBBAttackOnly Then
 		SetLog("Enabled Do Only BB Challenges", $COLOR_INFO)
 		For $count = 1 to 11
