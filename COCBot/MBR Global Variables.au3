@@ -1988,3 +1988,6 @@ Global $g_aVillageRefSize[24][7] = [["DS", "Default", 571.62, 82, 770, 58, 577],
 									["JL", "Jolly", 543.76, 86, 762, 93, 602]] ;ok
 Global $g_sCurrentScenery = "", $g_sSceneryCode = "DS"
 Global $g_hChkSmartFarmAndRandomQuant, $g_bUseSmartFarmAndRandomQuant = False
+
+; Endzy Mod
+Global $g_bChkRequestOnly = 0

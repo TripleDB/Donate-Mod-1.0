@@ -477,6 +477,7 @@ Func ApplyConfig_600_6($TypeReadSave)
 			GUICtrlSetState($g_hChkForceSwitchifNoCGEvent, $g_bChkForceSwitchifNoCGEvent ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkEnableCCSleep, $g_bEnableCCSleep ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkSkipDT, $g_bSkipDT ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetState($g_hChkRequestOnly, $g_bChkRequestOnly ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkSmartFarmAndRandomQuant, $g_bUseSmartFarmAndRandomQuant ? $GUI_CHECKED : $GUI_UNCHECKED) ;EndzyMod
 		Case "Save"
 			$g_bChkBotStop = (GUICtrlRead($g_hChkBotStop) = $GUI_CHECKED)
@@ -646,6 +647,7 @@ Func ApplyConfig_600_6($TypeReadSave)
 			$g_bChkForceSwitchifNoCGEvent = (GUICtrlRead($g_hChkForceSwitchifNoCGEvent) = $GUI_CHECKED)
 			$g_bEnableCCSleep = (GUICtrlRead($g_hChkEnableCCSleep) = $GUI_CHECKED)
 			$g_bSkipDT = (GUICtrlRead($g_hChkSkipDT) = $GUI_CHECKED)
+			$g_bChkRequestOnly = (GUICtrlRead($g_hChkRequestOnly) = $GUI_CHECKED) ; Endzy Mod
 			$g_bUseSmartFarmAndRandomQuant = (GUICtrlRead($g_hChkSmartFarmAndRandomQuant) = $GUI_CHECKED)
 	EndSwitch
 EndFunc   ;==>ApplyConfig_600_6

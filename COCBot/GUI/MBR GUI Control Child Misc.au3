@@ -1190,3 +1190,11 @@ Func chkSetCCSleep()
 		$g_bEnableCCSleep = False
 	EndIf
 EndFunc ;==> chkSetCCSleep
+
+Func ChkRequestOnly() ;EndzyMod
+	If GUICtrlRead($g_hChkRequestOnly) = $GUI_CHECKED Then
+		$g_bChkRequestOnly = True
+	Else
+		$g_bChkRequestOnly = False
+	EndIf
+EndFunc   ;==>ChkRequestOnly
