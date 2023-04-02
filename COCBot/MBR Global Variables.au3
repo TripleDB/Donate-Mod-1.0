@@ -1990,4 +1990,5 @@ Global $g_sCurrentScenery = "", $g_sSceneryCode = "DS"
 Global $g_hChkSmartFarmAndRandomQuant, $g_bUseSmartFarmAndRandomQuant = False
 
 ; Endzy Mod
-Global $g_bChkRequestOnly = 0
+Global $g_bChkRequestOnly = 0, $g_bChkDonateOnly = 0, $g_bChkAttackOnly = 0, $g_bChkBBAtkOnly = 0, $g_hChkMainVillAtkOnly = 0, $g_hChkNormalMode = 0, $g_hChkRoutineMode = 0
+Global $g_iMiscModes = 0, $g_bEnableMiscModes = True

@@ -1191,10 +1191,115 @@ Func chkSetCCSleep()
 	EndIf
 EndFunc ;==> chkSetCCSleep
 
-Func ChkRequestOnly() ;EndzyMod
-	If GUICtrlRead($g_hChkRequestOnly) = $GUI_CHECKED Then
-		$g_bChkRequestOnly = True
-	Else
-		$g_bChkRequestOnly = False
+;Func ChkRequestOnly() ;EndzyMod
+;	If GUICtrlRead($g_hChkRequestOnly) = $GUI_CHECKED Then
+;		$g_bChkRequestOnly = True
+;	Else
+;		$g_bChkRequestOnly = False
+;	EndIf
+;EndFunc   ;==>ChkRequestOnly
+
+Func ChkMiscModes()
+	;If GUICtrlRead($g_hChkMiscModes) = $GUI_CHECKED Then
+	;	$g_bChkRequestOnly = True
+	;	For $i = $g_hChkUseGold To $g_hChkUpgradeAnyWallLevel
+	;		GUICtrlSetState($i, $GUI_ENABLE)
+	;	Next
+	;Else
+	;	$g_bAutoUpgradeWallsEnable = False
+	;	For $i = $g_hChkUseGold To $g_hChkUpgradeAnyWallLevel
+	;		GUICtrlSetState($i, $GUI_DISABLE)
+	;	Next
+	;EndIf
+
+	For $i = $g_hChkRequestOnly To $g_hChkRoutineMode
+		GUICtrlSetState($i, $GUI_ENABLE)
+	Next
+
+	If GUICtrlRead($g_hChkRequestOnly) = $GUI_CHECKED Then ; Request Only
+		GUICtrlSetState($g_hChkDonateOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkAttackOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkBBAtkOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkMainVillAtkOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkNormalMode, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkRoutineMode, $GUI_UNCHECKED)
 	EndIf
-EndFunc   ;==>ChkRequestOnly
+	
+	If GUICtrlRead($g_hChkDonateOnly) = $GUI_CHECKED Then ; Donate Only
+		GUICtrlSetState($g_hChkRequestOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkAttackOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkBBAtkOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkMainVillAtkOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkNormalMode, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkRoutineMode, $GUI_UNCHECKED)
+	EndIf
+	
+	If GUICtrlRead($g_hChkAttackOnly) = $GUI_CHECKED Then ; Attack Only
+		GUICtrlSetState($g_hChkRequestOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkDonateOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkBBAtkOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkMainVillAtkOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkNormalMode, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkRoutineMode, $GUI_UNCHECKED)
+	EndIf
+	
+	If GUICtrlRead($g_hChkBBAtkOnly) = $GUI_CHECKED Then ; BB Attack only
+		GUICtrlSetState($g_hChkRequestOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkDonateOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkAttackOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkMainVillAtkOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkNormalMode, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkRoutineMode, $GUI_UNCHECKED)
+	EndIf
+	
+	If GUICtrlRead($g_hChkMainVillAtkOnly) = $GUI_CHECKED Then ; Main Village attacks only
+		GUICtrlSetState($g_hChkRequestOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkDonateOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkAttackOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkBBAtkOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkNormalMode, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkRoutineMode, $GUI_UNCHECKED)
+	EndIf
+	
+	If GUICtrlRead($g_hChkNormalMode) = $GUI_CHECKED Then ; Normal Mode
+		GUICtrlSetState($g_hChkRequestOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkDonateOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkAttackOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkBBAtkOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkMainVillAtkOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkRoutineMode, $GUI_UNCHECKED)
+	EndIf
+	
+	If GUICtrlRead($g_hChkRoutineMode) = $GUI_CHECKED Then ; Routine Mode 
+		GUICtrlSetState($g_hChkRequestOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkDonateOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkAttackOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkBBAtkOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkMainVillAtkOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkNormalMode, $GUI_UNCHECKED)
+	EndIf
+	
+EndFunc   ;==> ChkMiscModes
+#cs
+Func ChkMiscModes()
+	
+	For $i = $g_hChkRequestOnly To $g_hChkRoutineMode
+		GUICtrlSetState($i, $GUI_ENABLE)
+	Next
+
+	GUICtrlSetState($g_hChkRequestOnly, $g_iMiscModes = 0 ? $GUI_CHECKED : $GUI_UNCHECKED)
+	
+	GUICtrlSetState($g_hChkDonateOnly, $g_iMiscModes = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
+	
+	GUICtrlSetState($g_hChkAttackOnly, $g_iMiscModes = 2 ? $GUI_CHECKED : $GUI_UNCHECKED)
+	
+	GUICtrlSetState($g_hChkBBAtkOnly, $g_iMiscModes = 3 ? $GUI_CHECKED : $GUI_UNCHECKED)
+	
+	GUICtrlSetState($g_hChkMainVillAtkOnly, $g_iMiscModes = 4 ? $GUI_CHECKED : $GUI_UNCHECKED)
+	
+	GUICtrlSetState($g_hChkNormalMode, $g_iMiscModes = 5 ? $GUI_CHECKED : $GUI_UNCHECKED)
+	
+	GUICtrlSetState($g_hChkRoutineMode, $g_iMiscModes = 6 ? $GUI_CHECKED : $GUI_UNCHECKED)
+
+EndFunc   ;==> ChkMiscModes
+#ce
