@@ -615,10 +615,17 @@ Func ReadConfig_600_6()
 	IniReadS($g_bCheckCGEarly, $g_sProfileConfigPath, "other", "CheckCGEarly", True, "Bool")
 	IniReadS($g_bChkForceSwitchifNoCGEvent, $g_sProfileConfigPath, "other", "ForceSwitchifNoCGEvent", True, "Bool")
 	IniReadS($g_bEnableCCSleep, $g_sProfileConfigPath, "other", "EnableCCSleep", False, "Bool")
-	;IniReadS($g_bChkRequestOnly, $g_sProfileConfigPath, "other", "ChkRequestOnly", True, "Bool") ; Endzy Mod
-	IniReadS($g_bEnableMiscModes, $g_sProfileConfigPath, "other", "MiscModes", 0, "int")
 	IniReadS($g_bSkipDT, $g_sProfileConfigPath, "other", "SkipDT", False, "Bool")
 	IniReadS($g_bUseSmartFarmAndRandomQuant, $g_sProfileConfigPath, "SmartFarm", "UseSmartFarmAndRandomQuant", True, "Bool") ;Endzy
+
+	; Endy Mod
+	IniReadS($g_bChkRequestOnly, $g_sProfileConfigPath, "Modes", "ChkRequestOnly", False, "Bool")
+	IniReadS($g_bChkDonateOnly, $g_sProfileConfigPath, "Modes", "ChkDonateOnly", False, "Bool")
+	IniReadS($g_bChkAttackOnly, $g_sProfileConfigPath, "Modes", "ChkAttackOnly", False, "Bool")
+	IniReadS($g_bChkBBAtkOnly, $g_sProfileConfigPath, "Modes", "ChkBBAtkOnly", False, "Bool")
+	IniReadS($g_bChkMainVillAtkOnly, $g_sProfileConfigPath, "Modes", "ChkMainVillAtkOnly", False, "Bool")
+	IniReadS($g_bChkNormalMode, $g_sProfileConfigPath, "Modes", "ChkNormalMode", False, "Bool")
+	IniReadS($g_bChkRoutineMode, $g_sProfileConfigPath, "Modes", "ChkRoutineMode", False, "Bool")
 
 	ReadConfigBuilderBaseMod()
 EndFunc   ;==>ReadConfig_600_6

@@ -1191,14 +1191,148 @@ Func chkSetCCSleep()
 	EndIf
 EndFunc ;==> chkSetCCSleep
 
-;Func ChkRequestOnly() ;EndzyMod
-;	If GUICtrlRead($g_hChkRequestOnly) = $GUI_CHECKED Then
-;		$g_bChkRequestOnly = True
-;	Else
-;		$g_bChkRequestOnly = False
-;	EndIf
-;EndFunc   ;==>ChkRequestOnly
+Func ChkRequestOnly() ;EndzyMod
+	If GUICtrlRead($g_hChkRequestOnly) = $GUI_CHECKED Then
+		$g_bChkRequestOnly = True
+		$g_bChkDonateOnly = False
+		$g_bChkAttackOnly = False
+		$g_bChkBBAtkOnly = False
+		$g_bChkMainVillAtkOnly = False
+		$g_bChkNormalMode = False
+		$g_bChkRoutineMode = False
+		GUICtrlSetState($g_hChkDonateOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkAttackOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkBBAtkOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkMainVillAtkOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkNormalMode, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkRoutineMode, $GUI_UNCHECKED)
+	Else
+		$g_bChkRequestOnly = False
+	EndIf
+EndFunc   ;==> ChkRequestOnly
 
+Func ChkDonateOnly()
+	If GUICtrlRead($g_hChkDonateOnly) = $GUI_CHECKED Then
+		$g_bChkDonateOnly = True
+		$g_bChkRequestOnly = False
+		$g_bChkAttackOnly = False
+		$g_bChkBBAtkOnly = False
+		$g_bChkMainVillAtkOnly = False
+		$g_bChkNormalMode = False
+		$g_bChkRoutineMode = False
+		GUICtrlSetState($g_hChkRequestOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkAttackOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkBBAtkOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkMainVillAtkOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkNormalMode, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkRoutineMode, $GUI_UNCHECKED)
+	Else
+		$g_bChkDonateOnly = False
+	EndIf
+EndFunc   ;==> ChkDonateOnly
+
+Func ChkAttackOnly()
+	If GUICtrlRead($g_hChkAttackOnly) = $GUI_CHECKED Then
+		$g_bChkAttackOnly = True
+		$g_bChkRequestOnly = False
+		$g_bChkDonateOnly = False
+		$g_bChkBBAtkOnly = False
+		$g_bChkMainVillAtkOnly = False
+		$g_bChkNormalMode = False
+		$g_bChkRoutineMode = False
+		GUICtrlSetState($g_hChkRequestOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkDonateOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkBBAtkOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkMainVillAtkOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkNormalMode, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkRoutineMode, $GUI_UNCHECKED)
+	Else
+		$g_bChkAttackOnly = False
+	EndIf
+EndFunc   ;==> ChkAttackOnly
+
+Func ChkBBAtkOnly()
+	If GUICtrlRead($g_hChkBBAtkOnly) = $GUI_CHECKED Then
+		$g_bChkBBAtkOnly = True
+		$g_bChkRequestOnly = False
+		$g_bChkDonateOnly = False
+		$g_bChkAttackOnly = False
+		$g_bChkMainVillAtkOnly = False
+		$g_bChkNormalMode = False
+		$g_bChkRoutineMode = False
+		GUICtrlSetState($g_hChkRequestOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkDonateOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkAttackOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkMainVillAtkOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkNormalMode, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkRoutineMode, $GUI_UNCHECKED)
+	Else
+		$g_bChkBBAtkOnly = False
+	EndIf
+EndFunc   ;==> ChkBBAtkOnly
+
+Func ChkMainVillAtkOnly()
+	If GUICtrlRead($g_hChkMainVillAtkOnly) = $GUI_CHECKED Then
+		$g_bChkMainVillAtkOnly = True
+		
+		$g_bChkRequestOnly = False
+		$g_bChkDonateOnly = False
+		$g_bChkAttackOnly = False
+		$g_bChkBBAtkOnly = False
+		$g_bChkNormalMode = False
+		$g_bChkRoutineMode = False
+		GUICtrlSetState($g_hChkRequestOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkDonateOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkAttackOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkBBAtkOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkNormalMode, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkRoutineMode, $GUI_UNCHECKED)
+	Else
+		$g_bChkMainVillAtkOnly = False
+	EndIf
+EndFunc   ;==> ChkMainVillAtkOnly
+
+Func ChkNormalMode()
+	If GUICtrlRead($g_hChkNormalMode) = $GUI_CHECKED Then
+		$g_bChkNormalMode = True
+		$g_bChkRequestOnly = False
+		$g_bChkDonateOnly = False
+		$g_bChkAttackOnly = False
+		$g_bChkBBAtkOnly = False
+		$g_bChkMainVillAtkOnly = False
+		$g_bChkRoutineMode = False
+		GUICtrlSetState($g_hChkRequestOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkDonateOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkAttackOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkBBAtkOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkMainVillAtkOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkRoutineMode, $GUI_UNCHECKED)
+	Else
+		$g_bChkNormalMode = False
+	EndIf
+EndFunc   ;==> ChkNormalMode
+
+Func ChkRoutineMode()
+	If GUICtrlRead($g_hChkRoutineMode) = $GUI_CHECKED Then
+		$g_bChkRoutineMode = True
+		$g_bChkRequestOnly = False
+		$g_bChkDonateOnly = False
+		$g_bChkAttackOnly = False
+		$g_bChkBBAtkOnly = False
+		$g_bChkMainVillAtkOnly = False
+		$g_bChkNormalMode = False
+		GUICtrlSetState($g_hChkRequestOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkDonateOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkAttackOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkBBAtkOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkMainVillAtkOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkNormalMode, $GUI_UNCHECKED)
+	Else
+		$g_bChkRoutineMode = False
+	EndIf
+EndFunc   ;==> ChkRoutineMode
+
+#cs
 Func ChkMiscModes()
 	;If GUICtrlRead($g_hChkMiscModes) = $GUI_CHECKED Then
 	;	$g_bChkRequestOnly = True
@@ -1280,7 +1414,7 @@ Func ChkMiscModes()
 	EndIf
 	
 EndFunc   ;==> ChkMiscModes
-#cs
+
 Func ChkMiscModes()
 	
 	For $i = $g_hChkRequestOnly To $g_hChkRoutineMode

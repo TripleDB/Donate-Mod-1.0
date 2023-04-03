@@ -557,10 +557,18 @@ Func SaveConfig_600_6()
 	_Ini_Add("other", "CheckCGEarly", $g_bCheckCGEarly)
 	_Ini_Add("other", "ForceSwitchifNoCGEvent", $g_bChkForceSwitchifNoCGEvent)
 	_Ini_Add("other", "EnableCCSleep", $g_bEnableCCSleep)
-	;_Ini_Add("other", "ChkRequestOnly", $g_bChkRequestOnly) ;Endzy Mod
-	_Ini_Add("other", "Misc-Modes", $g_bEnableMiscModes) ; Endzy Mod
+	
 	_Ini_Add("other", "SkipDT", $g_bSkipDT)
 	_Ini_Add("SmartFarm", "UseSmartFarmAndRandomQuant", $g_bUseSmartFarmAndRandomQuant)
+
+	; Endzy Mod
+	_Ini_Add("Modes", "ChkRequestOnly", $g_bChkRequestOnly)
+	_Ini_Add("Modes", "ChkDonateOnly", $g_bChkDonateOnly)
+	_Ini_Add("Modes", "ChkAttackOnly", $g_bChkAttackOnly)
+	_Ini_Add("Modes", "ChkBBAtkOnly", $g_bChkBBAtkOnly)
+	_Ini_Add("Modes", "ChkMainVillAtkOnly", $g_bChkMainVillAtkOnly)
+	_Ini_Add("Modes", "ChkNormalMode", $g_bChkNormalMode)
+	_Ini_Add("Modes", "ChkRoutineMode", $g_bChkRoutineMode)
 
 	SaveBuilderBaseMod()
 EndFunc   ;==>SaveConfig_600_6

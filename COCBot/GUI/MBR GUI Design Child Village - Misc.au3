@@ -556,45 +556,40 @@ Global $g_hChkRequestOnly = 0, $g_hChkDonateOnly = 0, $g_hChkAttackOnly = 0, $g_
 Func CreateEndzyModSubTab()
 	Local $x = 15, $y = 40
 	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Group_MiscMod", "Donate Mods"), $x - 10, $y - 15, 210, 160) ; , $x - 10, $y - 15, 210, 80) ---> 210 - Width, 80 - Length)
-			
-		$g_hChkRequestOnly = GUICtrlCreateRadio(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "RequestOnly", "Request Only Mode"), $x, $y, -1, -1)
-			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "OnModes_Info_01", "Request troops only then switch account"))
-			;GUICtrlSetState(-1, $GUI_DISABLE)
-			GUICtrlSetOnEvent(-1, "ChkMiscModes")
+	;$y += 20
+		$g_hChkRequestOnly = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "RequestOnly", "Request Only Mode"), $x, $y, -1, -1)
+		_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "OnModes_Info_01", "Request troops only then switch account"))
+		GUICtrlSetOnEvent(-1, "ChkRequestOnly")
+
 	$y += 20
-		$g_hChkDonateOnly = GUICtrlCreateRadio(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "DonateOnly", "Donate Only Mode"), $x, $y, -1, -1)
-			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "OnModes_Info_01", "Donates Request troops only then switch account."))
-			;GUICtrlSetState(-1, $GUI_DISABLE)
-			GUICtrlSetOnEvent(-1, "ChkMiscModes")
+		$g_hChkDonateOnly = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "DonateOnly", "Donate Only Mode"), $x, $y, -1, -1)
+		_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "OnModes_Info_01", "Donates troops only then switch account"))
+		GUICtrlSetOnEvent(-1, "ChkDonateOnly")
+		
 	$y += 20
-		$g_hChkAttackOnly = GUICtrlCreateRadio(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "AttackOnly", "Attack Only Mode"), $x, $y, -1, -1)
-			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "OnModes_Info_01", "Attacks only on BB and main village then switch account"))
-			;GUICtrlSetState(-1, $GUI_DISABLE)
-			GUICtrlSetOnEvent(-1, "ChkMiscModes")
-	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;		
+		$g_hChkAttackOnly = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "AttackOnly", "Attack Only Mode"), $x, $y, -1, -1)
+		_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "OnModes_Info_01", "Attacks only on BB and main village then switch account"))
+		GUICtrlSetOnEvent(-1, "ChkAttackOnly")
+		
 	$y += 20
-		$g_hChkBBAtkOnly = GUICtrlCreateRadio(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "BBAttackOnly", "BB Attack Only Mode"), $x, $y, -1, -1)
-			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "OnModes_Info_01", "Attacks on Builder Base village only"))
-			;GUICtrlSetState(-1, $GUI_DISABLE)
-			GUICtrlSetOnEvent(-1, "ChkMiscModes")
-			
-	$y += 20
-		$g_hChkMainVillAtkOnly = GUICtrlCreateRadio(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "MainVillAttackOnly", "Main Village Attacks Only Mode"), $x, $y, -1, -1)
-			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "OnModes_Info_01", "Attacks on main village only"))
-			;GUICtrlSetState(-1, $GUI_DISABLE)
-			GUICtrlSetOnEvent(-1, "ChkMiscModes")
-			
-	$y += 20
-		$g_hChkNormalMode = GUICtrlCreateRadio(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "NormalMode", "Normal Mode"), $x, $y, -1, -1)
-			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "OnModes_Info_01", "Default Mode: do routines and attacks on both villages"))
-			;GUICtrlSetState(-1, $GUI_DISABLE)
-			GUICtrlSetOnEvent(-1, "ChkMiscModes")
+		$g_hChkBBAtkOnly = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "BBAttackOnly", "BB Attack Only Mode"), $x, $y, -1, -1)
+		_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "OnModes_Info_01", "Attacks on Builder Base village only"))
+		GUICtrlSetOnEvent(-1, "ChkBBAtkOnly")
 	
 	$y += 20
-		$g_hChkRoutineMode = GUICtrlCreateRadio(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "RoutineMode", "Routine Mode"), $x, $y, -1, -1)
-			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "OnModes_Info_01", "Do only routines on both villages then switch account"))
-			;GUICtrlSetState(-1, $GUI_DISABLE)
-			GUICtrlSetOnEvent(-1, "ChkMiscModes")
+		$g_hChkMainVillAtkOnly = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "MainVillAttackOnly", "Main Village Attacks Only Mode"), $x, $y, -1, -1)
+		_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "OnModes_Info_01", "Attacks on main village only"))
+		GUICtrlSetOnEvent(-1, "ChkMainVillAtkOnly")
+		
+	$y += 20
+		$g_hChkNormalMode = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "NormalMode", "Normal Mode"), $x, $y, -1, -1)
+		_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "OnModes_Info_01", "Default Mode: do routines and attacks on both villages"))
+		GUICtrlSetOnEvent(-1, "ChkNormalMode")
+		
+	$y += 20
+		$g_hChkRoutineMode = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "RoutineMode", "Routine Mode"), $x, $y, -1, -1)
+		_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "OnModes_Info_01", "Do only routines on both villages then switch account"))
+		GUICtrlSetOnEvent(-1, "ChkRoutineMode")
 			
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 EndFunc ; ==> CreateEndzyModSubTab()

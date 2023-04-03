@@ -1256,6 +1256,27 @@ Func __RunFunction($action)
 			DL0()
 		Case "DonateModeAtk"
 			DMA0()
+		Case "CollectBB" ; BB Collect
+			If SwitchBetweenBases("BB") Then
+				$g_bStayOnBuilderBase = True
+				checkMainScreen(True, $g_bStayOnBuilderBase, "BuilderBase")
+				ZoomOut()
+				CollectBuilderBase()
+				$g_bStayOnBuilderBase = False
+				SwitchBetweenBases("Main")
+			EndIf
+		Case "AttackBB"
+			If SwitchBetweenBases("BB") Then
+				$g_bStayOnBuilderBase = True
+				checkMainScreen(True, $g_bStayOnBuilderBase, "BuilderBase")
+				ZoomOut()
+				CollectBuilderBase()
+				DoAttackBB()
+				checkMainScreen(True, $g_bStayOnBuilderBase, "BuilderBase")
+				If _Sleep($DELAYRUNBOT1) Then Return
+				$g_bStayOnBuilderBase = False
+				SwitchBetweenBases("Main")
+			EndIf
 		Case ""
 			SetDebugLog("Function call doesn't support empty string, please review array size", $COLOR_ERROR)
 		Case Else
@@ -1267,8 +1288,10 @@ EndFunc   ;==>__RunFunction
 Func FirstCheck()
 	If Not $g_bRunState Then Return
 	SetLog("-- FirstCheck Loop --")
+	ClickAway()
 	ZoomOut()
 	If _Sleep(500) Then Return
+	ClickAway()
 	checkMainScreen(True, $g_bStayOnBuilderBase, "FirstCheck")
 	VillageReport(True, True)
 
@@ -1278,73 +1301,29 @@ Func FirstCheck()
 	$g_bFullArmy = False
 	$g_iCommandStop = -1
 
-	;Check Town Hall level
-	Local $iTownHallLevel = $g_iTownHallLevel
-	Local $bLocateTH = False
-	SetLog("Detecting Town Hall level", $COLOR_INFO)
-	SetLog("Town Hall level is currently saved as " &  $g_iTownHallLevel, $COLOR_INFO)
-	Collect(False) ;only collect from mine and collector
-	If $g_aiTownHallPos[0] > -1 Then
-		Click($g_aiTownHallPos[0], $g_aiTownHallPos[1])
-		If _Sleep(800) Then Return
-		Local $BuildingInfo = BuildingInfo(245, 494)
-		If $BuildingInfo[1] = "Town Hall" Then
-			$g_iTownHallLevel =  $BuildingInfo[2]
-		Else
-			$bLocateTH = True
-		EndIf
-	EndIf
-
-	If $g_iTownHallLevel = 0 Or $bLocateTH Then
-		imglocTHSearch(False, True, True) ;Sets $g_iTownHallLevel
-	EndIf
-
-	SetLog("Detected Town Hall level is " &  $g_iTownHallLevel, $COLOR_INFO)
-	If $g_iTownHallLevel = $iTownHallLevel Then
-		SetLog("Town Hall level has not changed", $COLOR_INFO)
+	ChkTHlvl() ; Check Town Hall level and if no gold/elixir then stop the bot
+	
+	If $g_bChkRequestOnly = True Then     ; Request Only
+		ROM()
+	ElseIf $g_bChkDonateOnly = True Then ; Donate Only
+		DOM()
+	ElseIf $g_bChkAttackOnly = True Then ; Attack Only
+		AOM()
+	ElseIf $g_bChkBBAtkOnly = True Then ; BB attack only
+		BBAOM()
+	ElseIf $g_bChkMainVillAtkOnly = True Then ; Main village attack only
+		MVAOM()
+	ElseIf $g_bChkNormalMode = True Then ; Normal mode
+		NM()
+	ElseIf $g_bChkRoutineMode = True Then ; Routines Only
+		RM()
 	Else
-		SetLog("Town Hall level has changed!", $COLOR_INFO)
-		SetLog("New Town hall level detected as " &  $g_iTownHallLevel, $COLOR_INFO)
-		applyConfig()
-		saveConfig()
-	EndIf
-	setupProfile()
-
-	If Not $g_bRunState Then Return
-	VillageReport()
-	chkShieldStatus()
-	If $g_bOutOfGold And (Number($g_aiCurrentLoot[$eLootGold]) >= Number($g_iTxtRestartGold)) Then ; check if enough gold to begin searching again
-		$g_bOutOfGold = False ; reset out of gold flag
-		SetLog("Switching back to normal after no gold to search ...", $COLOR_SUCCESS)
-		Return ; Restart bot loop to reset $g_iCommandStop & $g_bTrainEnabled + $g_bDonationEnabled via BotCommand()
-	EndIf
-
-	If $g_bOutOfElixir And (Number($g_aiCurrentLoot[$eLootElixir]) >= Number($g_iTxtRestartElixir)) And (Number($g_aiCurrentLoot[$eLootDarkElixir]) >= Number($g_iTxtRestartDark)) Then ; check if enough elixir to begin searching again
-		$g_bOutOfElixir = False ; reset out of gold flag
-		SetLog("Switching back to normal setting after no elixir to train ...", $COLOR_SUCCESS)
-		Return ; Restart bot loop to reset $g_iCommandStop & $g_bTrainEnabled + $g_bDonationEnabled via BotCommand()
-	EndIf
-
-	_RunFunction('EarlyUpgChk')
-
-	If BotCommand() Then btnStop()
-
-	If T420() Then
-		SetLog("Test420 Done!", $COLOR_SUCCESS)
-	EndIf
-
-	If ProfileSwitchAccountEnabled() And ($g_iCommandStop = 0 Or $g_iCommandStop = 1) Then
-		If Not $g_bSkipFirstCheckRoutine Then FirstCheckRoutine()
-		If Not $g_bSkipBB Then _RunFunction('BuilderBase')
-		If Not $g_bSkipTrain Then TrainSystem()
-		If $g_bDonateEarly Then
-			SetLog("Donate Early Enabled", $COLOR_INFO)
-			_RunFunction("DonateCC,Train")
-		EndIf
-		checkSwitchAcc()
-	Else
+		;SetLog("Error on Miscellaneous Modes!", $COLOR_ERROR)
+		SetLog("No specific modes checked!", $COLOR_INFO)
+		SetLog("Defaulting on normal mode now.", $COLOR_INFO)
 		FirstCheckRoutine()
 	EndIf
+	
 EndFunc   ;==>FirstCheck
 
 Func FirstCheckRoutine()
@@ -1559,7 +1538,7 @@ Func CommonRoutine($RoutineType = Default)
 	SetLog("Doing CommonRoutine: " & $RoutineType, $COLOR_SUCCESS)
 	Switch $RoutineType
 		Case "FirstCheckRoutine"
-			Local $aRndFuncList = ['Collect', 'DailyChallenge', 'CollectAchievements','CheckTombs', 'CleanYard', "SaleMagicItem", 'Laboratory', 'CollectFreeMagicItems']
+			Local $aRndFuncList = ['Collect', 'DailyChallenge', 'CollectAchievements', 'CheckTombs', 'CleanYard', "SaleMagicItem", 'Laboratory', 'CollectFreeMagicItems', 'FstReq']
 			For $Index In $aRndFuncList
 				If Not $g_bRunState Then Return
 				_RunFunction($Index)

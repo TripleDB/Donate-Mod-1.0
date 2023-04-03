@@ -64,6 +64,8 @@ Func applyConfig($bRedrawAtExit = True, $TypeReadSave = "Read") ;Applies the dat
 	ApplyConfig_600_1($TypeReadSave)
 	; <><><><> Village / Misc <><><><>
 	ApplyConfig_600_6($TypeReadSave)
+	; <><><><> Village / Endzy Mod <><><><>
+	ApplyConfig_600_7($TypeReadSave) ; Endzy Mod
 	; <><><><> Village / Achievements <><><><>
 	ApplyConfig_600_9($TypeReadSave)
 	; <><><><> Village / Donate - Request <><><><>
@@ -477,8 +479,6 @@ Func ApplyConfig_600_6($TypeReadSave)
 			GUICtrlSetState($g_hChkForceSwitchifNoCGEvent, $g_bChkForceSwitchifNoCGEvent ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkEnableCCSleep, $g_bEnableCCSleep ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkSkipDT, $g_bSkipDT ? $GUI_CHECKED : $GUI_UNCHECKED)
-			;GUICtrlSetState($g_hChkRequestOnly, $g_bChkRequestOnly ? $GUI_CHECKED : $GUI_UNCHECKED)
-			;GUICtrlSetState($g_hChkDonateOnly, $g_bChkDonateOnly ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkSmartFarmAndRandomQuant, $g_bUseSmartFarmAndRandomQuant ? $GUI_CHECKED : $GUI_UNCHECKED) ;EndzyMod
 		Case "Save"
 			$g_bChkBotStop = (GUICtrlRead($g_hChkBotStop) = $GUI_CHECKED)
@@ -648,11 +648,31 @@ Func ApplyConfig_600_6($TypeReadSave)
 			$g_bChkForceSwitchifNoCGEvent = (GUICtrlRead($g_hChkForceSwitchifNoCGEvent) = $GUI_CHECKED)
 			$g_bEnableCCSleep = (GUICtrlRead($g_hChkEnableCCSleep) = $GUI_CHECKED)
 			$g_bSkipDT = (GUICtrlRead($g_hChkSkipDT) = $GUI_CHECKED)
-			;$g_bChkRequestOnly = (GUICtrlRead($g_hChkRequestOnly) = $GUI_CHECKED) ; Endzy Mod
-			;$g_bChkDonateOnly = (GUICtrlRead($g_hChkDonateOnly) = $GUI_CHECKED)
 			$g_bUseSmartFarmAndRandomQuant = (GUICtrlRead($g_hChkSmartFarmAndRandomQuant) = $GUI_CHECKED)
 	EndSwitch
 EndFunc   ;==>ApplyConfig_600_6
+
+Func ApplyConfig_600_7($TypeReadSave) ; Endzy Mod
+	; <><><><> Village / Endzy Mod <><><><>
+	Switch $TypeReadSave
+		Case "Read"
+			GUICtrlSetState($g_hChkRequestOnly, $g_bChkRequestOnly ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetState($g_hChkDonateOnly, $g_bChkDonateOnly ? $GUI_CHECKED : $GUI_UNCHECKED) ; Endzy Mod
+			GUICtrlSetState($g_hChkAttackOnly, $g_bChkAttackOnly ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetState($g_hChkBBAtkOnly, $g_bChkBBAtkOnly ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetState($g_hChkMainVillAtkOnly, $g_bChkMainVillAtkOnly ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetState($g_hChkNormalMode, $g_bChkNormalMode ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetState($g_hChkRoutineMode, $g_bChkRoutineMode ? $GUI_CHECKED : $GUI_UNCHECKED)
+		Case "Save"
+			$g_bChkRequestOnly = (GUICtrlRead($g_hChkRequestOnly) = $GUI_CHECKED) ; Endzy Mod
+			$g_bChkDonateOnly = (GUICtrlRead($g_hChkDonateOnly) = $GUI_CHECKED)
+			$g_bChkAttackOnly = (GUICtrlRead($g_hChkAttackOnly) = $GUI_CHECKED)
+			$g_bChkBBAtkOnly = (GUICtrlRead($g_hChkBBAtkOnly) = $GUI_CHECKED)
+			$g_bChkMainVillAtkOnly = (GUICtrlRead($g_hChkMainVillAtkOnly) = $GUI_CHECKED)
+			$g_bChkNormalMode = (GUICtrlRead($g_hChkNormalMode) = $GUI_CHECKED)
+			$g_bChkRoutineMode = (GUICtrlRead($g_hChkRoutineMode) = $GUI_CHECKED)
+	EndSwitch
+EndFunc   ;==> ApplyConfig_600_7
 
 Func ApplyBuilderBaseMod($TypeReadSave)
 	If $TypeReadSave = "Read" Then
@@ -1180,24 +1200,6 @@ Func ApplyConfig_600_17($TypeReadSave)
 			cmbWalls()
 			chkWalls()
 			ChkLowLevelAutoUpgradeWall()
-			ChkMiscModes()
-#cs			Switch $g_iMiscModes ; Endzy Mod
-				Case 0
-					GUICtrlSetState($g_hChkRequestOnly, $GUI_CHECKED)
-				Case 1
-					GUICtrlSetState($g_hChkDonateOnly, $GUI_CHECKED)
-				Case 2
-					GUICtrlSetState($g_hChkAttackOnly, $GUI_CHECKED)
-				Case 3
-					GUICtrlSetState($g_hChkBBAtkOnly, $GUI_CHECKED)
-				Case 4
-					GUICtrlSetState($g_hChkMainVillAtkOnly, $GUI_CHECKED)
-				Case 5
-					GUICtrlSetState($g_hChkNormalMode, $GUI_CHECKED)
-				Case 6
-					GUICtrlSetState($g_hChkRoutineMode, $GUI_CHECKED)
-			EndSwitch
-#ce			ChkMiscModes()
 		Case "Save"
 			$g_bAutoUpgradeWallsEnable = (GUICtrlRead($g_hChkWalls) = $GUI_CHECKED)
 			$g_iUpgradeWallMinGold = Number(GUICtrlRead($g_hTxtWallMinGold))
@@ -1218,21 +1220,6 @@ Func ApplyConfig_600_17($TypeReadSave)
 			$g_bUpgradeLowWall = (GUICtrlRead($g_hChkLowLevelAutoUpgradeWall) = $GUI_CHECKED)
 			$g_bUpgradeAnyWallLevel = (GUICtrlRead($g_hChkUpgradeAnyWallLevel) = $GUI_CHECKED)
 			$g_iLowLevelWall = _GUICtrlComboBox_GetCurSel($g_hCmbLowLevelWall) + 1
-			If GUICtrlRead($g_hChkRequestOnly) = $GUI_CHECKED Then
-				$g_iMiscModes = 0 ; RequestOnly
-			ElseIf GUICtrlRead($g_hChkDonateOnly) = $GUI_CHECKED Then
-				$g_iMiscModes = 1 ; DonateOnly
-			ElseIf GUICtrlRead($g_hChkAttackOnly) = $GUI_CHECKED Then
-				$g_iMiscModes = 2 ; AttackOnly
-			ElseIf GUICtrlRead($g_hChkBBAtkOnly) = $GUI_CHECKED Then
-				$g_iMiscModes = 2 ; BB attack only
-			ElseIf GUICtrlRead($g_hChkMainVillAtkOnly) = $GUI_CHECKED Then
-				$g_iMiscModes = 2 ; Main Village attack only
-			ElseIf GUICtrlRead($g_hChkNormalMode) = $GUI_CHECKED Then
-				$g_iMiscModes = 2 ; Normal Mode
-			ElseIf GUICtrlRead($g_hChkRoutineMode) = $GUI_CHECKED Then
-				$g_iMiscModes = 2 ; Routine Mode
-			EndIf
 	EndSwitch
 EndFunc   ;==>ApplyConfig_600_17
 
