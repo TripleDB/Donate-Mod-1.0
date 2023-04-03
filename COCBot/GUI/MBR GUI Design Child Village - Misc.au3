@@ -555,7 +555,7 @@ Global $g_hChkRequestOnly = 0, $g_hChkDonateOnly = 0, $g_hChkAttackOnly = 0, $g_
 
 Func CreateEndzyModSubTab()
 	Local $x = 15, $y = 40
-	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Group_MiscMod", "Donate Mods"), $x - 10, $y - 15, 210, 160) ; , $x - 10, $y - 15, 210, 80) ---> 210 - Width, 80 - Length)
+	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Group_MiscMod", "Bot Modes"), $x - 10, $y - 15, 210, 160) ; , $x - 10, $y - 15, 210, 80) ---> 210 - Width, 80 - Length)
 	;$y += 20
 		$g_hChkRequestOnly = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "RequestOnly", "Request Only Mode"), $x, $y, -1, -1)
 		_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "OnModes_Info_01", "Request troops only then switch account"))
