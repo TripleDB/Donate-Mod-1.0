@@ -626,6 +626,7 @@ Func ReadConfig_600_6()
 	IniReadS($g_bChkMainVillAtkOnly, $g_sProfileConfigPath, "Modes", "ChkMainVillAtkOnly", False, "Bool")
 	IniReadS($g_bChkNormalMode, $g_sProfileConfigPath, "Modes", "ChkNormalMode", False, "Bool")
 	IniReadS($g_bChkRoutineMode, $g_sProfileConfigPath, "Modes", "ChkRoutineMode", False, "Bool")
+	IniReadS($g_bChkClanGamesMode, $g_sProfileConfigPath, "Modes", "ChkClanGamesMode", False, "Bool")
 
 	ReadConfigBuilderBaseMod()
 EndFunc   ;==>ReadConfig_600_6

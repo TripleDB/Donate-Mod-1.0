@@ -569,7 +569,7 @@ Func SaveConfig_600_6()
 	_Ini_Add("Modes", "ChkMainVillAtkOnly", $g_bChkMainVillAtkOnly)
 	_Ini_Add("Modes", "ChkNormalMode", $g_bChkNormalMode)
 	_Ini_Add("Modes", "ChkRoutineMode", $g_bChkRoutineMode)
-
+	_Ini_Add("Modes", "ChkClanGamesMode", $g_bChkClanGamesMode)
 	SaveBuilderBaseMod()
 EndFunc   ;==>SaveConfig_600_6
 

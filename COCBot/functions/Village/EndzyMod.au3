@@ -966,3 +966,98 @@ Func ChkTHlvl()
 	If BotCommand() Then btnStop()
 
 EndFunc ; ==> ChkTHlvl
+
+Func CGM() ; Clan  Games Mode
+
+	Local $b_SuccessAttack = False
+	SetLog("======== FirstCheckRoutine ========", $COLOR_ACTION)
+	If Not $g_bRunState Then Return
+	checkMainScreen(True, $g_bStayOnBuilderBase, "FirstCheckRoutine")
+	SetLog("test 69420", $COLOR_INFO)
+	If $g_bChkCGBBAttackOnly Then
+		SetLog("Enabled Do Only BB Challenges", $COLOR_INFO)
+		For $count = 1 to 11
+			If Not $g_bRunState Then Return
+			If $count > 10 Then
+				SetLog("Something maybe wrong, exiting to MainLoop!", $COLOR_INFO)
+				ExitLoop
+			EndIf
+
+			If _ClanGames(False, $g_bChkForceBBAttackOnClanGames) Then
+				If $g_bChkForceBBAttackOnClanGames And $g_bIsBBevent Then
+					SetLog("Forced BB Attack On ClanGames", $COLOR_INFO)
+					SetLog("[" & $count & "] Trying to complete BB Challenges", $COLOR_INFO)
+					GotoBBTodoCG()
+				Else
+					ExitLoop ;should be will never get here, but
+				EndIf
+			Else
+				If $g_bIsCGPointMaxed Then ExitLoop ; If point is max then continue to main loop
+				If Not $g_bIsCGEventRunning Then ExitLoop ; No Running Event after calling ClanGames
+				If $g_bChkClanGamesStopBeforeReachAndPurge and $g_bIsCGPointAlmostMax Then ExitLoop ; Exit loop if want to purge near max point
+			EndIf
+			If isOnMainVillage() Then ZoomOut()	; Verify is on main village and zoom out
+		Next
+	Else
+		If $g_bCheckCGEarly And $g_bChkClanGamesEnabled Then
+			SetLog("Check ClanGames Early", $COLOR_INFO)
+			_ClanGames(False, $g_bChkForceBBAttackOnClanGames)
+			If Not $g_bRunState Then Return
+			If $g_bChkForceBBAttackOnClanGames And $g_bIsBBevent Then
+				SetLog("Forced BB Attack On ClanGames", $COLOR_INFO)
+				GotoBBTodoCG()
+			EndIf
+		EndIf
+	EndIf
+
+	Local $bSwitch = True
+
+	If Not $g_bRunState Then Return
+	If ProfileSwitchAccountEnabled() And $g_bForceSwitchifNoCGEvent And Number($g_aiCurrentLoot[$eLootTrophy]) < 4900 And $bSwitch Then
+		_ClanGames(False, False, True) ; Do Only Purge
+		SetLog("No Event on ClanGames, Forced switch account!", $COLOR_SUCCESS)
+		_RunFunction("DonateCC,Train")
+		CommonRoutine("NoClanGamesEvent")
+		$g_bForceSwitchifNoCGEvent = True
+		checkSwitchAcc() ;switch to next account
+	EndIf
+
+	If Not $g_bRunState Then Return
+	If ProfileSwitchAccountEnabled() And ($g_bIsCGPointAlmostMax Or $g_bIsCGPointMaxed) And $g_bChkForceSwitchifNoCGEvent Then ; forced switch after first attack if cg point is almost max
+		_RunFunction('UpgradeWall')
+		SetLog("ClanGames point almost max/maxed, Forced switch account!", $COLOR_SUCCESS)
+		If Not $g_bIsFullArmywithHeroesAndSpells Then TrainSystem()
+		;CommonRoutine("NoClanGamesEvent")
+		$g_bForceSwitchifNoCGEvent = True
+		checkSwitchAcc() ;switch to next account
+	EndIf
+
+	If Not $g_bRunState Then Return
+	If ProfileSwitchAccountEnabled() And ($g_bForceSwitch Or $g_bForceSwitchifNoCGEvent) Then
+		_ClanGames(False, False, True) ; Do Only Purge
+		_RunFunction("DonateCC,Train")
+		CommonRoutine("Switch")
+		checkSwitchAcc() ;switch to next account
+	EndIf
+
+	If Not $g_bRunState Then Return
+	Local $aRndFuncList = ['Collect', 'ForgeClanCapitalGold', 'Laboratory', 'CollectCCGold', 'AutoUpgradeCC']
+	_ArrayShuffle($aRndFuncList)
+	For $Index In $aRndFuncList
+		If Not $g_bRunState Then Return
+		_RunFunction($Index)
+		If _Sleep(50) Then Return
+		ClickAway()
+		If $g_bRestart Then Return
+		If Not $g_bRunState Then Return
+	Next
+	If ProfileSwitchAccountEnabled() And ($g_bForceSwitch Or $g_bChkFastSwitchAcc) Then
+		CommonRoutine("Switch")
+		CheckIfArmyIsReady()
+		ClickAway()
+		If _Sleep(1000) Then Return
+		_ClanGames(False, False, True) ; Do Only Purge
+		checkSwitchAcc() ;switch to next account
+	EndIf
+	
+EndFunc  ; ==> CGM

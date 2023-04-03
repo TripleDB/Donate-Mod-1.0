@@ -1317,6 +1317,8 @@ Func FirstCheck()
 		NM()
 	ElseIf $g_bChkRoutineMode = True Then ; Routines Only
 		RM()
+	ElseIf $g_bChkClanGamesMode = True Then ; Clan Games Mode
+		CGM()
 	Else
 		;SetLog("Error on Miscellaneous Modes!", $COLOR_ERROR)
 		SetLog("No specific modes checked!", $COLOR_INFO)
@@ -1684,6 +1686,8 @@ Func TestBuilderBase()
 Func GotoBBTodoCG()
 	If SwitchBetweenBases("BB") And isOnBuilderBase() Then
 		$g_bStayOnBuilderBase = True
+		checkMainScreen(True, $g_bStayOnBuilderBase, "BuilderBase")
+		ZoomOut()
 		CollectBuilderBase()
 		DoAttackBB(0)
 		; switch back to normal village

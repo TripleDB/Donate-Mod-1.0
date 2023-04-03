@@ -16,31 +16,39 @@
 Func PrepareAttackBB($Mode = Default)
 	getBuilderCount(True, True) 
 	
-	If $g_bChkForceBBAttackOnClanGames And $g_bForceSwitchifNoCGEvent Then 
-		SetLog("ForceSwitchifNoCGEvent Enabled, Skip Attack until we have BBEvent", $COLOR_SUCCESS)
-		Return False
+	If $g_bChkClanGamesMode = True Then
+		If $g_bChkForceBBAttackOnClanGames And $g_bForceSwitchifNoCGEvent Then 
+			SetLog("ForceSwitchifNoCGEvent Enabled, Skip Attack until we have BBEvent", $COLOR_SUCCESS)
+			Return False
+		EndIf
+	EndIf
+
+	If $g_bChkClanGamesMode = True Then
+		If $g_bChkForceBBAttackOnClanGames And $g_bIsBBevent Then
+			SetLog("Running Challenge is BB Challenge", $COLOR_DEBUG)
+			SetLog("Force BB Attack on Clan Games Enabled", $COLOR_DEBUG)
+			If Not ClickBBAttackButton() Then Return False
+			_Sleep(1500)
+			CheckArmyReady()
+			Return True
+		EndIf
 	EndIf
 	
-	If $g_bChkForceBBAttackOnClanGames And $g_bIsBBevent Then
-		SetLog("Running Challenge is BB Challenge", $COLOR_DEBUG)
-		SetLog("Force BB Attack on Clan Games Enabled", $COLOR_DEBUG)
-		If Not ClickBBAttackButton() Then Return False
-		_Sleep(1500)
-		CheckArmyReady()
-		Return True
-	EndIf
-	
-	If $g_bChkStopAttackBB6thBuilder And (Number($g_iTotalBuilderCount) = 6 Or Number($g_iTotalBuilderCountBB) = 2) Then
-		SetLog("6th Builder Unlocked, attackBB disabled", $COLOR_INFO)
-		Return False
+	If Not $g_bChkClanGamesMode = True Then
+		If $g_bChkStopAttackBB6thBuilder And (Number($g_iTotalBuilderCount) = 6 Or Number($g_iTotalBuilderCountBB) = 2) Then
+			SetLog("6th Builder Unlocked, attackBB disabled", $COLOR_INFO)
+			Return False
+		EndIf
 	EndIf
 	
 	Local $GoldIsFull = isGoldFullBB()
 	Local $ElixIsFull = isElixirFullBB()
 
-	If $g_bOptimizeOTTO And ($GoldIsFull Or $ElixIsFull) And $g_iFreeBuilderCountBB = 0 Then ; And Not $g_sStarLabUpgradeTime = "" Then
-		SetLog("Skip attack, full resources and busy village!", $COLOR_INFO)
-		Return False
+	If Not $g_bChkClanGamesMode = True Then
+		If $g_bOptimizeOTTO And ($GoldIsFull Or $ElixIsFull) And $g_iFreeBuilderCountBB = 0 Then ; And Not $g_sStarLabUpgradeTime = "" Then
+			SetLog("Skip attack, full resources and busy village!", $COLOR_INFO)
+			Return False
+		EndIf
 	EndIf
 
 	If Not $g_bRunState Then Return ; Stop Button
@@ -65,36 +73,38 @@ Func PrepareAttackBB($Mode = Default)
 		SetDebugLog("Wait For Find Now Button #" & $i, $COLOR_ACTION)
 	Next
 	
-	If Not CheckArmyReady() Then
-		_Sleep(500)
-		ClickAway("Left")
-		Return False
-	EndIf
-	
-	If $Mode = "DropTrophy" Then 
-		SetLog("Preparing Attack for DropTrophy", $COLOR_ACTION)
-		Return True
-	EndIf
-	
-	If $Mode = "CleanYard" Then 
-		SetLog("Preparing Attack Clean Yard", $COLOR_ACTION)
-		Return True
-	EndIf
-	
-	If $g_bChkBBAttIfLootAvail Then
-		If Not CheckLootAvail() Then
+	If Not $g_bChkClanGamesMode = True Then
+		If Not CheckArmyReady() Then
 			_Sleep(500)
 			ClickAway("Left")
 			Return False
 		EndIf
-	EndIf
+		
+		If $Mode = "DropTrophy" Then 
+			SetLog("Preparing Attack for DropTrophy", $COLOR_ACTION)
+			Return True
+		EndIf
+		
+		If $Mode = "CleanYard" Then 
+			SetLog("Preparing Attack Clean Yard", $COLOR_ACTION)
+			Return True
+		EndIf
+		
+		If $g_bChkBBAttIfLootAvail Then
+			If Not CheckLootAvail() Then
+				_Sleep(500)
+				ClickAway("Left")
+				Return False
+			EndIf
+		EndIf
 
-	$g_bBBMachineReady = CheckMachReady()
-	If $g_bChkBBWaitForMachine And Not $g_bBBMachineReady Then
-		SetLog("Battle Machine is not ready.")
-		_Sleep(500)
-		ClickAway("Left")
-		Return False
+		$g_bBBMachineReady = CheckMachReady()
+		If $g_bChkBBWaitForMachine And Not $g_bBBMachineReady Then
+			SetLog("Battle Machine is not ready.")
+			_Sleep(500)
+			ClickAway("Left")
+			Return False
+		EndIf
 	EndIf
 
 	Return True ; returns true if all checks succeed

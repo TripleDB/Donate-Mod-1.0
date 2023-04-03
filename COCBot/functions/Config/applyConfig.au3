@@ -663,6 +663,7 @@ Func ApplyConfig_600_7($TypeReadSave) ; Endzy Mod
 			GUICtrlSetState($g_hChkMainVillAtkOnly, $g_bChkMainVillAtkOnly ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkNormalMode, $g_bChkNormalMode ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($g_hChkRoutineMode, $g_bChkRoutineMode ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetState($g_hChkClanGamesMode, $g_bChkClanGamesMode ? $GUI_CHECKED : $GUI_UNCHECKED)
 		Case "Save"
 			$g_bChkRequestOnly = (GUICtrlRead($g_hChkRequestOnly) = $GUI_CHECKED) ; Endzy Mod
 			$g_bChkDonateOnly = (GUICtrlRead($g_hChkDonateOnly) = $GUI_CHECKED)
@@ -671,6 +672,7 @@ Func ApplyConfig_600_7($TypeReadSave) ; Endzy Mod
 			$g_bChkMainVillAtkOnly = (GUICtrlRead($g_hChkMainVillAtkOnly) = $GUI_CHECKED)
 			$g_bChkNormalMode = (GUICtrlRead($g_hChkNormalMode) = $GUI_CHECKED)
 			$g_bChkRoutineMode = (GUICtrlRead($g_hChkRoutineMode) = $GUI_CHECKED)
+			$g_bChkClanGamesMode = (GUICtrlRead($g_hChkClanGamesMode) = $GUI_CHECKED)
 	EndSwitch
 EndFunc   ;==> ApplyConfig_600_7
 

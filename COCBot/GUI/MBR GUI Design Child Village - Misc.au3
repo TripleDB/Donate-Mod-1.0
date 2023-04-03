@@ -551,11 +551,11 @@ Global $g_hChkMMSkipFirstCheckRoutine = 0, $g_hChkMMSkipBB = 0, $g_hChkMMSkipTra
 Global $g_hCmbFillIncorrectTroopCombo = 0, $g_hChkMMIgnoreIncorrectSpellCombo = 0, $g_hLblFillIncorrectSpellCombo = 0, $g_hCmbFillIncorrectSpellCombo = 0, $g_hUseQueuedTroopSpell = 0
 Global $g_hChkMMTrainPreviousArmy = 0, $g_hChkMMSkipWallPlacingOnBB = 0, $g_hChkMMCheckCGEarly = 0, $g_hUpgradeWallEarly = 0
 Global $g_hAutoUpgradeEarly = 0, $g_hChkForceSwitchifNoCGEvent = 0, $g_hDonateEarly = 0, $g_hChkSkipSnowDetection = 0, $g_hChkEnableCCSleep = 0, $g_hChkSkipDT = 0, $g_hChkSkipBBRoutineOn6thBuilder = 0
-Global $g_hChkRequestOnly = 0, $g_hChkDonateOnly = 0, $g_hChkAttackOnly = 0, $g_hChkBBAtkOnly = 0, $g_hChkMainVillAtkOnly = 0, $g_hChkNormalMode = 0, $g_hChkRoutineMode = 0 ;, $g_hChkMiscModes = 1
+Global $g_hChkRequestOnly = 0, $g_hChkDonateOnly = 0, $g_hChkAttackOnly = 0, $g_hChkBBAtkOnly = 0, $g_hChkMainVillAtkOnly = 0, $g_hChkNormalMode = 0, $g_hChkRoutineMode = 0 , $g_hChkClanGamesMode = 0 ;, $g_hChkMiscModes = 1
 
 Func CreateEndzyModSubTab()
 	Local $x = 15, $y = 40
-	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Group_MiscMod", "Bot Modes"), $x - 10, $y - 15, 210, 160) ; , $x - 10, $y - 15, 210, 80) ---> 210 - Width, 80 - Length)
+	GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Group_MiscMod", "Bot Modes"), $x - 10, $y - 15, 210, 180) ; , $x - 10, $y - 15, 210, 80) ---> 210 - Width, 80 - Length)
 	;$y += 20
 		$g_hChkRequestOnly = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "RequestOnly", "Request Only Mode"), $x, $y, -1, -1)
 		_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "OnModes_Info_01", "Request troops only then switch account"))
@@ -590,7 +590,12 @@ Func CreateEndzyModSubTab()
 		$g_hChkRoutineMode = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "RoutineMode", "Routine Mode"), $x, $y, -1, -1)
 		_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "OnModes_Info_01", "Do only routines on both villages then switch account"))
 		GUICtrlSetOnEvent(-1, "ChkRoutineMode")
-			
+	
+	$y += 20
+		$g_hChkClanGamesMode = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ClanGamesMode", "Clan Games Mode"), $x, $y, -1, -1)
+		_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "OnModes_Info_01", "Clan Games routine only, BB challenges only"))
+		GUICtrlSetOnEvent(-1, "ChkClanGamesMode")
+
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 EndFunc ; ==> CreateEndzyModSubTab()
 

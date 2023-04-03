@@ -1200,12 +1200,14 @@ Func ChkRequestOnly() ;EndzyMod
 		$g_bChkMainVillAtkOnly = False
 		$g_bChkNormalMode = False
 		$g_bChkRoutineMode = False
+		$g_bChkClanGamesMode = False
 		GUICtrlSetState($g_hChkDonateOnly, $GUI_UNCHECKED)
 		GUICtrlSetState($g_hChkAttackOnly, $GUI_UNCHECKED)
 		GUICtrlSetState($g_hChkBBAtkOnly, $GUI_UNCHECKED)
 		GUICtrlSetState($g_hChkMainVillAtkOnly, $GUI_UNCHECKED)
 		GUICtrlSetState($g_hChkNormalMode, $GUI_UNCHECKED)
 		GUICtrlSetState($g_hChkRoutineMode, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkClanGamesMode, $GUI_UNCHECKED)
 	Else
 		$g_bChkRequestOnly = False
 	EndIf
@@ -1220,12 +1222,14 @@ Func ChkDonateOnly()
 		$g_bChkMainVillAtkOnly = False
 		$g_bChkNormalMode = False
 		$g_bChkRoutineMode = False
+		$g_bChkClanGamesMode = False
 		GUICtrlSetState($g_hChkRequestOnly, $GUI_UNCHECKED)
 		GUICtrlSetState($g_hChkAttackOnly, $GUI_UNCHECKED)
 		GUICtrlSetState($g_hChkBBAtkOnly, $GUI_UNCHECKED)
 		GUICtrlSetState($g_hChkMainVillAtkOnly, $GUI_UNCHECKED)
 		GUICtrlSetState($g_hChkNormalMode, $GUI_UNCHECKED)
 		GUICtrlSetState($g_hChkRoutineMode, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkClanGamesMode, $GUI_UNCHECKED)
 	Else
 		$g_bChkDonateOnly = False
 	EndIf
@@ -1240,12 +1244,14 @@ Func ChkAttackOnly()
 		$g_bChkMainVillAtkOnly = False
 		$g_bChkNormalMode = False
 		$g_bChkRoutineMode = False
+		$g_bChkClanGamesMode = False
 		GUICtrlSetState($g_hChkRequestOnly, $GUI_UNCHECKED)
 		GUICtrlSetState($g_hChkDonateOnly, $GUI_UNCHECKED)
 		GUICtrlSetState($g_hChkBBAtkOnly, $GUI_UNCHECKED)
 		GUICtrlSetState($g_hChkMainVillAtkOnly, $GUI_UNCHECKED)
 		GUICtrlSetState($g_hChkNormalMode, $GUI_UNCHECKED)
 		GUICtrlSetState($g_hChkRoutineMode, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkClanGamesMode, $GUI_UNCHECKED)
 	Else
 		$g_bChkAttackOnly = False
 	EndIf
@@ -1260,12 +1266,14 @@ Func ChkBBAtkOnly()
 		$g_bChkMainVillAtkOnly = False
 		$g_bChkNormalMode = False
 		$g_bChkRoutineMode = False
+		$g_bChkClanGamesMode = False
 		GUICtrlSetState($g_hChkRequestOnly, $GUI_UNCHECKED)
 		GUICtrlSetState($g_hChkDonateOnly, $GUI_UNCHECKED)
 		GUICtrlSetState($g_hChkAttackOnly, $GUI_UNCHECKED)
 		GUICtrlSetState($g_hChkMainVillAtkOnly, $GUI_UNCHECKED)
 		GUICtrlSetState($g_hChkNormalMode, $GUI_UNCHECKED)
 		GUICtrlSetState($g_hChkRoutineMode, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkClanGamesMode, $GUI_UNCHECKED)
 	Else
 		$g_bChkBBAtkOnly = False
 	EndIf
@@ -1281,12 +1289,14 @@ Func ChkMainVillAtkOnly()
 		$g_bChkBBAtkOnly = False
 		$g_bChkNormalMode = False
 		$g_bChkRoutineMode = False
+		$g_bChkClanGamesMode = False
 		GUICtrlSetState($g_hChkRequestOnly, $GUI_UNCHECKED)
 		GUICtrlSetState($g_hChkDonateOnly, $GUI_UNCHECKED)
 		GUICtrlSetState($g_hChkAttackOnly, $GUI_UNCHECKED)
 		GUICtrlSetState($g_hChkBBAtkOnly, $GUI_UNCHECKED)
 		GUICtrlSetState($g_hChkNormalMode, $GUI_UNCHECKED)
 		GUICtrlSetState($g_hChkRoutineMode, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkClanGamesMode, $GUI_UNCHECKED)
 	Else
 		$g_bChkMainVillAtkOnly = False
 	EndIf
@@ -1301,12 +1311,14 @@ Func ChkNormalMode()
 		$g_bChkBBAtkOnly = False
 		$g_bChkMainVillAtkOnly = False
 		$g_bChkRoutineMode = False
+		$g_bChkClanGamesMode = False
 		GUICtrlSetState($g_hChkRequestOnly, $GUI_UNCHECKED)
 		GUICtrlSetState($g_hChkDonateOnly, $GUI_UNCHECKED)
 		GUICtrlSetState($g_hChkAttackOnly, $GUI_UNCHECKED)
 		GUICtrlSetState($g_hChkBBAtkOnly, $GUI_UNCHECKED)
 		GUICtrlSetState($g_hChkMainVillAtkOnly, $GUI_UNCHECKED)
 		GUICtrlSetState($g_hChkRoutineMode, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkClanGamesMode, $GUI_UNCHECKED)
 	Else
 		$g_bChkNormalMode = False
 	EndIf
@@ -1321,16 +1333,40 @@ Func ChkRoutineMode()
 		$g_bChkBBAtkOnly = False
 		$g_bChkMainVillAtkOnly = False
 		$g_bChkNormalMode = False
+		$g_bChkClanGamesMode = False
 		GUICtrlSetState($g_hChkRequestOnly, $GUI_UNCHECKED)
 		GUICtrlSetState($g_hChkDonateOnly, $GUI_UNCHECKED)
 		GUICtrlSetState($g_hChkAttackOnly, $GUI_UNCHECKED)
 		GUICtrlSetState($g_hChkBBAtkOnly, $GUI_UNCHECKED)
 		GUICtrlSetState($g_hChkMainVillAtkOnly, $GUI_UNCHECKED)
 		GUICtrlSetState($g_hChkNormalMode, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkClanGamesMode, $GUI_UNCHECKED)
 	Else
 		$g_bChkRoutineMode = False
 	EndIf
 EndFunc   ;==> ChkRoutineMode
+
+Func ChkClanGamesMode()
+	If GUICtrlRead($g_hChkClanGamesMode) = $GUI_CHECKED Then
+		$g_bChkClanGamesMode = True
+		$g_bChkRoutineMode = False
+		$g_bChkRequestOnly = False
+		$g_bChkDonateOnly = False
+		$g_bChkAttackOnly = False
+		$g_bChkBBAtkOnly = False
+		$g_bChkMainVillAtkOnly = False
+		$g_bChkNormalMode = False
+		GUICtrlSetState($g_hChkRequestOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkDonateOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkAttackOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkBBAtkOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkMainVillAtkOnly, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkNormalMode, $GUI_UNCHECKED)
+		GUICtrlSetState($g_hChkRoutineMode, $GUI_UNCHECKED)
+	Else
+		$g_bChkRoutineMode = False
+	EndIf
+EndFunc   ;==> ChkClanGamesMode
 
 #cs
 Func ChkMiscModes()
