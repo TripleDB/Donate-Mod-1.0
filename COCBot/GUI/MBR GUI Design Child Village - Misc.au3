@@ -590,7 +590,7 @@ Func CreateEndzyModSubTab()
 		$g_hChkRoutineMode = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "RoutineMode", "Routine Mode"), $x, $y, -1, -1)
 		_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "OnModes_Info_01", "Do only routines on both villages then switch account"))
 		GUICtrlSetOnEvent(-1, "ChkRoutineMode")
-	
+
 	$y += 20
 		$g_hChkClanGamesMode = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ClanGamesMode", "Clan Games Mode"), $x, $y, -1, -1)
 		_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "OnModes_Info_01", "Clan Games routine only, BB challenges only"))

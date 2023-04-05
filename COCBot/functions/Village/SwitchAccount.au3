@@ -219,7 +219,9 @@ Func CheckSwitchAcc()
 			;		TrainSystem()
 			;	EndIf
 			;EndIf
-			If Not $g_bForceSwitchifNoCGEvent Then _ClanGames(False, $g_bChkForceBBAttackOnClanGames, True)
+			If Not $g_bChkClanGamesMode = True Then
+				If Not $g_bForceSwitchifNoCGEvent Then _ClanGames(False, $g_bChkForceBBAttackOnClanGames, True)
+			EndIf
 			CheckMainScreen(True, $g_bStayOnBuilderBase, "CheckSwitchAcc")
 			SwitchCOCAcc($g_iNextAccount)
 		Else

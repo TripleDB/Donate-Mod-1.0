@@ -663,7 +663,7 @@ EndFunc  ;==> AOM
 
 Func BBAOM() ; BB Attack Only Mode
 
-	Local $aRndFuncList = ['Collect', 'CollectCCGold', 'ForgeClanCapitalGold', 'BuilderBase', 'FstReq']
+	Local $aRndFuncList = ['CollectCCGold', 'ForgeClanCapitalGold', 'BuilderBase', 'FstReq']
 	_ArrayShuffle($aRndFuncList)
 	For $Index In $aRndFuncList
 		If Not $g_bRunState Then Return
@@ -671,6 +671,8 @@ Func BBAOM() ; BB Attack Only Mode
 		If _Sleep(50) Then Return
 		If $g_bRestart Then Return
 	Next
+
+	checkSwitchAcc()
 
 EndFunc   ;==> BBAOM
 
@@ -913,60 +915,6 @@ Func RM() ; Routine Mode
 	
 EndFunc  ;==> RM
 
-
-Func ChkTHlvl()
-	;Check Town Hall level
-	ClickAway()
-	Local $iTownHallLevel = $g_iTownHallLevel
-	Local $bLocateTH = False
-	SetLog("Detecting Town Hall level", $COLOR_INFO)
-	SetLog("Town Hall level is currently saved as " &  $g_iTownHallLevel, $COLOR_INFO)
-	Collect(False) ;only collect from mine and collector
-	If $g_aiTownHallPos[0] > -1 Then
-		Click($g_aiTownHallPos[0], $g_aiTownHallPos[1])
-		If _Sleep(800) Then Return
-		Local $BuildingInfo = BuildingInfo(245, 494)
-		If $BuildingInfo[1] = "Town Hall" Then
-			$g_iTownHallLevel =  $BuildingInfo[2]
-		Else
-			$bLocateTH = True
-		EndIf
-	EndIf
-
-	If $g_iTownHallLevel = 0 Or $bLocateTH Then
-		imglocTHSearch(False, True, True) ;Sets $g_iTownHallLevel
-	EndIf
-
-	SetLog("Detected Town Hall level is " &  $g_iTownHallLevel, $COLOR_INFO)
-	If $g_iTownHallLevel = $iTownHallLevel Then
-		SetLog("Town Hall level has not changed", $COLOR_INFO)
-	Else
-		SetLog("Town Hall level has changed!", $COLOR_INFO)
-		SetLog("New Town hall level detected as " &  $g_iTownHallLevel, $COLOR_INFO)
-		applyConfig()
-		saveConfig()
-	EndIf
-	setupProfile()
-	
-	If Not $g_bRunState Then Return
-	VillageReport()
-	chkShieldStatus()
-	If $g_bOutOfGold And (Number($g_aiCurrentLoot[$eLootGold]) >= Number($g_iTxtRestartGold)) Then ; check if enough gold to begin searching again
-		$g_bOutOfGold = False ; reset out of gold flag
-		SetLog("Switching back to normal after no gold to search ...", $COLOR_SUCCESS)
-		Return ; Restart bot loop to reset $g_iCommandStop & $g_bTrainEnabled + $g_bDonationEnabled via BotCommand()
-	EndIf
-
-	If $g_bOutOfElixir And (Number($g_aiCurrentLoot[$eLootElixir]) >= Number($g_iTxtRestartElixir)) And (Number($g_aiCurrentLoot[$eLootDarkElixir]) >= Number($g_iTxtRestartDark)) Then ; check if enough elixir to begin searching again
-		$g_bOutOfElixir = False ; reset out of gold flag
-		SetLog("Switching back to normal setting after no elixir to train ...", $COLOR_SUCCESS)
-		Return ; Restart bot loop to reset $g_iCommandStop & $g_bTrainEnabled + $g_bDonationEnabled via BotCommand()
-	EndIf
-
-	If BotCommand() Then btnStop()
-
-EndFunc ; ==> ChkTHlvl
-
 Func CGM() ; Clan  Games Mode
 
 	Local $b_SuccessAttack = False
@@ -1061,3 +1009,105 @@ Func CGM() ; Clan  Games Mode
 	EndIf
 	
 EndFunc  ; ==> CGM
+
+Func ChkTHlvl()
+	;Check Town Hall level
+	ClickAway()
+	Local $iTownHallLevel = $g_iTownHallLevel
+	Local $bLocateTH = False
+	SetLog("Detecting Town Hall level", $COLOR_INFO)
+	SetLog("Town Hall level is currently saved as " &  $g_iTownHallLevel, $COLOR_INFO)
+	Collect(False) ;only collect from mine and collector
+	If $g_aiTownHallPos[0] > -1 Then
+		Click($g_aiTownHallPos[0], $g_aiTownHallPos[1])
+		If _Sleep(800) Then Return
+		Local $BuildingInfo = BuildingInfo(245, 494)
+		If $BuildingInfo[1] = "Town Hall" Then
+			$g_iTownHallLevel =  $BuildingInfo[2]
+		Else
+			$bLocateTH = True
+		EndIf
+	EndIf
+
+	If $g_iTownHallLevel = 0 Or $bLocateTH Then
+		imglocTHSearch(False, True, True) ;Sets $g_iTownHallLevel
+	EndIf
+
+	SetLog("Detected Town Hall level is " &  $g_iTownHallLevel, $COLOR_INFO)
+	If $g_iTownHallLevel = $iTownHallLevel Then
+		SetLog("Town Hall level has not changed", $COLOR_INFO)
+	Else
+		SetLog("Town Hall level has changed!", $COLOR_INFO)
+		SetLog("New Town hall level detected as " &  $g_iTownHallLevel, $COLOR_INFO)
+		applyConfig()
+		saveConfig()
+	EndIf
+	setupProfile()
+	
+	If Not $g_bRunState Then Return
+	VillageReport()
+	chkShieldStatus()
+	If $g_bOutOfGold And (Number($g_aiCurrentLoot[$eLootGold]) >= Number($g_iTxtRestartGold)) Then ; check if enough gold to begin searching again
+		$g_bOutOfGold = False ; reset out of gold flag
+		SetLog("Switching back to normal after no gold to search ...", $COLOR_SUCCESS)
+		Return ; Restart bot loop to reset $g_iCommandStop & $g_bTrainEnabled + $g_bDonationEnabled via BotCommand()
+	EndIf
+
+	If $g_bOutOfElixir And (Number($g_aiCurrentLoot[$eLootElixir]) >= Number($g_iTxtRestartElixir)) And (Number($g_aiCurrentLoot[$eLootDarkElixir]) >= Number($g_iTxtRestartDark)) Then ; check if enough elixir to begin searching again
+		$g_bOutOfElixir = False ; reset out of gold flag
+		SetLog("Switching back to normal setting after no elixir to train ...", $COLOR_SUCCESS)
+		Return ; Restart bot loop to reset $g_iCommandStop & $g_bTrainEnabled + $g_bDonationEnabled via BotCommand()
+	EndIf
+
+	If BotCommand() Then btnStop()
+
+EndFunc ; ==> ChkTHlvl
+
+Func NotRndmClick($x, $y, $times = 1, $speed = 0, $debugtxt = "")
+	Local $txt = "", $aPrevCoor[2] = [$x, $y]
+	If Not $g_bUseRandomClick Then
+		$x = Random($x - 2, $x + 2, 1)
+		$y = Random($y - 2, $y + 2, 1)
+		If $g_bDebugClick Then
+			$txt = _DecodeDebug($debugtxt)
+			SetLog("Random Click X: " & $aPrevCoor[0] & " To " & $x & ", Y: " & $aPrevCoor[1] & " To " & $y & ", Times: " & $times & ", Speed: " & $speed & " " & $debugtxt & $txt, $COLOR_ACTION, "Verdana", "7.5", 0)
+		EndIf
+    Else
+		If $g_bDebugClick Or TestCapture() Then
+			$txt = _DecodeDebug($debugtxt)
+			SetLog("Click " & $x & "," & $y & "," & $times & "," & $speed & " " & $debugtxt & $txt, $COLOR_ACTION, "Verdana", "7.5", 0)
+        EndIf
+	EndIf
+
+	If TestCapture() Then Return
+
+	If $g_bAndroidAdbClick = True Then
+		AndroidClick($x, $y, $times, $speed)
+		Return
+	EndIf
+
+	Local $SuspendMode = ResumeAndroid()
+	If $times <> 1 Then
+		For $i = 0 To ($times - 1)
+			If isProblemAffectBeforeClick($i) Then
+				If $g_bDebugClick Then SetLog("VOIDED Click " & $x & "," & $y & "," & $times & "," & $speed & " " & $debugtxt & $txt, $COLOR_ERROR, "Verdana", "7.5", 0)
+				checkMainScreen(False, $g_bStayOnBuilderBase, "Click")
+				SuspendAndroid($SuspendMode)
+				Return ; if need to clear screen do not click
+			EndIf
+			MoveMouseOutBS()
+			_ControlClick($x, $y)
+			If _Sleep($speed, False) Then ExitLoop
+		Next
+	Else
+		If isProblemAffectBeforeClick() Then
+			If $g_bDebugClick Then SetLog("VOIDED Click " & $x & "," & $y & "," & $times & "," & $speed & " " & $debugtxt & $txt, $COLOR_ERROR, "Verdana", "7.5", 0)
+			checkMainScreen(False, $g_bStayOnBuilderBase, "Click")
+			SuspendAndroid($SuspendMode)
+			Return ; if need to clear screen do not click
+		EndIf
+		MoveMouseOutBS()
+		_ControlClick($x, $y)
+	EndIf
+	SuspendAndroid($SuspendMode)
+EndFunc   ;==>Click

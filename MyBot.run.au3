@@ -1288,12 +1288,13 @@ EndFunc   ;==>__RunFunction
 Func FirstCheck()
 	If Not $g_bRunState Then Return
 	SetLog("-- FirstCheck Loop --")
-	ClickAway()
+	NotRndmClick(454,328,2,150)
 	ZoomOut()
+	ClickAway()
 	If _Sleep(500) Then Return
 	ClickAway()
 	checkMainScreen(True, $g_bStayOnBuilderBase, "FirstCheck")
-	VillageReport(True, True)
+	;VillageReport(True, True)
 
 	If ProfileSwitchAccountEnabled() And $g_abDonateOnly[$g_iCurAccount] Then Return
 
@@ -1301,23 +1302,31 @@ Func FirstCheck()
 	$g_bFullArmy = False
 	$g_iCommandStop = -1
 
-	ChkTHlvl() ; Check Town Hall level and if no gold/elixir then stop the bot
+	;ChkTHlvl() ; Check Town Hall level and if no gold/elixir then stop the bot
 	
-	If $g_bChkRequestOnly = True Then     ; Request Only
+	If $g_bChkRequestOnly = True Then ; Request Only
+		;SetLog("Request Only", $COLOR_INFO)
 		ROM()
 	ElseIf $g_bChkDonateOnly = True Then ; Donate Only
+		;SetLog("Donate Only", $COLOR_INFO)
 		DOM()
 	ElseIf $g_bChkAttackOnly = True Then ; Attack Only
+		;SetLog("Attack Only", $COLOR_INFO)
 		AOM()
 	ElseIf $g_bChkBBAtkOnly = True Then ; BB attack only
+		;SetLog("BB attack only", $COLOR_INFO)
 		BBAOM()
 	ElseIf $g_bChkMainVillAtkOnly = True Then ; Main village attack only
+		;SetLog("Main village attack only", $COLOR_INFO)
 		MVAOM()
 	ElseIf $g_bChkNormalMode = True Then ; Normal mode
+		;SetLog("Normal mode", $COLOR_INFO)
 		NM()
 	ElseIf $g_bChkRoutineMode = True Then ; Routines Only
+		;SetLog("Routines Only", $COLOR_INFO)
 		RM()
 	ElseIf $g_bChkClanGamesMode = True Then ; Clan Games Mode
+		;SetLog("Clan Games Mode", $COLOR_INFO)
 		CGM()
 	Else
 		;SetLog("Error on Miscellaneous Modes!", $COLOR_ERROR)
@@ -1325,7 +1334,7 @@ Func FirstCheck()
 		SetLog("Defaulting on normal mode now.", $COLOR_INFO)
 		FirstCheckRoutine()
 	EndIf
-	
+
 EndFunc   ;==>FirstCheck
 
 Func FirstCheckRoutine()
@@ -1690,6 +1699,8 @@ Func GotoBBTodoCG()
 		ZoomOut()
 		CollectBuilderBase()
 		DoAttackBB(0)
+		checkMainScreen(True, $g_bStayOnBuilderBase, "BuilderBase")
+		If _Sleep($DELAYRUNBOT1) Then Return
 		; switch back to normal village
 		SwitchBetweenBases("Main")
 		$g_bStayOnBuilderBase = False
