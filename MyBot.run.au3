@@ -1136,7 +1136,8 @@ Func __RunFunction($action)
 					If _Sleep($DELAYRESPOND) Then Return
 				EndIf
 				; if in "Halt/Donate" don't skip near full army
-				If (Not SkipDonateNearFullTroops(True) Or $g_iCommandStop = 3 Or $g_iCommandStop = 0) And BalanceDonRec(True) Then DonateCC()
+				;If (Not SkipDonateNearFullTroops(True) Or $g_iCommandStop = 3 Or $g_iCommandStop = 0) And BalanceDonRec(True) Then DonateCC()
+				DonateCC()
 			EndIf
 
 			If $g_bTrainEnabled Then ; check for training enabled in halt mode
@@ -1277,6 +1278,30 @@ Func __RunFunction($action)
 				$g_bStayOnBuilderBase = False
 				SwitchBetweenBases("Main")
 			EndIf
+		Case "RoutineBB"
+			If SwitchBetweenBases("BB") Then
+				$g_bStayOnBuilderBase = True
+				checkMainScreen(True, $g_bStayOnBuilderBase, "BuilderBase")
+				ZoomOut()
+				BuilderBaseReport()
+				CollectBuilderBase()
+				checkMainScreen(True, $g_bStayOnBuilderBase, "BuilderBase")
+				CleanBBYard()
+				If _Sleep($DELAYRUNBOT1) Then Return
+				checkMainScreen(True, $g_bStayOnBuilderBase, "BuilderBase")
+				AutoUpgradeBB()
+				If _Sleep($DELAYRUNBOT1) Then Return
+				checkMainScreen(True, $g_bStayOnBuilderBase, "BuilderBase")
+				StarLaboratory()
+				checkMainScreen(True, $g_bStayOnBuilderBase, "BuilderBase")
+				StartClockTowerBoost()
+				BuilderBaseReport(False, True, False)
+				If _Sleep($DELAYRUNBOT3) Then Return
+
+				$g_bStayOnBuilderBase = False
+				SwitchBetweenBases("Main")
+			EndIf
+			
 		Case ""
 			SetDebugLog("Function call doesn't support empty string, please review array size", $COLOR_ERROR)
 		Case Else
@@ -1556,7 +1581,6 @@ Func CommonRoutine($RoutineType = Default)
 				If _Sleep(500) Then Return
 				ClickAway()
 				If $g_bRestart Then Return
-				If Not $g_bRunState Then Return
 			Next
 			Local $aRndFuncList = ['PetHouse', 'ForgeClanCapitalGold', 'CollectCCGold', 'AutoUpgradeCC']
 			For $Index In $aRndFuncList
@@ -1565,7 +1589,6 @@ Func CommonRoutine($RoutineType = Default)
 				If _Sleep(500) Then Return
 				ClickAway()
 				If $g_bRestart Then Return
-				If Not $g_bRunState Then Return
 			Next
 
 		Case "NoClanGamesEvent"
@@ -1576,7 +1599,6 @@ Func CommonRoutine($RoutineType = Default)
 				If _Sleep(50) Then Return
 				ClickAway()
 				If $g_bRestart Then Return
-				If Not $g_bRunState Then Return
 			Next
 
 		Case "Switch"
@@ -1590,7 +1612,37 @@ Func CommonRoutine($RoutineType = Default)
 				If _Sleep(50) Then Return
 				ClickAway()
 				If $g_bRestart Then Return
+			Next
+			
+		Case "RB4Switch" ; Routine before switch, routine mode only
+			Local $aRndFuncList = ['RoutineBB', 'CollectCCGold', 'UpgradeHeroes', 'UpgradeBuilding', 'UpgradeWall', 'UpgradeLow']
+			_ArrayShuffle($aRndFuncList)
+			For $Index In $aRndFuncList
 				If Not $g_bRunState Then Return
+				_RunFunction($Index)
+				If _Sleep(50) Then Return
+				ClickAway()
+				If $g_bRestart Then Return
+				If Not $g_bRunState Then Return
+			Next
+
+		Case "RoutineMode"
+			Local $aRndFuncList = ['DailyChallenge', 'CollectAchievements', 'CheckTombs', 'CleanYard', "SaleMagicItem", 'Laboratory', 'CollectFreeMagicItems', 'FstReq']
+			_ArrayShuffle($aRndFuncList)
+			For $Index In $aRndFuncList
+				If Not $g_bRunState Then Return
+				_RunFunction($Index)
+				If _Sleep(500) Then Return
+				ClickAway()
+				If $g_bRestart Then Return
+			Next
+			Local $aRndFuncList = ['PetHouse', 'ForgeClanCapitalGold', 'CollectCCGold', 'AutoUpgradeCC']
+			For $Index In $aRndFuncList
+				If Not $g_bRunState Then Return
+				_RunFunction($Index)
+				If _Sleep(500) Then Return
+				ClickAway()
+				If $g_bRestart Then Return
 			Next
 	EndSwitch
 EndFunc
