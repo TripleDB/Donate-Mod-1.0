@@ -492,7 +492,7 @@ Func ROM(); Request Only Mode
 		If _Sleep(50) Then Return
 		If $g_bRestart Then Return
 	Next
-	
+
 	checkSwitchAcc()
 
 EndFunc  ;==> ROM
@@ -500,17 +500,17 @@ EndFunc  ;==> ROM
 Func DOM() ; Donate Only Mode
 	SetLog("======= DONATE ONLY MODE =======", $COLOR_ACTION)
 	Local $count = 0
-	
+
 	Collect()
 	_RunFunction("FstReq")
 	For $i = 0 to 4
 
 		$count += 1
-		
+
 		_RunFunction("DonateCC,Train")
 		If Not $g_bRunState Then Return
 		If _Sleep(1000) Then Return
-		
+
 		If $count < 2 Then
 			Local $aRndFuncList = ['Collect', 'CollectBB', 'Laboratory', 'CollectCCGold', 'ForgeClanCapitalGold']
 			_ArrayShuffle($aRndFuncList)
@@ -521,9 +521,9 @@ Func DOM() ; Donate Only Mode
 				If $g_bRestart Then Return
 			Next
 		EndIf
-			
+
 		ClickAway()
-		
+
 		If $count < 4 Then
 			Local $aRndFuncList = ['Collect', 'CollectBB', 'Laboratory', 'CollectCCGold', 'ForgeClanCapitalGold']
 			_ArrayShuffle($aRndFuncList)
@@ -534,15 +534,16 @@ Func DOM() ; Donate Only Mode
 				If $g_bRestart Then Return
 			Next
 		EndIf
-		
+
 	Next
 
 	SetLog("Donate loop complete! Swtiching Account now.", $COLOR_SUCCESS)
 	checkSwitchAcc()
-	
-EndFunc  ;==> DOM 
+
+EndFunc  ;==> DOM
 
 Func AOM() ; Attack Only Mode
+	Local $b_SuccessAttack = False
 	SetLog("======= ATTACK ONLY MODE =======", $COLOR_ACTION)
 	Local $aRndFuncList = ['Collect', 'CollectCCGold', 'ForgeClanCapitalGold', 'FstReq']
 	_ArrayShuffle($aRndFuncList)
@@ -906,13 +907,28 @@ Func NM() ; Normal Mode
 EndFunc  ;==> NM
 
 Func RM() ; Routine Mode
-	
+#cs
 	SetLog("======= ROUTINE MODE =======", $COLOR_ACTION)
+	_RunFunction("CollectCCGold")
 	CommonRoutine("FirstCheckRoutine")
-	CommonRoutine("Switch")
+	_RunFunction("DonateCC,Train")
+	If $g_bDonated = True then
+		SetLog("Setlog 1: THE VARIABLE $g_bDonated IS: " & $g_bDonated)
+	EndIf
+	$g_bDonated = False
+	If $g_bDonated = False then
+		SetLog("Setlog 2: THE VARIABLE $g_bDonated IS: " & $g_bDonated)
+	EndIf
 	_RunFunction("DonateCC,Train")
 	checkSwitchAcc() ;switch to next account
+#ce	
+	SetLog("======= ROUTINE MODE =======", $COLOR_ACTION)
+	CommonRoutine("RoutineMode")
+	_RunFunction("DonateCC,Train")
+	CommonRoutine("RB4Switch")
 	
+	checkSwitchAcc() ;switch to next account
+
 EndFunc  ;==> RM
 
 Func CGM() ; Clan  Games Mode
@@ -1007,7 +1023,7 @@ Func CGM() ; Clan  Games Mode
 		_ClanGames(False, False, True) ; Do Only Purge
 		checkSwitchAcc() ;switch to next account
 	EndIf
-	
+
 EndFunc  ; ==> CGM
 
 Func ChkTHlvl()
@@ -1043,7 +1059,7 @@ Func ChkTHlvl()
 		saveConfig()
 	EndIf
 	setupProfile()
-	
+
 	If Not $g_bRunState Then Return
 	VillageReport()
 	chkShieldStatus()
