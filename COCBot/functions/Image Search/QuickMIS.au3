@@ -24,6 +24,7 @@ Func QuickMIS($ValueReturned, $directory, $Left = 0, $Top = 0, $Right = $g_iGAME
 	Local $Res, $aCoords
 	Local $RectArea[4] = [$Left, $Top, $Right, $Bottom]
 	Local $sImageArea = GetDiamondFromArray($RectArea)
+	If Not $g_bRunState Then Return
 	If $ValueReturned = "BFI" Then 
 		Local $iPattern = StringInStr($directory, "*")
 		If $iPattern > 0 Then
@@ -105,10 +106,12 @@ Func QuickMIS($ValueReturned, $directory, $Left = 0, $Top = 0, $Right = $g_iGAME
 					Local $KeyValue = StringSplit($Res[0], "|", $STR_NOCOUNT)
 					For $i = 0 To UBound($KeyValue) - 1
 						Local $DLLRes = DllCallMyBot("GetProperty", "str", $KeyValue[$i], "str", "objectpoints")
+						If Not $g_bRunState Then Return
 						If UBound(decodeSingleCoord($DLLRes[0])) > 1 Then $Result &= $DLLRes[0] & "|"
 					Next
 					If StringRight($Result, 1) = "|" Then $Result = StringLeft($Result, (StringLen($Result) - 1))
 					Local $aCords = decodeSingleCoord($Result)
+					If Not $g_bRunState Then Return
 					$g_iQuickMISX = $aCords[0] + $Left
 					$g_iQuickMISY = $aCords[1] + $Top
 
@@ -119,6 +122,7 @@ Func QuickMIS($ValueReturned, $directory, $Left = 0, $Top = 0, $Right = $g_iGAME
 
 					If $g_bDebugSetlog Or $Debug Then
 						SetDebugLog($ValueReturned & " Found: " & $Name & " Level:" & $Level & ", using " & $g_iQuickMISX & "," & $g_iQuickMISY, $COLOR_PURPLE)
+						If Not $g_bRunState Then Return
 						If $g_bDebugImageSave Then DebugQuickMIS($Left, $Top, "BC1_detected[" & $Name & "_" & $g_iQuickMISX & "x" & $g_iQuickMISY & "]")
 					EndIf
 
@@ -128,8 +132,10 @@ Func QuickMIS($ValueReturned, $directory, $Left = 0, $Top = 0, $Right = $g_iGAME
 
 					Local $Result = ""
 					Local $KeyValue = StringSplit($Res[0], "|", $STR_NOCOUNT)
+					If Not $g_bRunState Then Return
 					For $i = 0 To UBound($KeyValue) - 1
 						Local $DLLRes = DllCallMyBot("GetProperty", "str", $KeyValue[$i], "str", "objectpoints")
+						If Not $g_bRunState Then Return
 						If UBound(decodeSingleCoord($DLLRes[0])) > 1 Then $Result &= $DLLRes[0] & "|"
 					Next
 					If StringRight($Result, 1) = "|" Then $Result = StringLeft($Result, (StringLen($Result) - 1))
@@ -141,14 +147,18 @@ Func QuickMIS($ValueReturned, $directory, $Left = 0, $Top = 0, $Right = $g_iGAME
 					Local $Result[0][4]
 					Local $KeyValue = StringSplit($Res[0], "|", $STR_NOCOUNT)
 					Local $sResult = ""
+					If Not $g_bRunState Then Return
 					For $i = 0 To UBound($KeyValue) - 1
 						Local $DLLRes = DllCallMyBot("GetProperty", "str", $KeyValue[$i], "str", "objectpoints")
 						Local $objName = StringSplit($KeyValue[$i], "_", $STR_NOCOUNT)
 						Local $xy = StringSplit($DLLRes[0], "|", $STR_NOCOUNT)
+						If Not $g_bRunState Then Return
 						;SetDebugLog(_ArrayToString($xy))
 						For $j = 0 To Ubound($xy) - 1
+							If Not $g_bRunState Then Return
 							If UBound(decodeSingleCoord($xy[$j])) > 1 Then 
 								Local $Tmpxy = StringSplit($xy[$j], ",", $STR_NOCOUNT)
+								If Not $g_bRunState Then Return
 								_ArrayAdd($Result, $objName[0] & "|" & $Tmpxy[0] + $Left & "|" & $Tmpxy[1] + $Top & "|" & $objName[1])
 								$sResult &= "|" & $objName[0] & "," & $Tmpxy[0] + $Left & "," & $Tmpxy[1] + $Top & "," & $objName[1]
 							EndIf
@@ -169,6 +179,7 @@ Func QuickMIS($ValueReturned, $directory, $Left = 0, $Top = 0, $Right = $g_iGAME
 					Local $MultiImageSearchResult = StringSplit($Res[0], "|")
 					For $i = 1 To $MultiImageSearchResult[0]
 						Local $FilenameFound = StringSplit($MultiImageSearchResult[$i], "_")
+						If Not $g_bRunState Then Return
 						$AllFilenamesFound &= $FilenameFound[1] & "|"
 					Next
 					If StringRight($AllFilenamesFound, 1) = "|" Then $AllFilenamesFound = StringLeft($AllFilenamesFound, (StringLen($AllFilenamesFound) - 1))
@@ -180,6 +191,7 @@ Func QuickMIS($ValueReturned, $directory, $Left = 0, $Top = 0, $Right = $g_iGAME
 					Local $KeyValue = StringSplit($Res[0], "|", $STR_NOCOUNT)
 					For $i = 0 To UBound($KeyValue) - 1
 						Local $DLLRes = DllCallMyBot("GetProperty", "str", $KeyValue[$i], "str", "totalobjects")
+						If Not $g_bRunState Then Return
 						$Result &= $DLLRes[0] & "|"
 					Next
 					If StringRight($Result, 1) = "|" Then $Result = StringLeft($Result, (StringLen($Result) - 1))
