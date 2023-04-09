@@ -20,8 +20,13 @@ Func OpenArmyOverview($bCheckMain = True, $sWhereFrom = "Undefined")
 			Return False
 		EndIf
 	EndIf
+	If Not $g_bRunState Then Return
+	If _Sleep(Random(1500,3000,1)) Then Return
+	Click(Random(24,52,1),Random(510,545,1)) ; Cllick(38,529)
+	If _Sleep(Random(1500,3000,1)) Then Return
+	Return True
 	
-	For $i = 1 To 5
+#cs	For $i = 1 To 5
 		If _ColorCheck(_GetPixelColor(32, 523, True), Hex(0xFFFFE2, 6), 20) Then
 			If $g_bDebugSetlogTrain Then SetLog("Click $aArmyTrainButton" & " (Called from " & $sWhereFrom & ")", $COLOR_SUCCESS)
 			ClickP($aArmyTrainButton, 1, 0, "#0293") ; Button Army Overview
@@ -35,7 +40,7 @@ Func OpenArmyOverview($bCheckMain = True, $sWhereFrom = "Undefined")
 		If _Sleep(500) Then Return
 		If $i > 1 Then SetLog("[" & $i & "] Repeated Try to Open ArmyWindow", $COLOR_ERROR)
 	Next
-	Return False
+#ce	Return False
 EndFunc   ;==>OpenArmyOverview
 
 Func OpenArmyTab($bSetLog = True, $sWhereFrom = "Undefined")
