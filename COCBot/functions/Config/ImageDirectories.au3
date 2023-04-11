@@ -239,3 +239,7 @@ Global Const $g_sImgRewardTileSelected  = @ScriptDir & "\imgxml\Resources\ClanGa
 Global Const $g_sImgRewardItems  = @ScriptDir & "\imgxml\Resources\ClanGamesImages\MainLoop\Reward\Items"
 Global Const $g_sImgZapChallenges = @ScriptDir & "\imgxml\Resources\ClanGamesImages\MainLoop\Attack\ZapChallenges"
 #EndRegion
+
+Global Const $g_sImgLoonDonMod = @ScriptDir & "\imgxml\EndzyMod\DonateMod\"
+Global Const $g_sImgSiegeDonMod = @ScriptDir & "\imgxml\EndzyMod\DonateMod\"
+Global Const $g_sImgSpellDonMod = @ScriptDir & "\imgxml\EndzyMod\DonateMod\"
