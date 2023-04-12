@@ -724,11 +724,12 @@ Func runBot() ;Bot that runs everything in order
 	EndIf
 
 	FirstCheck()
-	 If $g_abDonateOnly[$g_iCurAccount] Then
-		_RunFunction('DonateLoop')
-	EndIf
-	If Not $g_bRunState Then Return
-	checkSwitchAcc() ;switch to next account
+	;If $g_abDonateOnly[$g_iCurAccount] Then
+	;	_RunFunction('DonateLoop')
+	;EndIf
+	;If Not $g_bRunState Then Return
+	;LC1() ; Leave Clan
+	;checkSwitchAcc() ;switch to next account
 
 	While 1
 		;Restart bot after these seconds
@@ -1098,6 +1099,8 @@ EndFunc   ;==>Attack
 Func _RunFunction($action)
 	FuncEnter(_RunFunction)
 	; ensure that builder base flag is false
+	applyConfig()
+	saveConfig()
 	$g_bStayOnBuilderBase = False
 	Local $Result = __RunFunction($action)
 	; ensure that builder base flag is false
@@ -1319,7 +1322,7 @@ Func FirstCheck()
 	If _Sleep(500) Then Return
 	ClickAway()
 	checkMainScreen(True, $g_bStayOnBuilderBase, "FirstCheck")
-	;VillageReport(True, True)
+	VillageReport(True, True)
 
 	If ProfileSwitchAccountEnabled() And $g_abDonateOnly[$g_iCurAccount] Then Return
 
@@ -1327,7 +1330,7 @@ Func FirstCheck()
 	$g_bFullArmy = False
 	$g_iCommandStop = -1
 
-	;ChkTHlvl() ; Check Town Hall level and if no gold/elixir then stop the bot
+	ChkTHlvl() ; Check Town Hall level and if no gold/elixir then stop the bot
 	
 	If $g_bChkRequestOnly = True Then ; Request Only
 		;SetLog("Request Only", $COLOR_INFO)
@@ -1367,7 +1370,6 @@ Func FirstCheckRoutine()
 	SetLog("======== FirstCheckRoutine ========", $COLOR_ACTION)
 	If Not $g_bRunState Then Return
 	checkMainScreen(True, $g_bStayOnBuilderBase, "FirstCheckRoutine")
-	SetLog("test 69420", $COLOR_INFO)
 	If $g_bChkCGBBAttackOnly Then
 		SetLog("Enabled Do Only BB Challenges", $COLOR_INFO)
 		For $count = 1 to 11
@@ -1642,9 +1644,10 @@ Func CommonRoutine($RoutineType = Default)
 				_RunFunction($Index)
 				If _Sleep(500) Then Return
 				ClickAway()
-				If $g_bRestart Then Return
+				If $g_bRestart Then Return 
 			Next
 	EndSwitch
+
 EndFunc
 
 Func BuilderBase()
@@ -1758,12 +1761,3 @@ Func GotoBBTodoCG()
 		$g_bStayOnBuilderBase = False
 	EndIf
 EndFunc
-
-Func T420()
-	If IsDeclared("g_VariableTest123") = 1 Then
-		SetLog("Execute Test420()", $COLOR_INFO)
-		Return Execute("Test420()")
-	EndIf
-EndFunc
-
-;test commit
