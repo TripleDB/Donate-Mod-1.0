@@ -221,6 +221,48 @@ Func CheckLeague() ;little humanization
 		EndIf
 	EndIf
 EndFunc  ;==>CheckLeague
+
+#Region - Search NoLeague for DeadBase - Endzy
+Func TestCheckDeadBase()
+	Local $dbBase
+	;_CaptureRegion2()
+	If QuickMIS("BC1", $g_sImgChkLeague, 10, 15, 44, 47, True, $g_bDebugImageSave) Then
+		If $g_bChkNoLeague[$DB] Then
+			If SearchNoLeague() Then
+				SetLog("Dead Base is in No League, match found !", $COLOR_SUCCESS)
+				$dbBase = True
+			ElseIf $g_iSearchCount > 50 Then
+				$dbBase = checkDeadBase()
+			Else
+				SetLog("Dead Base is in a League, skipping search !", $COLOR_INFO)
+				$dbBase = False
+			EndIf
+		Else
+			$dbBase = checkDeadBase()
+		EndIf
+	EndIf
+
+	Return $dbBase
+EndFunc   ;==>TestCheckDeadBase
+
+Func SearchNoLeague($bCheckOneTime = False)
+	If _Sleep($DELAYSPECIALCLICK1) Then Return False
+
+	Local $bReturn = False
+
+	$bReturn = _WaitForCheckImg($g_sImgNoLeague, "3,4,47,53", Default, ($bCheckOneTime = False) ? (500) : (0))
+
+	If $g_bDebugSetlog Then
+		SetDebugLog("SearchNoLeague: Is no league? " & $bReturn, $COLOR_DEBUG)
+	EndIf
+
+	Return $bReturn
+EndFunc   ;==>SearchNoLeague
+
+Func chkDBNoLeague()
+	$g_bChkNoLeague[$DB] = GUICtrlRead($g_hChkDBNoLeague) = $GUI_CHECKED
+EndFunc   ;==>chkDBNoLeague
+#EndRegion - Search NoLeague for DeadBase - Endzy
 #ce
 
 ; ======= A COPY/BACKUP OF THE ORIGINAL FSTDONATE() FUNCTION ========

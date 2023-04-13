@@ -131,51 +131,8 @@ Func _GUICtrlCreateInput($sText, $iLeft, $iTop, $iWidth, $iHeight, $vStyle = -1,
 	Return $hReturn
 EndFunc   ;==>_GUICtrlCreateInput
 
-#cs
-#Region - Search NoLeague for DeadBase - Endzy
-Func TestCheckDeadBase()
-	Local $dbBase
-	;_CaptureRegion2()
-	If QuickMIS("BC1", $g_sImgChkLeague, 10, 15, 44, 47, True, $g_bDebugImageSave) Then
-		If $g_bChkNoLeague[$DB] Then
-			If SearchNoLeague() Then
-				SetLog("Dead Base is in No League, match found !", $COLOR_SUCCESS)
-				$dbBase = True
-			ElseIf $g_iSearchCount > 50 Then
-				$dbBase = checkDeadBase()
-			Else
-				SetLog("Dead Base is in a League, skipping search !", $COLOR_INFO)
-				$dbBase = False
-			EndIf
-		Else
-			$dbBase = checkDeadBase()
-		EndIf
-	EndIf
-
-	Return $dbBase
-EndFunc   ;==>TestCheckDeadBase
-
-Func SearchNoLeague($bCheckOneTime = False)
-	If _Sleep($DELAYSPECIALCLICK1) Then Return False
-
-	Local $bReturn = False
-
-	$bReturn = _WaitForCheckImg($g_sImgNoLeague, "3,4,47,53", Default, ($bCheckOneTime = False) ? (500) : (0))
-
-	If $g_bDebugSetlog Then
-		SetDebugLog("SearchNoLeague: Is no league? " & $bReturn, $COLOR_DEBUG)
-	EndIf
-
-	Return $bReturn
-EndFunc   ;==>SearchNoLeague
-
-Func chkDBNoLeague()
-	$g_bChkNoLeague[$DB] = GUICtrlRead($g_hChkDBNoLeague) = $GUI_CHECKED
-EndFunc   ;==>chkDBNoLeague
-#EndRegion - Search NoLeague for DeadBase - Endzy
-#ce
-
 Func ROM(); Request Only Mode
+	ClickAway()
 	SetLog("======= REQUEST ONLY MODE =======", $COLOR_ACTION)
 	_RunFunction("FstReq")
 	Local $aRndFuncList = ['Collect', 'DailyChallenge', 'PetHouse', 'CollectAchievements', 'CollectBB', 'Laboratory', 'CollectCCGold', 'ForgeClanCapitalGold']
@@ -183,6 +140,7 @@ Func ROM(); Request Only Mode
 	For $Index In $aRndFuncList
 		If Not $g_bRunState Then Return
 		_RunFunction($Index)
+		ClickAway()
 		If _Sleep(50) Then Return
 		If $g_bRestart Then Return
 	Next
@@ -192,6 +150,7 @@ Func ROM(); Request Only Mode
 EndFunc  ;==> ROM
 
 Func DOM() ; Donate Only Mode
+	ClickAway()
 	SetLog("======= DONATE ONLY MODE =======", $COLOR_ACTION)
 	Local $count = 0
 
@@ -216,6 +175,7 @@ Func DOM() ; Donate Only Mode
 			For $Index In $aRndFuncList
 				If Not $g_bRunState Then Return
 				_RunFunction($Index)
+				ClickAway()
 				If _Sleep(50) Then Return
 				If $g_bRestart Then Return
 			Next
@@ -229,6 +189,7 @@ Func DOM() ; Donate Only Mode
 			For $Index In $aRndFuncList
 				If Not $g_bRunState Then Return
 				_RunFunction($Index)
+				ClickAway()
 				If _Sleep(50) Then Return
 				If $g_bRestart Then Return
 			Next
@@ -242,6 +203,7 @@ Func DOM() ; Donate Only Mode
 EndFunc  ;==> DOM
 
 Func AOM() ; Attack Only Mode
+	ClickAway()
 	Local $b_SuccessAttack = False
 	SetLog("======= ATTACK ONLY MODE =======", $COLOR_ACTION)
 	Local $aRndFuncList = ['Collect', 'CollectCCGold', 'ForgeClanCapitalGold', 'FstReq']
@@ -297,7 +259,7 @@ Func AOM() ; Attack Only Mode
 		EndIf
 	EndIf
 	TrainSystem()
-
+	ClickAway()
 	If Not $g_bRunState Then Return
 	;VillageReport()
 	If ProfileSwitchAccountEnabled() And $g_bChkFastSwitchAcc Then ; Allow immediate Second Attack on FastSwitchAcc enabled
@@ -362,12 +324,13 @@ Func AOM() ; Attack Only Mode
 EndFunc  ;==> AOM
 
 Func BBAOM() ; BB Attack Only Mode
-
+	ClickAway()
 	Local $aRndFuncList = ['CollectCCGold', 'ForgeClanCapitalGold', 'BuilderBase', 'FstReq']
 	_ArrayShuffle($aRndFuncList)
 	For $Index In $aRndFuncList
 		If Not $g_bRunState Then Return
 		_RunFunction($Index)
+		ClickAway()
 		If _Sleep(50) Then Return
 		If $g_bRestart Then Return
 	Next
@@ -377,6 +340,7 @@ Func BBAOM() ; BB Attack Only Mode
 EndFunc   ;==> BBAOM
 
 Func MVAOM() ; Main Village Attack Only Mode
+	ClickAway()
 	Local $b_SuccessAttack = False
 	SetLog("======= MAIN VILLAGE ATTACK ONLY MODE =======", $COLOR_ACTION)
 	Local $aRndFuncList = ['Collect', 'CollectCCGold', 'ForgeClanCapitalGold', 'FstReq']
@@ -384,6 +348,7 @@ Func MVAOM() ; Main Village Attack Only Mode
 	For $Index In $aRndFuncList
 		If Not $g_bRunState Then Return
 		_RunFunction($Index)
+		ClickAway()
 		If _Sleep(50) Then Return
 		If $g_bRestart Then Return
 	Next
@@ -432,7 +397,7 @@ Func MVAOM() ; Main Village Attack Only Mode
 		EndIf
 	EndIf
 	TrainSystem()
-
+	ClickAway()
 	If Not $g_bRunState Then Return
 	;VillageReport()
 	If ProfileSwitchAccountEnabled() And $g_bChkFastSwitchAcc Then ; Allow immediate Second Attack on FastSwitchAcc enabled
@@ -495,6 +460,7 @@ Func MVAOM() ; Main Village Attack Only Mode
 EndFunc  ;==> NVAOM
 
 Func NM() ; Normal Mode
+	ClickAway()
 	Local $b_SuccessAttack = False
 	SetLog("======= NORMAL MODE =======", $COLOR_ACTION)
 	_RunFunction('EarlyUpgChk')
@@ -543,7 +509,7 @@ Func NM() ; Normal Mode
 		EndIf
 	EndIf
 	TrainSystem()
-
+	ClickAway()
 	If Not $g_bRunState Then Return
 	;VillageReport()
 	If ProfileSwitchAccountEnabled() And $g_bChkFastSwitchAcc Then ; Allow immediate Second Attack on FastSwitchAcc enabled
@@ -623,9 +589,11 @@ Func RM() ; Routine Mode
 	_RunFunction("DonateCC,Train")
 	checkSwitchAcc() ;switch to next account
 #ce	
+	ClickAway()
 	SetLog("======= ROUTINE MODE =======", $COLOR_ACTION)
 	CommonRoutine("RoutineMode")
 	_RunFunction("DonateCC,Train")
+	ClickAway()
 	CommonRoutine("RB4Switch")
 	
 	checkSwitchAcc() ;switch to next account
@@ -633,6 +601,7 @@ Func RM() ; Routine Mode
 EndFunc  ;==> RM
 
 Func CGM() ; Clan  Games Mode
+	ClickAway()
 	Local $b_SuccessAttack = False
 	SetLog("======== FirstCheckRoutine ========", $COLOR_ACTION)
 	If Not $g_bRunState Then Return
@@ -734,6 +703,7 @@ Func ChkTHlvl()
 	SetLog("Detecting Town Hall level", $COLOR_INFO)
 	SetLog("Town Hall level is currently saved as " &  $g_iTownHallLevel, $COLOR_INFO)
 	Collect(False) ;only collect from mine and collector
+	ClickAway()
 	If $g_aiTownHallPos[0] > -1 Then
 		Click($g_aiTownHallPos[0], $g_aiTownHallPos[1])
 		If _Sleep(800) Then Return
@@ -748,7 +718,7 @@ Func ChkTHlvl()
 	If $g_iTownHallLevel = 0 Or $bLocateTH Then
 		imglocTHSearch(False, True, True) ;Sets $g_iTownHallLevel
 	EndIf
-
+	ClickAway()
 	SetLog("Detected Town Hall level is " &  $g_iTownHallLevel, $COLOR_INFO)
 	If $g_iTownHallLevel = $iTownHallLevel Then
 		SetLog("Town Hall level has not changed", $COLOR_INFO)
@@ -759,7 +729,7 @@ Func ChkTHlvl()
 		saveConfig()
 	EndIf
 	setupProfile()
-
+	ClickAway()
 	If Not $g_bRunState Then Return
 	VillageReport()
 	chkShieldStatus()
@@ -776,108 +746,8 @@ Func ChkTHlvl()
 	EndIf
 
 	If BotCommand() Then btnStop()
-
+	ClickAway()
 EndFunc ; ==> ChkTHlvl
-
-#Region ; Mod Clicks
-Func NotRndmClick($x, $y, $times = 1, $speed = 0, $debugtxt = "")
-	Local $txt = "", $aPrevCoor[2] = [$x, $y]
-	If Not $g_bUseRandomClick Then
-		$x = Random($x - 2, $x + 2, 1)
-		$y = Random($y - 2, $y + 2, 1)
-		If $g_bDebugClick Then
-			$txt = _DecodeDebug($debugtxt)
-			SetLog("Random Click X: " & $aPrevCoor[0] & " To " & $x & ", Y: " & $aPrevCoor[1] & " To " & $y & ", Times: " & $times & ", Speed: " & $speed & " " & $debugtxt & $txt, $COLOR_ACTION, "Verdana", "7.5", 0)
-		EndIf
-    Else
-		If $g_bDebugClick Or TestCapture() Then
-			$txt = _DecodeDebug($debugtxt)
-			SetLog("Click " & $x & "," & $y & "," & $times & "," & $speed & " " & $debugtxt & $txt, $COLOR_ACTION, "Verdana", "7.5", 0)
-        EndIf
-	EndIf
-
-	If TestCapture() Then Return
-
-	If $g_bAndroidAdbClick = True Then
-		AndroidClick($x, $y, $times, $speed)
-		Return
-	EndIf
-
-	Local $SuspendMode = ResumeAndroid()
-	If $times <> 1 Then
-		For $i = 0 To ($times - 1)
-			If isProblemAffectBeforeClick($i) Then
-				If $g_bDebugClick Then SetLog("VOIDED Click " & $x & "," & $y & "," & $times & "," & $speed & " " & $debugtxt & $txt, $COLOR_ERROR, "Verdana", "7.5", 0)
-				checkMainScreen(False, $g_bStayOnBuilderBase, "Click")
-				SuspendAndroid($SuspendMode)
-				Return ; if need to clear screen do not click
-			EndIf
-			MoveMouseOutBS()
-			_ControlClick($x, $y)
-			If _Sleep($speed, False) Then ExitLoop
-		Next
-	Else
-		If isProblemAffectBeforeClick() Then
-			If $g_bDebugClick Then SetLog("VOIDED Click " & $x & "," & $y & "," & $times & "," & $speed & " " & $debugtxt & $txt, $COLOR_ERROR, "Verdana", "7.5", 0)
-			checkMainScreen(False, $g_bStayOnBuilderBase, "Click")
-			SuspendAndroid($SuspendMode)
-			Return ; if need to clear screen do not click
-		EndIf
-		MoveMouseOutBS()
-		_ControlClick($x, $y)
-	EndIf
-	SuspendAndroid($SuspendMode)
-EndFunc   ;==>Click
-
-Func DonateClick($x, $y, $times = 1, $speed = 0, $debugtxt = "")
-	Local $txt = "", $aPrevCoor[2] = [$x, $y]
-	If $g_bUseRandomClick Then
-		$x = Random($x - 10, $x + 10, 1)
-		$y = Random($y - 10, $y + 10, 1)
-		If $g_bDebugClick Then
-			$txt = _DecodeDebug($debugtxt)
-			SetLog("Random Click X: " & $aPrevCoor[0] & " To " & $x & ", Y: " & $aPrevCoor[1] & " To " & $y & ", Times: " & $times & ", Speed: " & $speed & " " & $debugtxt & $txt, $COLOR_ACTION, "Verdana", "7.5", 0)
-		EndIf
-    Else
-		If $g_bDebugClick Or TestCapture() Then
-			$txt = _DecodeDebug($debugtxt)
-			SetLog("Click " & $x & "," & $y & "," & $times & "," & $speed & " " & $debugtxt & $txt, $COLOR_ACTION, "Verdana", "7.5", 0)
-        EndIf
-	EndIf
-
-	If TestCapture() Then Return
-
-	If $g_bAndroidAdbClick = True Then
-		AndroidClick($x, $y, $times, $speed)
-		Return
-	EndIf
-
-	Local $SuspendMode = ResumeAndroid()
-	If $times <> 1 Then
-		For $i = 0 To ($times - 1)
-			If isProblemAffectBeforeClick($i) Then
-				If $g_bDebugClick Then SetLog("VOIDED Click " & $x & "," & $y & "," & $times & "," & $speed & " " & $debugtxt & $txt, $COLOR_ERROR, "Verdana", "7.5", 0)
-				;checkMainScreen(False, $g_bStayOnBuilderBase, "Click")
-				SuspendAndroid($SuspendMode)
-				Return ; if need to clear screen do not click
-			EndIf
-			MoveMouseOutBS()
-			_ControlClick($x, $y)
-			If _Sleep($speed, False) Then ExitLoop
-		Next
-	Else
-		If isProblemAffectBeforeClick() Then
-			If $g_bDebugClick Then SetLog("VOIDED Click " & $x & "," & $y & "," & $times & "," & $speed & " " & $debugtxt & $txt, $COLOR_ERROR, "Verdana", "7.5", 0)
-			; checkMainScreen(False, $g_bStayOnBuilderBase, "Click")
-			SuspendAndroid($SuspendMode)
-			Return ; if need to clear screen do not click
-		EndIf
-		MoveMouseOutBS()
-		_ControlClick($x, $y)
-	EndIf
-	SuspendAndroid($SuspendMode)
-EndFunc   ;==>Click
-#EndRegion ;Mod Clicks
 
 Func LC1() ; Leave Clan version 1.0
 
@@ -1013,7 +883,7 @@ Func Donate1n2($btest = False)
 		Else
 			SetLog("Already donated siege!", $COLOR_ERROR)
 		EndIf
-		
+
 		If QuickMIS("BC1", $g_sImgSpellDonMod, 352, 433, 400, 475, True) Then
 			SetLog("Found Spells to donate", $COLOR_INFO)
 			;For $i = 1 to 3
@@ -1039,11 +909,11 @@ Func Donate1n2($btest = False)
 	Else
 		SetLog("No Donate button found", $COLOR_ERROR)
 	EndIf
-	
+
 EndFunc  ;==> Donate1n2
 
 Func FastDonate()
-	
+	ClickAway()
 	Local $bKeepDonating = False
 
 	If _Sleep($DELAYDONATECC2) Then Return
@@ -1056,7 +926,8 @@ Func FastDonate()
 	While $bKeepDonating
 		$bKeepDonating = False
 		If Not $g_bRunState Then Return
-		Donate1n2(True) ; donate troops/siege/spells
+		;Donate1n2(True) ; donate troops/siege/spells
+		Donate1n2()
 		; checks if there is still donate button or 3rd donate btn if not then exitloop
 		If QuickMIS("BC1", $g_sImgDonateCC, 210, 310, 300, 400, True, $g_bDebugImageSave) Then ; 200, 540, 300, 600
 			SetLog("Found Donate button at 3rd level", $COLOR_INFO)
@@ -1070,11 +941,111 @@ Func FastDonate()
 		If _Sleep(1000) Then return
 		If Not $g_bRunState Then Return
 	WEnd
-	
+
 	Click(Random(325,340,1), Random(324,380,1))
 	ClickAway()
 
 EndFunc  ;==>FastDonate
+
+#Region ; Mod Clicks
+Func NotRndmClick($x, $y, $times = 1, $speed = 0, $debugtxt = "")
+	Local $txt = "", $aPrevCoor[2] = [$x, $y]
+	If Not $g_bUseRandomClick Then
+		$x = Random($x - 2, $x + 2, 1)
+		$y = Random($y - 2, $y + 2, 1)
+		If $g_bDebugClick Then
+			$txt = _DecodeDebug($debugtxt)
+			SetLog("Random Click X: " & $aPrevCoor[0] & " To " & $x & ", Y: " & $aPrevCoor[1] & " To " & $y & ", Times: " & $times & ", Speed: " & $speed & " " & $debugtxt & $txt, $COLOR_ACTION, "Verdana", "7.5", 0)
+		EndIf
+    Else
+		If $g_bDebugClick Or TestCapture() Then
+			$txt = _DecodeDebug($debugtxt)
+			SetLog("Click " & $x & "," & $y & "," & $times & "," & $speed & " " & $debugtxt & $txt, $COLOR_ACTION, "Verdana", "7.5", 0)
+        EndIf
+	EndIf
+
+	If TestCapture() Then Return
+
+	If $g_bAndroidAdbClick = True Then
+		AndroidClick($x, $y, $times, $speed)
+		Return
+	EndIf
+
+	Local $SuspendMode = ResumeAndroid()
+	If $times <> 1 Then
+		For $i = 0 To ($times - 1)
+			If isProblemAffectBeforeClick($i) Then
+				If $g_bDebugClick Then SetLog("VOIDED Click " & $x & "," & $y & "," & $times & "," & $speed & " " & $debugtxt & $txt, $COLOR_ERROR, "Verdana", "7.5", 0)
+				checkMainScreen(False, $g_bStayOnBuilderBase, "Click")
+				SuspendAndroid($SuspendMode)
+				Return ; if need to clear screen do not click
+			EndIf
+			MoveMouseOutBS()
+			_ControlClick($x, $y)
+			If _Sleep($speed, False) Then ExitLoop
+		Next
+	Else
+		If isProblemAffectBeforeClick() Then
+			If $g_bDebugClick Then SetLog("VOIDED Click " & $x & "," & $y & "," & $times & "," & $speed & " " & $debugtxt & $txt, $COLOR_ERROR, "Verdana", "7.5", 0)
+			checkMainScreen(False, $g_bStayOnBuilderBase, "Click")
+			SuspendAndroid($SuspendMode)
+			Return ; if need to clear screen do not click
+		EndIf
+		MoveMouseOutBS()
+		_ControlClick($x, $y)
+	EndIf
+	SuspendAndroid($SuspendMode)
+EndFunc   ;==>Click
+
+Func DonateClick($x, $y, $times = 1, $speed = 0, $debugtxt = "")
+	Local $txt = "", $aPrevCoor[2] = [$x, $y]
+	If $g_bUseRandomClick Then
+		$x = Random($x - 10, $x + 10, 1)
+		$y = Random($y - 10, $y + 10, 1)
+		If $g_bDebugClick Then
+			$txt = _DecodeDebug($debugtxt)
+			SetLog("Random Click X: " & $aPrevCoor[0] & " To " & $x & ", Y: " & $aPrevCoor[1] & " To " & $y & ", Times: " & $times & ", Speed: " & $speed & " " & $debugtxt & $txt, $COLOR_ACTION, "Verdana", "7.5", 0)
+		EndIf
+    Else
+		If $g_bDebugClick Or TestCapture() Then
+			$txt = _DecodeDebug($debugtxt)
+			SetLog("Click " & $x & "," & $y & "," & $times & "," & $speed & " " & $debugtxt & $txt, $COLOR_ACTION, "Verdana", "7.5", 0)
+        EndIf
+	EndIf
+
+	If TestCapture() Then Return
+
+	If $g_bAndroidAdbClick = True Then
+		AndroidClick($x, $y, $times, $speed)
+		Return
+	EndIf
+
+	Local $SuspendMode = ResumeAndroid()
+	If $times <> 1 Then
+		For $i = 0 To ($times - 1)
+			If isProblemAffectBeforeClick($i) Then
+				If $g_bDebugClick Then SetLog("VOIDED Click " & $x & "," & $y & "," & $times & "," & $speed & " " & $debugtxt & $txt, $COLOR_ERROR, "Verdana", "7.5", 0)
+				;checkMainScreen(False, $g_bStayOnBuilderBase, "Click")
+				SuspendAndroid($SuspendMode)
+				Return ; if need to clear screen do not click
+			EndIf
+			MoveMouseOutBS()
+			_ControlClick($x, $y)
+			If _Sleep($speed, False) Then ExitLoop
+		Next
+	Else
+		If isProblemAffectBeforeClick() Then
+			If $g_bDebugClick Then SetLog("VOIDED Click " & $x & "," & $y & "," & $times & "," & $speed & " " & $debugtxt & $txt, $COLOR_ERROR, "Verdana", "7.5", 0)
+			; checkMainScreen(False, $g_bStayOnBuilderBase, "Click")
+			SuspendAndroid($SuspendMode)
+			Return ; if need to clear screen do not click
+		EndIf
+		MoveMouseOutBS()
+		_ControlClick($x, $y)
+	EndIf
+	SuspendAndroid($SuspendMode)
+EndFunc   ;==>Click
+#EndRegion ;Mod Clicks
 
 #Region - GUI Control
 
@@ -1089,3 +1060,4 @@ Func chkUseSmartFarmAndRandomQuant()
 EndFunc   ;==>chkUseSmartFarmAndRandomQuant
 
 #EndRegion - GUI Control
+
