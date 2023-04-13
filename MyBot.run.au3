@@ -729,7 +729,7 @@ Func runBot() ;Bot that runs everything in order
 	;EndIf
 	;If Not $g_bRunState Then Return
 	;LC1() ; Leave Clan
-	;checkSwitchAcc() ;switch to next account
+	checkSwitchAcc() ;switch to next account
 
 	While 1
 		;Restart bot after these seconds
@@ -1322,6 +1322,7 @@ Func FirstCheck()
 	If _Sleep(500) Then Return
 	ClickAway()
 	checkMainScreen(True, $g_bStayOnBuilderBase, "FirstCheck")
+	If $g_bUpdateSharedPrefs Or $g_bChkSharedPrefs Then PullSharedPrefs()
 	VillageReport(True, True)
 
 	If ProfileSwitchAccountEnabled() And $g_abDonateOnly[$g_iCurAccount] Then Return
