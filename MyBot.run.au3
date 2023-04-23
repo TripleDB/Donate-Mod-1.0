@@ -1099,6 +1099,16 @@ EndFunc   ;==>Attack
 Func _RunFunction($action)
 	FuncEnter(_RunFunction)
 	; ensure that builder base flag is false
+	$g_bStayOnBuilderBase = False
+	Local $Result = __RunFunction($action)
+	; ensure that builder base flag is false
+	$g_bStayOnBuilderBase = False
+	Return FuncReturn($Result)
+EndFunc   ;==>_RunFunction
+
+Func _TestFunction($action)
+	FuncEnter(_TestFunction)
+	; ensure that builder base flag is false
 	applyConfig()
 	saveConfig()
 	$g_bStayOnBuilderBase = False
