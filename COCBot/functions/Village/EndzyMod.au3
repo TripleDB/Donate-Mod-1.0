@@ -1,3 +1,4 @@
+
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: EndzyMod
 ; Description ...:
@@ -135,6 +136,9 @@ Func ROM(); Request Only Mode
 	ClickAway()
 	SetLog("======= REQUEST ONLY MODE =======", $COLOR_ACTION)
 	_RunFunction("FstReq")
+	;ClickAway()
+	;ClickAway() ;===> for testing remove other routine
+	;Collect()
 	Local $aRndFuncList = ['Collect', 'DailyChallenge', 'PetHouse', 'CollectAchievements', 'CollectBB', 'Laboratory', 'CollectCCGold', 'ForgeClanCapitalGold']
 	_ArrayShuffle($aRndFuncList)
 	For $Index In $aRndFuncList
@@ -351,7 +355,8 @@ Func MVAOM() ; Main Village Attack Only Mode
 		ClickAway()
 		If _Sleep(50) Then Return
 		If $g_bRestart Then Return
-	Next
+   Next
+   TrainSystem()
 	; ------------------ F I R S T  A T T A C K ------------------
 	If Not $g_bRunState Then Return
 	If $g_iCommandStop <> 3 And $g_iCommandStop <> 0 Then
@@ -449,15 +454,80 @@ Func MVAOM() ; Main Village Attack Only Mode
 	TrainSystem()
 	If _Sleep(1000) Then Return
 	ClickAway()
-	If _Sleep(1000) Then Return
-	_RunFunction("DonateCC,Train")
-	CheckIfArmyIsReady()
-	ClickAway()
-	If _Sleep(1000) Then Return
-	;_ClanGames(False, False, True) ; Do Only Purge
-	checkSwitchAcc() ;switch to next account
+
+	If $g_bIsFullArmywithHeroesAndSpells Then
+		Atk1()
+	Else
+		If _ColorCheck(_GetPixelColor(709, 29, True), Hex(0xF4DD72, 6), 1) Or _ColorCheck(_GetPixelColor(702, 83, True), Hex(0xC027C0, 6), 1) Then
+			_RunFunction('UpgradeWall')
+		EndIf
+		checkSwitchAcc() ;switch to next account
+	EndIf
 
 EndFunc  ;==> NVAOM
+	
+Func Atk1()
+	ClickAway()
+	chkShieldStatus()
+	Setlog("On Atk1()", $COLOR_SUCCESS)
+	Local $b_SuccessAttack = False
+	If ProfileSwitchAccountEnabled() And $g_bChkFastSwitchAcc Then ; Allow immediate Second Attack on FastSwitchAcc enabled
+		If _Sleep($DELAYRUNBOT2) Then Return
+		If BotCommand() Then btnStop()
+		If Not $g_bRunState Then Return
+		If $g_iCommandStop <> 3 And $g_iCommandStop <> 0 Then
+			; VERIFY THE TROOPS AND ATTACK IF IS FULL
+			SetLog("-- SecondCheck on Train --", $COLOR_DEBUG)
+			SetLog("Fast Switch Account Enabled", $COLOR_DEBUG)
+			If Not $g_bIsFullArmywithHeroesAndSpells Then TrainSystem()
+			If $g_bIsFullArmywithHeroesAndSpells Then
+				If $g_iCommandStop <> 0 And $g_iCommandStop <> 3 Then
+					Setlog("Before any other routine let's attack!", $COLOR_INFO)
+					$g_bRestart = False ;idk this flag make sometimes bot cannot attack on second time
+					Local $loopcount = 1
+					While True
+						$g_bRestart = False
+						If Not $g_bRunState Then Return
+						If AttackMain($g_bSkipDT) Then
+							Setlog("[" & $loopcount & "] 2nd Attack Loop Success", $COLOR_SUCCESS)
+							$b_SuccessAttack = True
+							If checkMainScreen(False, $g_bStayOnBuilderBase, "FirstCheckRoutine") Then ZoomOut()
+							ExitLoop
+						Else
+							If $g_bForceSwitch Then ExitLoop ;exit here
+							$loopcount += 1
+							If $loopcount > 5 Then
+								Setlog("2nd Attack Loop, Already Try 5 times... Exit", $COLOR_ERROR)
+								ExitLoop
+							Else
+								Setlog("[" & $loopcount & "] 2nd Attack Loop, Failed", $COLOR_INFO)
+							EndIf
+							If Not $g_bRunState Then Return
+						EndIf
+					Wend
+					If $g_bOutOfGold Then
+						SetLog("Switching to Halt Attack, Stay Online/Collect mode", $COLOR_ERROR)
+						$g_bFirstStart = True ; reset First time flag to ensure army balancing when returns to training
+						Return
+					EndIf
+					If _Sleep($DELAYRUNBOT1) Then Return
+				EndIf
+			EndIf
+		EndIf
+	EndIf
+	If Not $g_bRunState Then Return
+	TrainSystem()
+	If _Sleep(500) Then Return
+	ClickAway()
+	CheckIfArmyIsReady()
+	ClickAway()
+	If $g_bIsFullArmywithHeroesAndSpells Then
+		MVAOM()
+	Else
+		checkSwitchAcc() ;switch to next account
+	EndIf
+
+EndFunc
 
 Func NM() ; Normal Mode
 	ClickAway()
@@ -588,14 +658,14 @@ Func RM() ; Routine Mode
 	EndIf
 	_RunFunction("DonateCC,Train")
 	checkSwitchAcc() ;switch to next account
-#ce	
+#ce
 	ClickAway()
 	SetLog("======= ROUTINE MODE =======", $COLOR_ACTION)
 	CommonRoutine("RoutineMode")
 	_RunFunction("DonateCC,Train")
 	ClickAway()
 	CommonRoutine("RB4Switch")
-	
+
 	checkSwitchAcc() ;switch to next account
 
 EndFunc  ;==> RM
@@ -762,7 +832,7 @@ Func LC1() ; Leave Clan version 1.0
 	If _Sleep(Random(1000,3000,1)) Then Return
 	Click(Random(325,340,1), Random(324,380,1)) ; Click close clan chat	;Click(333,354)
 	ClickAway()
-	
+
 EndFunc  ;==> LC1
 
 ;Func PCM1() ; Promote Clan mate to elder or co-leader
@@ -779,13 +849,13 @@ EndFunc  ;==> LC1
 ;	Next
 
 Func Donate1n2($btest = False)
-	
+
 	If QuickMIS("BC1", $g_sImgDonateCC, 210, 510, 300, 600, True, $g_bDebugImageSave) Then ; 200, 540, 300, 600
-		SetLog("Found Donate button", $COLOR_INFO)	
-		Click(Random($g_iQuickMISX, $g_iQuickMISX + 10, 1), Random($g_iQuickMISY, $g_iQuickMISY + 20, 1)) ; Click donate button		
+		SetLog("Found Donate button", $COLOR_INFO)
+		Click(Random($g_iQuickMISX, $g_iQuickMISX + 10, 1), Random($g_iQuickMISY, $g_iQuickMISY + 20, 1)) ; Click donate button
 
 		If _Sleep(1500) Then Return
-		
+
 		If QuickMIS("BC1", $g_sImgLoonDonMod, 350, 235, 400, 265, True) Then
 			SetLog("Found loons to donate", $COLOR_INFO)
 			If Not $btest Then
@@ -803,7 +873,7 @@ Func Donate1n2($btest = False)
 		Else
 			SetLog("Already donaed troops!", $COLOR_ERROR)
 		EndIf
-		
+
 		If QuickMIS("BC1", $g_sImgSiegeDonMod, 350, 315, 400, 450, True) Then
 			SetLog("Found Siege to donate", $COLOR_INFO)
 			;Click($g_iQuickMISX, $g_iQuickMISY)
@@ -818,7 +888,7 @@ Func Donate1n2($btest = False)
 		Else
 			SetLog("Already donated siege!", $COLOR_ERROR)
 		EndIf
-		
+
 		If QuickMIS("BC1", $g_sImgSpellDonMod, 352, 433, 400, 475, True) Then
 			SetLog("Found Spells to donate", $COLOR_INFO)
 			;For $i = 1 to 3
@@ -844,13 +914,13 @@ Func Donate1n2($btest = False)
 	Else
 		SetLog("No Donate button found", $COLOR_ERROR)
 	EndIf
-	
+
 	If QuickMIS("BC1", $g_sImgDonateCC, 200, 420, 300, 510, True, $g_bDebugImageSave) Then ; 200, 540, 300, 600
 		SetLog("Found Donate button", $COLOR_INFO)
 		Click(Random($g_iQuickMISX, $g_iQuickMISX + 10, 1), Random($g_iQuickMISY, $g_iQuickMISY + 20, 1))
-		
+
 		If _Sleep(1500) Then Return
-		
+
 		If QuickMIS("BC1", $g_sImgLoonDonMod, 350, 235, 400, 265, True) Then
 			SetLog("Found loons to donate", $COLOR_INFO)
 			If Not $btest Then
@@ -868,7 +938,7 @@ Func Donate1n2($btest = False)
 		Else
 			SetLog("Already donaed troops!", $COLOR_ERROR)
 		EndIf
-		
+
 		If QuickMIS("BC1", $g_sImgSiegeDonMod, 350, 315, 400, 450, True) Then
 			SetLog("Found Siege to donate", $COLOR_INFO)
 			;Click($g_iQuickMISX, $g_iQuickMISY)

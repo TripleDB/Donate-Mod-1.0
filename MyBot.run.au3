@@ -1314,7 +1314,16 @@ Func __RunFunction($action)
 				$g_bStayOnBuilderBase = False
 				SwitchBetweenBases("Main")
 			EndIf
-			
+		Case "For1GemBoost"
+			BoostEverything() ; 1st Check if is to use Training Potion
+			Local $aRndFuncList = ['BoostBarracks', 'BoostSpellFactory', 'BoostWorkshop', 'BoostKing', 'BoostQueen', 'BoostWarden', 'BoostChampion']
+			_ArrayShuffle($aRndFuncList)
+			For $Index In $aRndFuncList
+				If Not $g_bRunState Then Return
+				_RunFunction($Index)
+				If _Sleep(100) Then Return
+				If $g_bRestart Then Return
+			Next
 		Case ""
 			SetDebugLog("Function call doesn't support empty string, please review array size", $COLOR_ERROR)
 		Case Else
@@ -1348,18 +1357,22 @@ Func FirstCheck()
 		ROM()
 	ElseIf $g_bChkDonateOnly = True Then ; Donate Only
 		;SetLog("Donate Only", $COLOR_INFO)
+		_RunFunction('For1GemBoost')
 		DOM()
 	ElseIf $g_bChkAttackOnly = True Then ; Attack Only
 		;SetLog("Attack Only", $COLOR_INFO)
+		_RunFunction('For1GemBoost')
 		AOM()
 	ElseIf $g_bChkBBAtkOnly = True Then ; BB attack only
-		;SetLog("BB attack only", $COLOR_INFO)
+		;SetLog("BB attack only", $COLOR_INFO)	
 		BBAOM()
 	ElseIf $g_bChkMainVillAtkOnly = True Then ; Main village attack only
 		;SetLog("Main village attack only", $COLOR_INFO)
+		_RunFunction('For1GemBoost')
 		MVAOM()
 	ElseIf $g_bChkNormalMode = True Then ; Normal mode
 		;SetLog("Normal mode", $COLOR_INFO)
+		_RunFunction('For1GemBoost')
 		NM()
 	ElseIf $g_bChkRoutineMode = True Then ; Routines Only
 		;SetLog("Routines Only", $COLOR_INFO)
