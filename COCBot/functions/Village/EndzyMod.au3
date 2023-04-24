@@ -454,7 +454,7 @@ Func MVAOM() ; Main Village Attack Only Mode
 	TrainSystem()
 	If _Sleep(1000) Then Return
 	ClickAway()
-
+	;If OneGemBoostEvent() Then ;===> make a function and gui for checking and enabling for one gem boost event
 	If $g_bIsFullArmywithHeroesAndSpells Then
 		Atk1()
 	Else
@@ -463,11 +463,13 @@ Func MVAOM() ; Main Village Attack Only Mode
 		EndIf
 		checkSwitchAcc() ;switch to next account
 	EndIf
-
+	;Else
+	;	checkSwitchAcc()
+	;EndIf
 EndFunc  ;==> NVAOM
 	
 Func Atk1()
-	ClickAway()
+	ClickAway()	
 	chkShieldStatus()
 	Setlog("On Atk1()", $COLOR_SUCCESS)
 	Local $b_SuccessAttack = False
